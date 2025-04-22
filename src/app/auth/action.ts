@@ -17,7 +17,6 @@ export async function SignUp(formData: RegisterForm) {
   const { data, error } = await authClient.signUp.email({
     email: formData.email,
     password: formData.password,
-    company_name: formData.companyName,
     name: formData.firstName + " " + formData.lastName,
   });
 

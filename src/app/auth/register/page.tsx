@@ -13,7 +13,6 @@ export interface RegisterForm {
   password: string;
   firstName: string;
   lastName: string;
-  companyName: string;
 }
 
 export default function Register() {
@@ -24,7 +23,6 @@ export default function Register() {
     defaultValues: {
       email: "",
       password: "",
-      companyName: "",
       firstName: "",
       lastName: "",
     },
