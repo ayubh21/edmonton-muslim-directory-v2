@@ -17,7 +17,7 @@ export default function ListingGeneral() {
         />
       </div>
       <div className="w-full flex flex-col px-5 pt-5">
-        <label className="font-semibold" htmlFor="">
+        <label className="font-semibold text-sm" htmlFor="">
           TagLine
         </label>
         <input
@@ -27,7 +27,7 @@ export default function ListingGeneral() {
         />
       </div>
       <div className="w-full flex flex-col px-5 pt-5">
-        <label className="font-semibold pb-3" htmlFor="">
+        <label className="font-semibold pb-3 text-sm" htmlFor="">
           Description
         </label>
         <RichTextEditor />

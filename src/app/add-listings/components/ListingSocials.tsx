@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Select,
   SelectContent,
   SelectGroup,
@@ -26,7 +19,6 @@ type Social = {
 
 export default function ListingSocials() {
   const [socialList, setSocialList] = useState<Social[]>([]);
-  const [url, setUrl] = useState("");
 
   const handleLoadSocial = (e) => {
     e.preventDefault();
@@ -69,21 +61,24 @@ export default function ListingSocials() {
 
   return (
     <div>
-      <div>
+      <div className="mb-4">
         {socialList.length > 0 ? (
           <div>
             {socialList.map((_, index) => (
-              <div key={index}>
-                <div className="md:flex">
+              <div
+                className="md:flex w-full items-center justify-center gap-4 mb-4"
+                key={index}
+              >
+                <div className=" w-full">
                   <Select
                     onValueChange={(value) => handleAddSocial(value, index)}
                   >
-                    <div className="border-b border-b-black focus:border-b-amber-600 ">
+                    <div className="border-b border-b-black focus:border-b-amber-600 md:basis-1/2 ">
                       <SelectTrigger className="w-full placeholder:text-black border-none  ">
                         <SelectValue placeholder="Select a Network" />
                       </SelectTrigger>
                     </div>
-                    <SelectContent>
+                    <SelectContent className="">
                       <SelectGroup>
                         <SelectLabel>Select Network</SelectLabel>
                         <SelectItem value="Facebook">Facebook</SelectItem>
@@ -97,13 +92,13 @@ export default function ListingSocials() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="w-full">
+                <div className="sm:w-full">
                   <input
                     onChange={(e) =>
                       debouncedSetUrl(index, e.currentTarget.value)
                     }
                     placeholder="Enter URL..."
-                    className="focus:outline-none border-b-black border-b focus:border-b-emerald-600 placeholder:text-black w-full"
+                    className="focus:outline-none border-b-black border-b focus:border-b-emerald-600 placeholder:text-black placeholder:text-sm w-full pb-3.5 "
                     type="text "
                   />
                 </div>
@@ -113,7 +108,7 @@ export default function ListingSocials() {
         ) : null}
       </div>
       <Button
-        className="w-full bg-white text-black  hover:bg-[rgb(0 0 0 / 3%)]"
+        className="w-full bg-white text-black  hover:bg-[#f2f3f2]"
         onClick={(e) => handleLoadSocial(e)}
       >
         Add

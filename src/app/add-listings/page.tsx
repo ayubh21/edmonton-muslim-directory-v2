@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   Contact2Icon,
   Image,
+  Map,
   Pencil,
   Share,
   Workflow,
@@ -17,6 +18,8 @@ import ListingImages from "./components/ListingImages";
 import ListingContact from "./components/ListingContact";
 import ListingSocials from "./components/ListingSocials";
 import ListingWorkHours from "./components/ListingWorkHours";
+import ListingLocation from "./components/ListingLocation";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 type ListingForm = {
   title: string;
@@ -54,7 +57,7 @@ export default function page() {
             <ListingImages />
           </FormSection>
           <FormSection
-            icon={<Contact2Icon />}
+            icon={<Contact2Icon size={18} />}
             title="Contact"
             description="How customers can reach you "
           >
@@ -63,16 +66,25 @@ export default function page() {
           <FormSection
             title="Social Networks"
             description="connect your social media accounts"
-            icon={<Share />}
+            icon={<Share size={18} />}
           >
             <ListingSocials />
           </FormSection>
           <FormSection
             title="Work Hours"
             description="When your business is open"
-            icon={<Workflow />}
+            icon={<Workflow size={18} />}
           >
             <ListingWorkHours />
+          </FormSection>
+          <FormSection
+            title="Location"
+            description="Where your business is"
+            icon={<Map size={18} />}
+          >
+            <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API!}>
+              <ListingLocation />
+            </APIProvider>
           </FormSection>
         </form>
       </div>
