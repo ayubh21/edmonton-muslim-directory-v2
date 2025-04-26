@@ -47,7 +47,7 @@ const ListingSchema = new mongoose.Schema({
   Description: { type: String },
   logo: { type: String },
   coverImage: { type: String },
-  galleryImages: [{ type: String }],
+  galleryImages: [{ type: String, required: false }],
   contact: ContactSchema,
   networks: SocialSchema,
   address: [{ type: String }],

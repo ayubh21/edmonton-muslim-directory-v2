@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ListingGeneral from "./components/ListingGeneral";
 import { FormProvider, useForm } from "react-hook-form";
 import Link from "next/link";
@@ -24,23 +24,36 @@ import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/ListingDetails";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
-
-type ListingForm = {
-  title: string;
-};
+import { Listing } from "@/types/listing";
 
 export default function page() {
-  const methods = useForm<ListingForm>();
+  const methods = useForm<Listing>({
+    defaultValues: {},
+  });
 
-  const muation = useMutation({
-    mutationFn: async () => {},
+  const { handleSubmit, getValues } = methods;
+
+  const mutation = useMutation({
+    mutationFn: async (formData: Listing) => {
+      console.log(formData);
+      return formData;
+    },
     onSuccess: (data) => {
+      console.log(getValues("title"));
       console.log(data);
     },
     onError: (err) => {
       console.log(err);
     },
   });
+
+  const onSubmit = (listingForm: Listing) => {
+    mutation.mutate(listingForm);
+  };
+
+  useEffect(() => {
+    console.log(getValues("title"));
+  }, []);
 
   return (
     <FormProvider {...methods}>
@@ -56,13 +69,17 @@ export default function page() {
             <h1 className="text-2xl font-semibold">Add Your Listing</h1>
           </div>
         </div>
-        <form action="">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormSection
             icon={<Pencil size={18} />}
             title="General"
             description="Basic information about your business"
           >
-            <ListingGeneral />
+            <ListingGeneral
+              title="title"
+              description="description"
+              tagLine="tagline"
+            />
           </FormSection>
           <FormSection
             icon={<Image size={18} />}
@@ -108,13 +125,13 @@ export default function page() {
           >
             <ListingDetails />
           </FormSection>
+          <Button
+            className="bg-emerald-600 text-white w-full mb-4 text-center hover:bg-emerald-700"
+            type="submit"
+          >
+            Submit Listing
+          </Button>
         </form>
-        <Button
-          className="bg-emerald-600 text-white w-full mb-4 text-center hover:bg-emerald-700"
-          type="submit"
-        >
-          Submit Listing
-        </Button>
       </div>
     </FormProvider>
   );

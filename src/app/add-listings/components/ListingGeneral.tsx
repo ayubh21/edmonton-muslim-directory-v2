@@ -1,8 +1,17 @@
-import RichTextEditor from "@/components/rich-text-editor";
-import { Pencil } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { useFormContext } from "react-hook-form";
 
-export default function ListingGeneral() {
+type ListingGeneralProps = {
+  title: string;
+  tagLine: string;
+  description: string;
+};
+
+export default function ListingGeneral({
+  title,
+  tagLine,
+  description,
+}: ListingGeneralProps) {
   const { register } = useFormContext();
   return (
     <div className="">
@@ -14,6 +23,7 @@ export default function ListingGeneral() {
           type="text"
           placeholder="Enter business name"
           className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600"
+          {...register(title)}
         />
       </div>
       <div className="w-full flex flex-col px-5 pt-5">
@@ -24,13 +34,14 @@ export default function ListingGeneral() {
           type="text"
           placeholder="A brief slogan or motto for your business"
           className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600 text-sm"
+          {...register(tagLine)}
         />
       </div>
       <div className="w-full flex flex-col px-5 pt-5">
         <label className="font-semibold pb-3 text-sm" htmlFor="">
           Description
         </label>
-        <RichTextEditor />
+        <Textarea {...register(description)} />
       </div>
     </div>
   );

@@ -2,9 +2,7 @@ export interface Listing {
   title: string;
   tagLine: string;
   Description: string;
-  logo: string;
-  coverImage: string;
-  galleryImages: string[];
+  images: Images;
   contact: Contact;
   networks: Social;
   address: string[];
@@ -27,6 +25,27 @@ export interface Social {
 export interface WorkDayEntry {
   FROM: string;
   TO: string;
+}
+
+export interface Images {
+  logo: Logo;
+  coverImage: CoverImage;
+  galleryImages: Gallery[];
+}
+
+export interface Logo {
+  url: string;
+  preview: string;
+}
+
+export interface CoverImage {
+  url: string;
+  preview: string;
+}
+
+export interface Gallery {
+  url: string;
+  preview: string;
 }
 
 export interface WorkDays {
