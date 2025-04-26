@@ -267,7 +267,6 @@ export default function ListingLocation() {
           </Button>
         </div>
       )}
-      <hr />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { SelectContent } from "@radix-ui/react-select";
 import { TimeDropDown } from "@/components/time-dropdown";
+import { Jim_Nightshade } from "next/font/google";
 
 export interface WorkDayEntry {
   FROM: string;
@@ -83,6 +84,10 @@ export default function WorkHours() {
     },
   });
 
+  useEffect(() => {
+    console.log(workDays);
+  }, [workDays]);
+
   const handleInputChangeForDay = (
     e: React.ChangeEvent<HTMLSelectElement>,
     day: keyof WorkDays,
@@ -106,6 +111,7 @@ export default function WorkHours() {
     );
   };
 
+  // I need the specific day, which means going thru a list
   const handleClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     day: keyof WorkDays
@@ -129,6 +135,8 @@ export default function WorkHours() {
           draft[day].hours = []; // Ensure no hours are set for closed days
         } else if (val === "Appointment only") {
           draft[day].hours = []; // Clear hours for appointment-based work
+        } else if (val == "Enter Hours") {
+          draft[day].hours = []; // manually set hours
         }
       })
     );
@@ -141,9 +149,6 @@ export default function WorkHours() {
     "Appointment only",
   ];
 
-  useEffect(() => {
-    console.log(workDays);
-  }, [workDays]);
   return (
     <div className="h-full">
       <Tabs
@@ -178,42 +183,44 @@ export default function WorkHours() {
                 </div>
               ))}
             </div>
-            <div className="">
-              {dayOfWeek[1].hours.map((_, index) => (
-                <div
-                  className="flex justify-between w-full gap-3 mb-4"
-                  key={index}
-                >
-                  <div className="flex flex-col w-full">
-                    <TimeDropDown
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                        handleInputChangeForDay(
-                          e,
-                          dayOfWeek[0] as keyof WorkDays,
-                          index,
-                          "FROM"
-                        )
-                      }
-                    />
-                    <hr className="border-b border-b-gray-400 outline-none w-full" />
+            {dayOfWeek[1].checkBoxType == "Enter Hours" && (
+              <div className="">
+                {dayOfWeek[1].hours.map((_, index) => (
+                  <div
+                    className="flex justify-between w-full gap-3 mb-4"
+                    key={index}
+                  >
+                    <div className="flex flex-col w-full">
+                      <TimeDropDown
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                          handleInputChangeForDay(
+                            e,
+                            dayOfWeek[0] as keyof WorkDays,
+                            index,
+                            "FROM"
+                          )
+                        }
+                      />
+                      <hr className="border-b border-b-gray-400 outline-none w-full" />
+                    </div>
+                    <div className="flex flex-col w-full">
+                      <TimeDropDown
+                        className="absolute z-10 mt-1 h-72 w-4/5 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm px-3 "
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                          handleInputChangeForDay(
+                            e,
+                            dayOfWeek[0] as keyof WorkDays,
+                            index,
+                            "TO"
+                          )
+                        }
+                      />
+                      <hr className="border-b border-b-gray-400 outline-none w-full" />
+                    </div>
                   </div>
-                  <div className="flex flex-col w-full">
-                    <TimeDropDown
-                      className="absolute z-10 mt-1 h-72 w-4/5 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm px-3 "
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                        handleInputChangeForDay(
-                          e,
-                          dayOfWeek[0] as keyof WorkDays,
-                          index,
-                          "FROM"
-                        )
-                      }
-                    />
-                    <hr className="border-b border-b-gray-400 outline-none w-full" />
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
             {workDays[day].checkBoxType == "Enter Hours" ? (
               <Button
                 onClick={(e) => handleClick(e, dayOfWeek[0] as keyof WorkDays)}

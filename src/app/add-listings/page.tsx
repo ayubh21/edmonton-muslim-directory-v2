@@ -20,6 +20,10 @@ import ListingSocials from "./components/ListingSocials";
 import ListingWorkHours from "./components/ListingWorkHours";
 import ListingLocation from "./components/ListingLocation";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { MdCategory } from "react-icons/md";
+import ListingDetails from "./components/ListingDetails";
+import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
 
 type ListingForm = {
   title: string;
@@ -27,6 +31,17 @@ type ListingForm = {
 
 export default function page() {
   const methods = useForm<ListingForm>();
+
+  const muation = useMutation({
+    mutationFn: async () => {},
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   return (
     <FormProvider {...methods}>
       <div className="px-6">
@@ -86,7 +101,20 @@ export default function page() {
               <ListingLocation />
             </APIProvider>
           </FormSection>
+          <FormSection
+            title="Details"
+            description="Details about your business"
+            icon={<MdCategory size={18} />}
+          >
+            <ListingDetails />
+          </FormSection>
         </form>
+        <Button
+          className="bg-emerald-600 text-white w-full mb-4 text-center hover:bg-emerald-700"
+          type="submit"
+        >
+          Submit Listing
+        </Button>
       </div>
     </FormProvider>
   );

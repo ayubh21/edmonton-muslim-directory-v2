@@ -8,14 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Social } from "@/types/listing";
 import { produce } from "immer";
 import { debounce } from "lodash";
-import { useCallback, useEffect, useState } from "react";
-
-type Social = {
-  type: string;
-  url: string;
-};
+import { useCallback, useState } from "react";
 
 export default function ListingSocials() {
   const [socialList, setSocialList] = useState<Social[]>([]);
@@ -54,10 +50,6 @@ export default function ListingSocials() {
     }, 2000),
     []
   );
-
-  useEffect(() => {
-    console.log(socialList);
-  }, [socialList]);
 
   return (
     <div>
@@ -108,7 +100,7 @@ export default function ListingSocials() {
         ) : null}
       </div>
       <Button
-        className="w-full bg-white text-black  hover:bg-[#f2f3f2]"
+        className="bg-faintGrey hover:bg-[#f2f3f2] text-black  text-center w-full h-full my-8 shadow-none font-normal p-4"
         onClick={(e) => handleLoadSocial(e)}
       >
         Add
