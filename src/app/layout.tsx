@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import QueryProvider from "@/components/query-provider";
+import mongoConnection from "@/lib/mongo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +22,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  mongoConnection();
   return (
     <html lang="en">
       <body

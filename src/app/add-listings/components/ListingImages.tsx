@@ -1,25 +1,26 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { produce } from "immer";
 import FileUploader from "./FileUploader.tsx";
+import { useFormContext } from "react-hook-form";
 
 export interface CustomFile extends File {
   preview?: string;
 }
 
-export interface ImageState {
+export interface ImageMetaData {
   logo: CustomFile | null;
   coverImage: CustomFile | null;
   galleryImages: CustomFile[];
 }
 
 export default function ListingImages() {
-  const [images, setImages] = useState<ImageState>({
+  const { setValue, register } = useFormContext();
+  const [images, setImages] = useState<ImageMetaData>({
     logo: null,
     coverImage: null,
     galleryImages: [],
   });
 
-  // Centralized loading state
   const [isUploading, setIsUploading] = useState({
     logo: false,
     coverImage: false,
@@ -27,7 +28,7 @@ export default function ListingImages() {
   });
 
   const handleImageUpload = useCallback(
-    (files: File[], imageType: keyof ImageState) => {
+    (files: File[], imageType: keyof ImageMetaData) => {
       if (files.length > 0) {
         setIsUploading(
           produce((draft) => {
@@ -53,6 +54,12 @@ export default function ListingImages() {
                   preview: URL.createObjectURL(file),
                 });
                 draft[imageType] = customFile;
+                imageType == "logo"
+                  ? (draft[imageType] = customFile)
+                  : (draft[imageType] = customFile);
+                if (imageType == "logo") {
+                } else {
+                }
               }
             })
           );
@@ -68,9 +75,8 @@ export default function ListingImages() {
     []
   );
 
-  // Handle removing an image using Immer
   const handleRemoveImage = useCallback(
-    (imageType: keyof ImageState, index?: number) => {
+    (imageType: keyof ImageMetaData, index?: number) => {
       setImages(
         produce((draft) => {
           if (imageType === "galleryImages") {
@@ -84,8 +90,13 @@ export default function ListingImages() {
     []
   );
 
+  useEffect(() => {
+    setValue("images", images);
+  }, [setValue, images]);
+
   return (
     <div className="pl-4 space-y-4">
+      <input type="hidden" {...register("images")} />
       <div className="flex flex-col font-semibold gap-2">
         <label className="pl-4" htmlFor="logo">
           Logo

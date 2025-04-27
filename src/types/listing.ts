@@ -1,17 +1,17 @@
 export interface Listing {
   title: string;
   tagLine: string;
-  Description: string;
+  description: string;
   images: Images;
   contact: Contact;
-  networks: Social;
-  address: string[];
+  networks: Social[];
+  addresses: string[];
   categories: string[];
   tags: string[];
-  workHours: WorkDays;
+  workHours: ListingWorkDays;
 }
 
-interface Contact {
+export interface Contact {
   email: string;
   phoneNumber: string;
   websiteUrl: string;
@@ -48,7 +48,7 @@ export interface Gallery {
   preview: string;
 }
 
-export interface WorkDays {
+export interface ListingWorkDays {
   Mon: {
     hours: WorkDayEntry[];
   };

@@ -8,8 +8,10 @@ import {
 import { produce } from "immer";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 export default function ListingDetails() {
+  const { setValue, register } = useFormContext();
   const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
     []
   );
@@ -76,8 +78,14 @@ export default function ListingDetails() {
     }
   };
 
+  useEffect(() => {
+    setValue("categories", selectedCategoryList);
+    setValue("tags", selectedTagsList);
+  }, [selectedCategoryList, selectedTagsList, setValue]);
   return (
     <div className="px-4">
+      <input type="hidden" {...register("categories")} />
+      <input type="hidden" {...register("tags")} />
       <div>
         <h3 className="font-semibold">Categories</h3>
         <Select onValueChange={(value: string) => handleAddCategory(value)}>

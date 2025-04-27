@@ -3,6 +3,12 @@ import { Schema } from "mongoose";
 
 import mongoose from "mongoose";
 
+const ImagesSchema = new mongoose.Schema({
+  logo: { type: String },
+  coverImage: { type: String },
+  galleryImages: [{ type: String, required: false }],
+});
+
 const ContactSchema = new mongoose.Schema(
   {
     email: { type: String },
@@ -45,12 +51,10 @@ const ListingSchema = new mongoose.Schema({
   title: { type: String, required: true },
   tagLine: { type: String },
   Description: { type: String },
-  logo: { type: String },
-  coverImage: { type: String },
-  galleryImages: [{ type: String, required: false }],
   contact: ContactSchema,
   networks: SocialSchema,
-  address: [{ type: String }],
+  addresses: [{ type: String }],
+  images: ImagesSchema,
   categories: [{ type: String }],
   tags: [{ type: String }],
   workHours: WorkHoursSchema,

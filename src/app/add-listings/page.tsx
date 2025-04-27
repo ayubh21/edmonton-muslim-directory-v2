@@ -23,37 +23,34 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/ListingDetails";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
 import { Listing } from "@/types/listing";
+import { CreateListing } from "../actions/listing";
 
 export default function page() {
   const methods = useForm<Listing>({
     defaultValues: {},
   });
 
-  const { handleSubmit, getValues } = methods;
+  const { handleSubmit } = methods;
 
-  const mutation = useMutation({
-    mutationFn: async (formData: Listing) => {
-      console.log(formData);
-      return formData;
-    },
-    onSuccess: (data) => {
-      console.log(getValues("title"));
-      console.log(data);
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: async (formData: Listing) => {
+  //     // const res = await CreateListing(formData);
+  //     // console.log(res);
+  //     // return res;
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log(data);
+  //   },
+  //   onError: (err) => {
+  //     console.log(err);
+  //   },
+  // });
 
-  const onSubmit = (listingForm: Listing) => {
-    mutation.mutate(listingForm);
+  const onSubmit = async (listingForm: Listing) => {
+    // const res = await CreateListing(listingForm);
+    // console.log(res);
   };
-
-  useEffect(() => {
-    console.log(getValues("title"));
-  }, []);
 
   return (
     <FormProvider {...methods}>
@@ -69,7 +66,7 @@ export default function page() {
             <h1 className="text-2xl font-semibold">Add Your Listing</h1>
           </div>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={CreateListing}>
           <FormSection
             icon={<Pencil size={18} />}
             title="General"
@@ -126,7 +123,7 @@ export default function page() {
             <ListingDetails />
           </FormSection>
           <Button
-            className="bg-emerald-600 text-white w-full mb-4 text-center hover:bg-emerald-700"
+            className="bg-emerald-600 text-white w-full mb-4 text-center hover:bg-emerald-700 py-6"
             type="submit"
           >
             Submit Listing

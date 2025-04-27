@@ -11,12 +11,13 @@ import {
 import { Social } from "@/types/listing";
 import { produce } from "immer";
 import { debounce } from "lodash";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 export default function ListingSocials() {
+  const { setValue, getValues, register } = useFormContext();
   const [socialList, setSocialList] = useState<Social[]>([]);
-
-  const handleLoadSocial = (e) => {
+  const handleLoadSocial = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setSocialList(
       produce((draft) => {
@@ -51,8 +52,19 @@ export default function ListingSocials() {
     []
   );
 
+  useEffect(() => {
+    if (!getValues("socialList")) {
+      setValue("socialList", []);
+    }
+  }, []);
+
+  useEffect(() => {
+    setValue("socialList", socialList);
+  }, [socialList, setValue]);
+
   return (
     <div>
+      <input type="hidden" {...register("socialList")} />
       <div className="mb-4">
         {socialList.length > 0 ? (
           <div>

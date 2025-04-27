@@ -1,11 +1,4 @@
 import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 
 interface OnChangeProps extends React.HTMLAttributes<HTMLSelectElement> {}
 export const TimeDropDown: React.FC<OnChangeProps> = ({ ...props }) => {
@@ -28,17 +21,12 @@ export const TimeDropDown: React.FC<OnChangeProps> = ({ ...props }) => {
   };
 
   return (
-    <Select>
-      <SelectTrigger className="w-full border-none">
-        <SelectValue placeholder="FROM" />
-      </SelectTrigger>
-      <SelectContent>
-        {generateTimeSlots().map((time, index) => (
-          <SelectItem key={index} value={time}>
-            {time}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <select {...props}>
+      {generateTimeSlots().map((time, index) => (
+        <option key={index} value={time}>
+          {time}
+        </option>
+      ))}
+    </select>
   );
 };
