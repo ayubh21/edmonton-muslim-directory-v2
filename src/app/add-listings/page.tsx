@@ -38,7 +38,7 @@ export default function page() {
 
   return (
     <FormProvider {...methods}>
-      <div className="px-6">
+      <div className="px-6 max-w-3xl mx-auto">
         <div className="container pt-8 ">
           <div className="flex items-center mb-6">
             <Link
