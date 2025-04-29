@@ -1,75 +1,57 @@
 "use server";
 
-import { ListingModel } from "@/lib/db/models";
-import mongoConnection from "@/lib/mongo";
+import Listings from "@/lib/db/models";
+import { client } from "@/s3config/s3config";
+import { Listing } from "@/types/listing";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { CustomFile } from "../add-listings/components/ListingImages";
 
-export async function CreateListing(formData: FormData) {
-  const dbConn = await mongoConnection();
-  console.log(dbConn);
-  // server side validation
-
+export async function AddListing(listing: Listing) {
   try {
-    // Extract basic fields
-    const title = (formData.get("title") as string) || "";
-    const tagLine = (formData.get("tagLine") as string) || "";
-    const description = (formData.get("description") as string) || "";
-
-    const imagesData = (formData.get("images") as string) || "{}";
-    const images = JSON.parse(JSON.stringify(imagesData));
-
-    const email = (formData.get("email") as string) || "";
-    const phoneNumber = (formData.get("phoneNumber") as string) || "";
-    const websiteUrl = (formData.get("websiteUrl") as string) || "";
-
-    const workHoursData = (formData.get("workDays") as string) || "{}";
-    const workDays = JSON.parse(JSON.stringify(workHoursData));
-    const addressesData = (formData.get("addresses") as string) || "[]";
-    const addresses = addressesData.toString();
-
-    const networksData = (formData.get("networks") as string) || "[]";
-    const networks = JSON.parse(JSON.stringify(networksData));
-
-    const categoriesData = (formData.get("categories") as string) || "[]";
-    const categories = categoriesData.toString();
-
-    const tagsData = (formData.get("categories") as string) || "[]";
-    const tags = tagsData.toString();
-
-    // Create the listing document
-    const listing = new ListingModel({
-      title,
-      tagLine,
-      description,
+    const listingModel = new Listings({
+      title: listing.title,
+      tagLine: listing.tagLine,
+      description: listing.description,
       images: {
-        galleryImages: images.galleryImages,
-        logo: images.logo,
-        coverImage: images.coverImage,
+        galleryImages: listing.images.galleryImages,
+        logo: listing.images.logo,
+        coverImage: listing.images.coverImage,
       },
       contact: {
-        email,
-        phoneNumber,
-        websiteUrl,
+        email: listing.contact.email,
+        phoneNumber: listing.contact.phoneNumber,
+        websiteUrl: listing.contact.websiteUrl,
       },
-      addresses,
-      networks: {
-        type: networks.type,
-        url: networks.url,
-      },
-      workHours: {
-        monday: workDays.monday,
-        tuesday: workDays.tuesday,
-        wednesday: workDays.wednesday,
-        thursday: workDays.thursday,
-        friday: workDays.friday,
-        saturday: workDays.saturday,
-        sunday: workDays.sunday,
-      },
-      categories: categories,
-      tags: tags,
+      addresses: listing.addresses,
+      categories: listing.categories,
+      tags: listing.tags,
+      workHours: listing.workHours,
+      networks: listing.networks,
     });
-    console.log(formData);
-    await listing.save();
+
+    const res = await listingModel.save();
+    console.log("test");
+    console.log(res);
   } catch (error) {
     console.error("Error creating listing:", error);
+  }
+}
+
+export async function UploadToS3(file: CustomFile) {
+  const arrayBuffer = await file.arrayBuffer();
+  try {
+    const input = new PutObjectCommand({
+      Bucket: "edmv2",
+      Key: file.name,
+      Body: Buffer.from(arrayBuffer),
+      ACL: "public-read",
+      ContentType: file.type,
+    });
+
+    const res = await client.send(input);
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
   }
 }

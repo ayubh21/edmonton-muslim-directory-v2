@@ -1,10 +1,16 @@
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
 import { produce } from "immer";
 import FileUploader from "./FileUploader.tsx";
 import { useFormContext } from "react-hook-form";
+import { UploadToS3 } from "@/app/actions/listing";
+import { S3_OBJECT_URI } from "@/lib/constants";
+import { Images } from "lucide-react";
 
 export interface CustomFile extends File {
   preview?: string;
+  url: string;
 }
 
 export interface ImageMetaData {
@@ -12,9 +18,19 @@ export interface ImageMetaData {
   coverImage: CustomFile | null;
   galleryImages: CustomFile[];
 }
-
+interface ImageUrls {
+  logo: string;
+  coverImage: string;
+  galleryImages: string[];
+}
 export default function ListingImages() {
   const { setValue, register } = useFormContext();
+  const [imageType, setImageType] = useState<keyof ImageMetaData>();
+  const [imageUrls, setImageUrls] = useState<ImageUrls>({
+    logo: "",
+    coverImage: "",
+    galleryImages: [],
+  });
   const [images, setImages] = useState<ImageMetaData>({
     logo: null,
     coverImage: null,
@@ -26,6 +42,40 @@ export default function ListingImages() {
     coverImage: false,
     galleryImages: false,
   });
+
+  const handleCreateS3Url = useCallback((file: CustomFile | null) => {
+    if (!file) return "";
+    return `${S3_OBJECT_URI}/${file.name}`;
+  }, []);
+
+  const handleCreateDBUrl = useCallback(
+    (imageType: keyof ImageMetaData | undefined) => {
+      if (!imageType) return;
+
+      setImageUrls(
+        produce((draft) => {
+          switch (imageType) {
+            case "logo":
+              draft.logo = handleCreateS3Url(images.logo);
+              break;
+
+            case "coverImage":
+              draft.coverImage = handleCreateS3Url(images.coverImage);
+              break;
+
+            case "galleryImages":
+              draft.galleryImages = [];
+              images.galleryImages.forEach((galleryImage) => {
+                const url = handleCreateS3Url(galleryImage);
+                if (url) draft.galleryImages.push(url);
+              });
+              break;
+          }
+        })
+      );
+    },
+    [images, handleCreateS3Url]
+  );
 
   const handleImageUpload = useCallback(
     (files: File[], imageType: keyof ImageMetaData) => {
@@ -40,26 +90,25 @@ export default function ListingImages() {
           setImages(
             produce((draft) => {
               if (imageType === "galleryImages") {
+                setImageType(imageType);
                 files.forEach((file) => {
                   const customFile = file as CustomFile;
                   Object.assign(customFile, {
                     preview: URL.createObjectURL(file),
                   });
+                  customFile.url = handleCreateS3Url(customFile);
                   draft.galleryImages.push(customFile);
+                  handleCreateDBUrl(imageType);
                 });
               } else {
+                setImageType(imageType);
                 const file = files[0];
                 const customFile = file as CustomFile;
                 Object.assign(customFile, {
                   preview: URL.createObjectURL(file),
                 });
                 draft[imageType] = customFile;
-                imageType == "logo"
-                  ? (draft[imageType] = customFile)
-                  : (draft[imageType] = customFile);
-                if (imageType == "logo") {
-                } else {
-                }
+                handleCreateDBUrl(imageType);
               }
             })
           );
@@ -91,8 +140,53 @@ export default function ListingImages() {
   );
 
   useEffect(() => {
-    setValue("images", images);
-  }, [setValue, images]);
+    setValue("images", imageUrls);
+  }, [setValue, imageUrls]);
+
+  useEffect(() => {
+    handleCreateDBUrl(imageType!);
+  }, [imageType]);
+
+  const Upload = async (e) => {
+    e.preventDefault();
+    try {
+      if (images.logo) {
+        const logoResult = await UploadToS3(images.logo);
+        if (!logoResult?.$metadata) {
+          console.log(logoResult);
+          throw new Error("Failed to upload logo to S3");
+        }
+      }
+
+      if (images.coverImage) {
+        const coverResult = await UploadToS3(images.coverImage);
+        console.log(coverResult);
+        if (!coverResult?.$metadata) {
+          throw new Error("Failed to upload cover image to S3");
+        }
+      }
+      if (images.galleryImages) {
+        const galleryImagesPromises = images.galleryImages.map(
+          async (galleryImage) => {
+            return new Promise(async (resolve) => {
+              const galleryResult = await UploadToS3(galleryImage);
+              if (!galleryResult?.$metadata) {
+                throw new Error("Failed to upload gallery image to S3");
+              }
+              resolve(galleryResult);
+            });
+          }
+        );
+        const galleryImages = await Promise.allSettled(galleryImagesPromises);
+        console.log(galleryImages);
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      throw error;
+    }
+  };
 
   return (
     <div className="pl-4 space-y-4">
@@ -143,6 +237,9 @@ export default function ListingImages() {
           isUploading={isUploading.galleryImages}
         />
       </div>
+      <button type="button" onClick={(e) => Upload(e)}>
+        test
+      </button>
     </div>
   );
 }

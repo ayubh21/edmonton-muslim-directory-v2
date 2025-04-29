@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { useFormContext } from "react-hook-form";
-import { ListingWorkDays } from "@/types/listing";
 import { TimeDropDown } from "@/components/time-dropdown";
 
 export interface WorkDayEntry {
@@ -50,7 +49,7 @@ type WorkDays = {
 };
 
 export default function WorkHours() {
-  const { setValue, getValues, register } = useFormContext();
+  const { setValue, register } = useFormContext();
   const [day, setDay] = useState<keyof WorkDays>("Mon");
   const [workDays, setWorkDay] = useState<WorkDays>({
     Mon: {
@@ -147,11 +146,15 @@ export default function WorkHours() {
   ];
 
   useEffect(() => {
-    setValue("workDays", workDays);
+    setValue("workHours", workDays);
   }, [workDays, setValue]);
+
+  useEffect(() => {
+    console.log(workDays);
+  }, []);
   return (
     <div className="h-full">
-      <input type="hidden" {...register("workDays")} />
+      <input type="hidden" {...register("workHours")} />
       <Tabs
         defaultValue={day}
         onValueChange={(tabName) => setDay(tabName as keyof WorkDays)}

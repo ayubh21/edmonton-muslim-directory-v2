@@ -1,12 +1,12 @@
 import { Listing } from "@/types/listing";
-import { Schema } from "mongoose";
+import { mongo, Schema } from "mongoose";
 
 import mongoose from "mongoose";
 
 const ImagesSchema = new mongoose.Schema({
   logo: { type: String },
   coverImage: { type: String },
-  galleryImages: [{ type: String, required: false }],
+  galleryImages: [{ type: String }],
 });
 
 const ContactSchema = new mongoose.Schema(
@@ -34,15 +34,22 @@ const WorkDayEntrySchema = new mongoose.Schema(
   { _id: false }
 );
 
+const WorkDaySchema = new mongoose.Schema(
+  {
+    hours: [WorkDayEntrySchema],
+  },
+  { _id: false }
+);
+
 const WorkHoursSchema = new mongoose.Schema(
   {
-    monday: WorkDayEntrySchema,
-    tuesday: WorkDayEntrySchema,
-    wednesday: WorkDayEntrySchema,
-    thursday: WorkDayEntrySchema,
-    friday: WorkDayEntrySchema,
-    saturday: WorkDayEntrySchema,
-    sunday: WorkDayEntrySchema,
+    Mon: WorkDaySchema,
+    Tue: WorkDaySchema,
+    Wed: WorkDaySchema,
+    Thu: WorkDaySchema,
+    Fri: WorkDaySchema,
+    Sat: WorkDaySchema,
+    Sun: WorkDaySchema,
   },
   { _id: false }
 );
@@ -50,9 +57,9 @@ const WorkHoursSchema = new mongoose.Schema(
 const ListingSchema = new mongoose.Schema({
   title: { type: String, required: true },
   tagLine: { type: String },
-  Description: { type: String },
+  description: { type: String },
   contact: ContactSchema,
-  networks: SocialSchema,
+  networks: [SocialSchema],
   addresses: [{ type: String }],
   images: ImagesSchema,
   categories: [{ type: String }],
@@ -60,4 +67,5 @@ const ListingSchema = new mongoose.Schema({
   workHours: WorkHoursSchema,
 });
 
-export const ListingModel = mongoose.model("Listing", ListingSchema);
+export default mongoose.models.Listings1 ||
+  mongoose.model("Listings1", ListingSchema);

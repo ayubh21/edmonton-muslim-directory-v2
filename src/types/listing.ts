@@ -28,52 +28,22 @@ export interface WorkDayEntry {
 }
 
 export interface Images {
-  logo: Logo;
-  coverImage: CoverImage;
-  galleryImages: Gallery[];
+  logo: string;
+  coverImage: string;
+  galleryImages: string[];
 }
 
-export interface Logo {
-  url: string;
-  preview: string;
-}
-
-export interface CoverImage {
-  url: string;
-  preview: string;
-}
-
-export interface Gallery {
-  url: string;
-  preview: string;
+export interface WorkDay {
+  hours: WorkDayEntry[];
+  checkBoxType: string;
 }
 
 export interface ListingWorkDays {
-  Mon: {
-    hours: WorkDayEntry[];
-  };
-
-  Tue: {
-    hours: WorkDayEntry[];
-  };
-
-  Wed: {
-    hours: WorkDayEntry[];
-  };
-
-  Thu: {
-    hours: WorkDayEntry[];
-  };
-
-  Fri: {
-    hours: WorkDayEntry[];
-  };
-
-  Sat: {
-    hours: WorkDayEntry[];
-  };
-
-  Sun: {
-    hours: WorkDayEntry[];
-  };
+  Mon: WorkDay;
+  Tue: WorkDay;
+  Wed: WorkDay;
+  Thu: WorkDay;
+  Fri: WorkDay;
+  Sat: WorkDay;
+  Sun: WorkDay;
 }

@@ -24,32 +24,16 @@ import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/ListingDetails";
 import { Button } from "@/components/ui/button";
 import { Listing } from "@/types/listing";
-import { CreateListing } from "../actions/listing";
+import { AddListing } from "../actions/listing";
 
 export default function page() {
   const methods = useForm<Listing>({
     defaultValues: {},
   });
 
-  const { handleSubmit } = methods;
-
-  // const mutation = useMutation({
-  //   mutationFn: async (formData: Listing) => {
-  //     // const res = await CreateListing(formData);
-  //     // console.log(res);
-  //     // return res;
-  //   },
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //   },
-  //   onError: (err) => {
-  //     console.log(err);
-  //   },
-  // });
-
-  const onSubmit = async (listingForm: Listing) => {
-    // const res = await CreateListing(listingForm);
-    // console.log(res);
+  const onSubmit = async (data: Listing) => {
+    await AddListing(data);
+    console.log(data);
   };
 
   return (
@@ -66,7 +50,7 @@ export default function page() {
             <h1 className="text-2xl font-semibold">Add Your Listing</h1>
           </div>
         </div>
-        <form action={CreateListing}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
           <FormSection
             icon={<Pencil size={18} />}
             title="General"
@@ -75,7 +59,7 @@ export default function page() {
             <ListingGeneral
               title="title"
               description="description"
-              tagLine="tagline"
+              tagLine="tagLine"
             />
           </FormSection>
           <FormSection

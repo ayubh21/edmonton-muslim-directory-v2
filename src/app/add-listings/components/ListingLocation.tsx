@@ -4,7 +4,7 @@ import {
   StandaloneSearchBox,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import { AdvancedMarker, Map, useMap, Pin } from "@vis.gl/react-google-maps";
+import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
 import { fromPlaceId, setKey } from "react-geocode";
 import { produce } from "immer";
 import { MdDelete, MdMyLocation } from "react-icons/md";
@@ -23,14 +23,12 @@ type Locations = {
 const libraries: Libraries = ["places"];
 
 export default function ListingLocation() {
-  // Get form methods from context and register the addresses field
   const { setValue, getValues, register } = useFormContext();
 
   const [locations, setLocations] = useState<Locations>({
     coordinates: [{ lat: 53.5461, lng: -113.4938 }],
   });
 
-  // This array will track all addresses
   const [addresses, setAddresses] = useState<string[]>([""]);
 
   const [showCoordinates, setShowCoordinates] = useState(false);
@@ -38,15 +36,12 @@ export default function ListingLocation() {
   const [lng, setLng] = useState("");
   const commandRef = useRef<google.maps.places.SearchBox>(null);
 
-  // Initialize form with empty addresses array if not already set
   useEffect(() => {
-    // Initialize the addresses field in the form if it's not set
     if (!getValues("addresses")) {
       setValue("addresses", []);
     }
   }, []);
 
-  // Update form whenever addresses change
   useEffect(() => {
     setValue("addresses", addresses);
   }, [addresses, setValue]);
@@ -89,6 +84,7 @@ export default function ListingLocation() {
             })
           );
 
+          // Update address in our local array
           setAddresses(
             produce((draft) => {
               if (index < draft.length) {

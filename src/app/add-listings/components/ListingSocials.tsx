@@ -17,6 +17,7 @@ import { useFormContext } from "react-hook-form";
 export default function ListingSocials() {
   const { setValue, getValues, register } = useFormContext();
   const [socialList, setSocialList] = useState<Social[]>([]);
+
   const handleLoadSocial = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setSocialList(
@@ -53,18 +54,22 @@ export default function ListingSocials() {
   );
 
   useEffect(() => {
-    if (!getValues("socialList")) {
-      setValue("socialList", []);
+    if (!getValues("networks")) {
+      setValue("networks", []);
     }
   }, []);
 
   useEffect(() => {
-    setValue("socialList", socialList);
+    setValue("networks", socialList);
   }, [socialList, setValue]);
+
+  useEffect(() => {
+    console.log(socialList);
+  }, [socialList]);
 
   return (
     <div>
-      <input type="hidden" {...register("socialList")} />
+      <input type="hidden" {...register("networks")} />
       <div className="mb-4">
         {socialList.length > 0 ? (
           <div>
@@ -96,7 +101,7 @@ export default function ListingSocials() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="sm:w-full">
+                <div className="w-full">
                   <input
                     onChange={(e) =>
                       debouncedSetUrl(index, e.currentTarget.value)

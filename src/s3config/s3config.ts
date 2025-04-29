@@ -4,7 +4,7 @@ export const client = new S3Client({
   requestChecksumCalculation: "WHEN_REQUIRED",
   region: "us-east-2",
   credentials: {
-    accessKeyId: "AKIA2RP6IMXEWYHSFXFA",
-    secretAccessKey: "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",
+    accessKeyId: "AKIA2RP6IMXE4BMLOTUM",
+    secretAccessKey: "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",
   },
 });
