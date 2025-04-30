@@ -1,4 +1,5 @@
 export interface Listing {
+  _id: string;
   title: string;
   tagLine: string;
   description: string;
@@ -9,6 +10,8 @@ export interface Listing {
   categories: string[];
   tags: string[];
   workHours: ListingWorkDays;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Contact {

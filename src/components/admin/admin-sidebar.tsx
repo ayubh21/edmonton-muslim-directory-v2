@@ -18,7 +18,10 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-export default function AdminSidebar() {
+type AdminSidebarProps = {
+  numOfListings: number;
+};
+export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
   const pathname = usePathname();
 
   const navItems = [
@@ -88,7 +91,7 @@ export default function AdminSidebar() {
                 {item.title}
                 {item.title === "Pending Approval" && (
                   <span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-red-100 text-xs font-medium text-red-600">
-                    12
+                    {numOfListings}
                   </span>
                 )}
               </Button>

@@ -54,7 +54,15 @@ const WorkHoursSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const UserSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  firstname: { type: String, required: true },
+  lastname: { type: String, required: true },
+  email: { type: String, required: true },
+});
+
 const ListingSchema = new mongoose.Schema({
+  // listingId: { type: String, required: true },
   title: { type: String, required: true },
   tagLine: { type: String },
   description: { type: String },
@@ -64,7 +72,13 @@ const ListingSchema = new mongoose.Schema({
   images: ImagesSchema,
   categories: [{ type: String }],
   tags: [{ type: String }],
+  isApproved: { type: Boolean, default: false },
   workHours: WorkHoursSchema,
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
 });
 
 export default mongoose.models.Listings1 ||

@@ -1,6 +1,6 @@
 "use server";
 
-import Listings from "@/lib/db/models";
+import Listings1 from "@/lib/db/models";
 import { client } from "@/s3config/s3config";
 import { Listing } from "@/types/listing";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -8,7 +8,7 @@ import { CustomFile } from "../add-listings/components/ListingImages";
 
 export async function AddListing(listing: Listing) {
   try {
-    const listingModel = new Listings({
+    Listings1.create({
       title: listing.title,
       tagLine: listing.tagLine,
       description: listing.description,
@@ -27,15 +27,15 @@ export async function AddListing(listing: Listing) {
       tags: listing.tags,
       workHours: listing.workHours,
       networks: listing.networks,
+    }).then((res) => {
+      console.log(res);
     });
-
-    const res = await listingModel.save();
-    console.log("test");
-    console.log(res);
   } catch (error) {
     console.error("Error creating listing:", error);
   }
 }
+
+export async function UpdateListingStatus() {}
 
 export async function UploadToS3(file: CustomFile) {
   const arrayBuffer = await file.arrayBuffer();

@@ -1,83 +1,38 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import {
-  ChevronLeft,
   CheckCircle,
-  XCircle,
-  AlertCircle,
-  MapPin,
-  Phone,
-  Mail,
-  Globe,
+  ChevronLeft,
   Clock,
+  Globe,
+  Mail,
+  Phone,
+  XCircle,
 } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ParamValue } from "next/dist/server/request/params";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
-import { useParams } from "next/navigation";
-// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+} from "../ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import Image from "next/image";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
+import { Separator } from "../ui/separator";
+import { Textarea } from "../ui/textarea";
+import { Switch } from "../ui/switch";
 
-export default async function ReviewListingPage() {
-  // This would normally fetch the business data based on the ID
-  async function getServerSideProps(ctx) {
-    const { id } = ctx.query;
-    return {
-      props: {
-        id,
-      },
-    };
-  }
-  console.log();
-  const { id } = useParams();
-
-  // Mock data for the business being reviewed
-  // const business = {
-  //   id: businessId,
-  //   name: "Barakah Cafe",
-  //   category: "Restaurant",
-  //   submitter: "Ahmed S.",
-  //   submitterEmail: "ahmed.s@example.com",
-  //   date: "April 28, 2025",
-  //   status: "new",
-  //   description:
-  //     "Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton. Our menu features traditional dishes like shawarma, falafel, and manakeesh, all prepared with halal ingredients. We also offer a wide selection of Arabic coffee, tea, and desserts in a cozy, welcoming atmosphere.",
-  //   address: "10143 118 St NW, Edmonton, AB T5K 1Y1",
-  //   phone: "(780) 555-1234",
-  //   email: "info@barakahcafe.ca",
-  //   website: "www.barakahcafe.ca",
-  //   hours: "Mon-Sat: 9am-9pm, Sun: 10am-8pm",
-  //   features: [
-  //     "Halal Certified",
-  //     "Family Friendly",
-  //     "Prayer Space",
-  //     "Takeout Available",
-  //     "Wheelchair Accessible",
-  //   ],
-  //   images: [
-  //     "/placeholder.svg?height=500&width=1000",
-  //     "/placeholder.svg?height=200&width=300",
-  //     "/placeholder.svg?height=200&width=300",
-  //     "/placeholder.svg?height=200&width=300",
-  //     "/placeholder.svg?height=200&width=300",
-  //   ],
-  //   logo: "/placeholder.svg?height=100&width=100",
-  // };
-
+type ReviewListingProps = {
+  id: string;
+};
+export default function ReviewListing({ id }: ReviewListingProps) {
+  console.log(id);
   return (
     // <div className="space-y-6">
     //   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
