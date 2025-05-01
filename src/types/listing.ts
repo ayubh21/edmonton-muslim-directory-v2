@@ -1,9 +1,12 @@
+import { ImageMetaData } from "@/app/add-listings/components/ListingImages";
+
 export interface Listing {
   _id: string;
   title: string;
   tagLine: string;
   description: string;
   images: Images;
+  imageMetaData: ImageMetaData;
   contact: Contact;
   networks: Social[];
   addresses: string[];

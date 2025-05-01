@@ -14,7 +14,7 @@ import {
   Workflow,
 } from "lucide-react";
 import FormSection from "./components/ListingSection";
-import ListingImages from "./components/ListingImages";
+import ListingImages, { ImageMetaData } from "./components/ListingImages";
 import ListingContact from "./components/ListingContact";
 import ListingSocials from "./components/ListingSocials";
 import ListingWorkHours from "./components/ListingWorkHours";
@@ -24,16 +24,58 @@ import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/ListingDetails";
 import { Button } from "@/components/ui/button";
 import { Listing } from "@/types/listing";
-import { AddListing } from "../actions/listing";
+import { AddListing, UploadToS3 } from "../actions/listing";
 
 export default function page() {
   const methods = useForm<Listing>({
     defaultValues: {},
   });
 
+  const Upload = async (images: ImageMetaData) => {
+    try {
+      if (images.logo) {
+        const logoResult = await UploadToS3(images.logo);
+        if (!logoResult?.$metadata) {
+          console.log(logoResult?.$metadata);
+          throw new Error("Failed to upload logo to S3");
+        }
+      }
+
+      if (images.coverImage) {
+        const coverResult = await UploadToS3(images.coverImage);
+        console.log(coverResult);
+        if (!coverResult?.$metadata) {
+          throw new Error("Failed to upload cover image to S3");
+        }
+      }
+      if (images.galleryImages) {
+        const galleryImagesPromises = images.galleryImages.map(
+          async (galleryImage) => {
+            return new Promise(async (resolve) => {
+              const galleryResult = await UploadToS3(galleryImage);
+              if (!galleryResult?.$metadata) {
+                throw new Error("Failed to upload gallery image to S3");
+              }
+              resolve(galleryResult);
+            });
+          }
+        );
+        const galleryImages = await Promise.allSettled(galleryImagesPromises);
+        console.log(galleryImages);
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      throw error;
+    }
+  };
+
   const onSubmit = async (data: Listing) => {
+    console.log(data.imageMetaData);
     await AddListing(data);
-    console.log(data);
+    const result = await Upload(data.imageMetaData);
+    console.log(result);
   };
 
   return (

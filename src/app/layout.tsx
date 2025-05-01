@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import { Navbar } from "@/components/Navbar/Navbar";
 import QueryProvider from "@/components/query-provider";
 import mongoConnection from "@/lib/mongo";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
         </QueryProvider>
         <Toaster />

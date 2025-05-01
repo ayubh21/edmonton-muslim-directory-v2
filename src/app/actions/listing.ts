@@ -1,6 +1,6 @@
 "use server";
 
-import Listings1 from "@/lib/db/models";
+import Listings from "@/lib/db/models";
 import { client } from "@/s3config/s3config";
 import { Listing } from "@/types/listing";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -8,7 +8,7 @@ import { CustomFile } from "../add-listings/components/ListingImages";
 
 export async function AddListing(listing: Listing) {
   try {
-    Listings1.create({
+    Listings.create({
       title: listing.title,
       tagLine: listing.tagLine,
       description: listing.description,

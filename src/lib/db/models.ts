@@ -1,6 +1,3 @@
-import { Listing } from "@/types/listing";
-import { mongo, Schema } from "mongoose";
-
 import mongoose from "mongoose";
 
 const ImagesSchema = new mongoose.Schema({
@@ -73,6 +70,7 @@ const ListingSchema = new mongoose.Schema({
   categories: [{ type: String }],
   tags: [{ type: String }],
   isApproved: { type: Boolean, default: false },
+  isFeatured: { type: Boolean },
   workHours: WorkHoursSchema,
   createdAt: {
     type: Date,

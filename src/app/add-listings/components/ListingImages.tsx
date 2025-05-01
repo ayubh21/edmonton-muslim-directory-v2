@@ -1,6 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  ViewTransitionPseudoElement,
+} from "react";
 import { produce } from "immer";
 import FileUploader from "./FileUploader.tsx";
 import { useFormContext } from "react-hook-form";
@@ -23,7 +28,11 @@ interface ImageUrls {
   coverImage: string;
   galleryImages: string[];
 }
-export default function ListingImages() {
+
+interface ListingImagesProps {
+  onUpload: () => void;
+}
+export default function ListingImages({}: ListingImagesProps) {
   const { setValue, register } = useFormContext();
   const [imageType, setImageType] = useState<keyof ImageMetaData>();
   const [imageUrls, setImageUrls] = useState<ImageUrls>({
@@ -51,7 +60,6 @@ export default function ListingImages() {
   const handleCreateDBUrl = useCallback(
     (imageType: keyof ImageMetaData | undefined) => {
       if (!imageType) return;
-
       setImageUrls(
         produce((draft) => {
           switch (imageType) {
@@ -144,49 +152,12 @@ export default function ListingImages() {
   }, [setValue, imageUrls]);
 
   useEffect(() => {
+    setValue("imageMetaData", images);
+  }, [setValue, images]);
+
+  useEffect(() => {
     handleCreateDBUrl(imageType!);
   }, [imageType]);
-
-  const Upload = async (e) => {
-    e.preventDefault();
-    try {
-      if (images.logo) {
-        const logoResult = await UploadToS3(images.logo);
-        if (!logoResult?.$metadata) {
-          console.log(logoResult);
-          throw new Error("Failed to upload logo to S3");
-        }
-      }
-
-      if (images.coverImage) {
-        const coverResult = await UploadToS3(images.coverImage);
-        console.log(coverResult);
-        if (!coverResult?.$metadata) {
-          throw new Error("Failed to upload cover image to S3");
-        }
-      }
-      if (images.galleryImages) {
-        const galleryImagesPromises = images.galleryImages.map(
-          async (galleryImage) => {
-            return new Promise(async (resolve) => {
-              const galleryResult = await UploadToS3(galleryImage);
-              if (!galleryResult?.$metadata) {
-                throw new Error("Failed to upload gallery image to S3");
-              }
-              resolve(galleryResult);
-            });
-          }
-        );
-        const galleryImages = await Promise.allSettled(galleryImagesPromises);
-        console.log(galleryImages);
-      }
-
-      return { success: true };
-    } catch (error) {
-      console.error("Error uploading images:", error);
-      throw error;
-    }
-  };
 
   return (
     <div className="pl-4 space-y-4">
@@ -237,9 +208,6 @@ export default function ListingImages() {
           isUploading={isUploading.galleryImages}
         />
       </div>
-      <button type="button" onClick={(e) => Upload(e)}>
-        test
-      </button>
     </div>
   );
 }
