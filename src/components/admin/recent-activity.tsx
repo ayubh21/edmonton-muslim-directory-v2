@@ -1,49 +1,44 @@
+import {
+  GetRecentlyApprovedListing,
+  GetRecentlyCreatedListing,
+  GetRecentlyRejectedListing,
+} from "@/app/actions/admin";
+import { revalidateAll } from "@/app/actions/revalidate";
 import { CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
+import moment from "moment";
 
-export function RecentActivityTable() {
+export async function RecentActivityTable() {
+  const lastApproved = await GetRecentlyApprovedListing();
+  const lastCreated = await GetRecentlyCreatedListing();
+  const lastRejected = await GetRecentlyRejectedListing();
   const activities = [
     {
       id: 1,
       action: "Listing Approved",
-      business: "Sabzy Persian Grill",
-      user: "Admin",
-      time: "2 hours ago",
+      business: lastApproved.title,
+      user: "test",
+      time: moment(lastApproved.updatedAt).startOf("seconds").fromNow(),
       status: "approved",
     },
     {
       id: 2,
       action: "New Listing Submitted",
-      business: "Barakah Cafe",
-      user: "Ahmed S.",
-      time: "4 hours ago",
+      business: lastCreated.title,
+      user: "test",
+      time: moment(lastCreated.createdAt).startOf("seconds").fromNow(),
       status: "pending",
     },
     {
       id: 3,
       action: "Listing Rejected",
-      business: "Generic Business",
-      user: "Admin",
-      time: "Yesterday",
+      business: lastRejected.title,
+      user: "test",
+      time: moment(lastRejected.updatedAt).startOf("seconds").fromNow(),
       status: "rejected",
-    },
-    {
-      id: 4,
-      action: "Listing Updated",
-      business: "Shifa Medical Clinic",
-      user: "Fatima K.",
-      time: "Yesterday",
-      status: "pending",
-    },
-    {
-      id: 5,
-      action: "Report Received",
-      business: "Al-Noor Grocery",
-      user: "User123",
-      time: "2 days ago",
-      status: "report",
     },
   ];
 
+  // const data = await Get;
   return (
     <div className="space-y-4">
       {activities.map((activity) => (

@@ -1,10 +1,13 @@
 "use server";
 
 import Listings from "@/lib/db/models";
-import { client } from "@/s3config/s3config";
+import { client } from "@/lib/s3/config";
 import { Listing } from "@/types/listing";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { CustomFile } from "../add-listings/components/ListingImages";
+import { serializeMongooseDoc } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
+import { revalidateAll } from "./revalidate";
 
 export async function AddListing(listing: Listing) {
   try {
@@ -35,7 +38,16 @@ export async function AddListing(listing: Listing) {
   }
 }
 
-export async function UpdateListingStatus() {}
+export async function UpdateListingStatus(id: string, status: string) {
+  console.log(id);
+  const updaetdListing = await Listings.updateOne(
+    { _id: id },
+    { $set: { status: status } }
+  );
+
+  revalidateAll();
+  console.log(updaetdListing);
+}
 
 export async function UploadToS3(file: CustomFile) {
   const arrayBuffer = await file.arrayBuffer();

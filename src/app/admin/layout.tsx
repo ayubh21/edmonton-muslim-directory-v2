@@ -4,14 +4,17 @@ import { Bell, Search, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import AdminSidebar from "@/components/admin/admin-sidebar";
-import { GetPendingListings } from "../actions/admin";
+import { GetListings } from "../actions/admin";
+import { getPendingListings } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 export default async function AdminLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const data = await GetPendingListings();
+  const data = await GetListings();
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Admin Header */}
@@ -68,11 +71,8 @@ export default async function AdminLayout({
           </div>
         </div>
       </header>
-
       <div className="flex">
-        {/* Admin Sidebar */}
-        <AdminSidebar numOfListings={data.length} />
-        {/* Main Content */}
+        <AdminSidebar numOfListings={getPendingListings(data).length} />
         <main className="flex-1 overflow-auto p-4 md:p-6">
           <Suspense>{children}</Suspense>
         </main>

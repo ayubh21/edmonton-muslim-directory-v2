@@ -69,7 +69,12 @@ const ListingSchema = new mongoose.Schema({
   images: ImagesSchema,
   categories: [{ type: String }],
   tags: [{ type: String }],
-  isApproved: { type: Boolean, default: false },
+  status: {
+    type: String,
+    enum: ["approved", "rejected", "pending"],
+    default: "pending",
+    required: false,
+  },
   isFeatured: { type: Boolean },
   workHours: WorkHoursSchema,
   createdAt: {
@@ -79,5 +84,5 @@ const ListingSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Listings1 ||
-  mongoose.model("Listings1", ListingSchema);
+export default mongoose.models.Listings ||
+  mongoose.model("Listings", ListingSchema);

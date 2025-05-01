@@ -5,23 +5,21 @@ import Link from "next/link";
 import { Listing } from "@/types/listing";
 import { DataTable } from "./data-table";
 import { columns } from "./pending-columns";
+import { getPendingListings } from "@/lib/utils";
 
 type ListingApprovalsProps = {
   data: Listing[];
 };
 export default function ListingApprovals({ data }: ListingApprovalsProps) {
-  //   const [listing, setListing] = useState<Listing[]>(data);
+  // filter on actual pending listings
 
-  //   useEffect(() => {
-  //     console.log(listing);
-  //   }, []);
-
+  const pendingListings = getPendingListings(data);
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Pending Approval</h2>
+      <h2 className="text-xl font-semibold">Pending Approval</h2>
       <div>
-        <div className="container mx-auto py-10">
-          <DataTable columns={columns} data={data} />
+        <div className=" py-4">
+          <DataTable columns={columns} data={pendingListings} />
         </div>
       </div>
     </div>

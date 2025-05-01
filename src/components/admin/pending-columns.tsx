@@ -68,8 +68,6 @@ export const columns: ColumnDef<Listing>[] = [
             >
               Review
             </DropdownMenuItem>
-            <DropdownMenuItem>Approve</DropdownMenuItem>
-            <DropdownMenuItem>Reject</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

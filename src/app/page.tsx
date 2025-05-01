@@ -1,115 +1,77 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
+import { Separator } from "@radix-ui/react-separator";
+import { ChevronDown, Search } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <Button onClick={async () => {
-          await authClient.signIn.email({
-            email: "isasimick2@gmail.com",
-            password: "test12345678",
-          })
-        }}>Click me</Button>
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="flex min-h-screen flex-col ">
+      <section className="relative bg-gradient-to-r from-emerald-50 to-teal-50 py-16 md:py-24 overflow-hidden">
+        <div className="container relative z-10 px-8">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
+              Discover Edmonton's{" "}
+              <span className="text-emerald-600">Muslim-Owned</span> Businesses
+            </h1>
+            <p className="text-lg text-gray-600 mb-8">
+              Supporting our local community through business connections across
+              Edmonton, Alberta
+            </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <div className="bg-white p-4 rounded-xl shadow-lg">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <Input
+                    type="search"
+                    placeholder="Search for businesses..."
+                    className="pl-10 h-12 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  />
+                </div>
+                <Separator
+                  orientation="vertical"
+                  className="hidden md:block h-8"
+                />
+                <div className="relative">
+                  <div className="flex h-12 w-full md:w-[180px] items-center justify-between rounded-md border-0 bg-white px-3 py-2 text-sm">
+                    <span className="text-gray-500">All Categories</span>
+                    <ChevronDown className="h-4 w-4 text-gray-500" />
+                  </div>
+                </div>
+                <Separator
+                  orientation="vertical"
+                  className="hidden md:block h-8"
+                />
+                <div className="relative">
+                  <div className="flex h-12 w-full md:w-[180px] items-center justify-between rounded-md border-0 bg-white px-3 py-2 text-sm">
+                    <span className="text-gray-500">All Areas</span>
+                    <ChevronDown className="h-4 w-4 text-gray-500" />
+                  </div>
+                </div>
+                <Button className="h-12 bg-emerald-600 hover:bg-emerald-700">
+                  <Search className="h-5 w-5 mr-2" />
+                  Search
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="absolute right-0 top-0 h-full w-1/3 hidden lg:block">
+          <div className="relative h-full w-full">
+            <img
+              src="https://picsum.photos/600/500"
+              alt="Edmonton skyline"
+              className="object-cover rotate-12"
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

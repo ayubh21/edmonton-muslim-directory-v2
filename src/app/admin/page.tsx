@@ -27,28 +27,30 @@ import Listings from "@/lib/db/models";
 import ListingApprovals from "@/components/admin/listing-approvals";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { GetPendingListings } from "../actions/admin";
+import { getPendingListings } from "@/lib/utils";
+import { GetListings } from "../actions/admin";
 
 export default async function Admin() {
-  const data = await GetPendingListings();
+  const data = await GetListings();
   const session = await auth.api.getSession({ headers: await headers() });
-
   return (
     <div className="space-y-6">
       <div className="">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Admin Dashboard
+          </h1>
           <p className="text-gray-500">
             Welcome back, Admin! Here's what's happening with your directory.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 my-4">
           <Button asChild variant="outline">
             <Link href="/admin/listings/pending">
               <Clock className="mr-2 h-4 w-4" />
               Pending Approvals
               <Badge variant="destructive" className="ml-2">
-                {data.length}
+                {getPendingListings(data).length}
               </Badge>
             </Link>
           </Button>
@@ -61,7 +63,7 @@ export default async function Admin() {
         </div>
 
         {/* </div> */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">

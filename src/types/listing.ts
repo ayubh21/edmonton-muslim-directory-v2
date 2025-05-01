@@ -15,6 +15,7 @@ export interface Listing {
   workHours: ListingWorkDays;
   createdAt: Date;
   updatedAt: Date;
+  status: Status;
 }
 
 export interface Contact {
@@ -23,6 +24,11 @@ export interface Contact {
   websiteUrl: string;
 }
 
+enum Status {
+  Approved = "approved",
+  Rejected = "rejected",
+  Pending = "pending",
+}
 export interface Social {
   type: string;
   url: string;

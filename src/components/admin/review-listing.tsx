@@ -10,7 +10,6 @@ import {
   Phone,
   XCircle,
 } from "lucide-react";
-import { ParamValue } from "next/dist/server/request/params";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Button } from "../ui/button";
@@ -39,6 +38,7 @@ import {
   Map,
   Pin,
 } from "@vis.gl/react-google-maps";
+import { UpdateListingStatus } from "@/app/actions/listing";
 
 type ReviewListingProps = {
   listing: Listing;
@@ -81,13 +81,17 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
         </div>
         <div className="flex items-center gap-2">
           <Button
+            onClick={() => UpdateListingStatus(props.listing._id, "rejected")}
             variant="outline"
             className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
           >
             <XCircle className="h-4 w-4" />
             Reject
           </Button>
-          <Button className="gap-2 bg-emerald-600 hover:bg-emerald-700">
+          <Button
+            onClick={() => UpdateListingStatus(props.listing._id, "approved")}
+            className="gap-2 bg-emerald-600 hover:bg-emerald-700"
+          >
             <CheckCircle className="h-4 w-4" />
             Approve
           </Button>
@@ -394,7 +398,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                 <div>
                   <p className="text-sm font-medium">Submission Date</p>
                   <p className="text-sm text-gray-500">
-                    {moment(props.listing.createdAt).format("MMM Do, YY")}
+                    {moment(props.listing.createdAt).format("MMM Do, YYYY")}
                   </p>
                 </div>
               </div>
