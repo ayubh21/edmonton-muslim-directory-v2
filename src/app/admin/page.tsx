@@ -23,15 +23,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DashboardChart } from "@/components/admin/dashboard-chart";
 import { RecentActivityTable } from "@/components/admin/recent-activity";
 import { Listing } from "@/types/listing";
-import Listings from "@/lib/db/models";
 import ListingApprovals from "@/components/admin/listing-approvals";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { getPendingListings } from "@/lib/utils";
+// import { getPendingListings } from "@/lib/utils";
 import { GetListings } from "../actions/admin";
+import { getPendingListings } from "@/lib/utils";
 
 export default async function Admin() {
   const data = await GetListings();
+  console.log(data);
   const session = await auth.api.getSession({ headers: await headers() });
   return (
     <div className="space-y-6">
@@ -50,7 +51,7 @@ export default async function Admin() {
               <Clock className="mr-2 h-4 w-4" />
               Pending Approvals
               <Badge variant="destructive" className="ml-2">
-                {getPendingListings(data).length}
+                {/* {getPendingListings(data).length} */}
               </Badge>
             </Link>
           </Button>

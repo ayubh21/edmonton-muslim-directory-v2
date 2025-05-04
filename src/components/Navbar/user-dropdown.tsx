@@ -15,10 +15,9 @@ import { revalidateAll } from "@/app/actions/revalidate";
 
 type UserDropdownProps = {
   name: string;
-  image: string;
 };
 
-export default function UserDropdown({ name, image }: UserDropdownProps) {
+export default function UserDropdown({ name }: UserDropdownProps) {
   const router = useRouter();
 
   async function handleLogout() {
@@ -27,12 +26,16 @@ export default function UserDropdown({ name, image }: UserDropdownProps) {
     router.push("/");
   }
 
+  async function getFirstLetterOfName(name: string) {
+    const firstLetter = name.charAt(0);
+    return firstLetter;
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="hidden md:flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden">
-            <img src={image} alt="user" width={32} height={32} />
+          <div className="h-8 w-8 rounded-full  overflow-hidden pt-0.5 bg-gray-200">
+            <span className="text-white">{getFirstLetterOfName(name)}</span>
           </div>
           <span className="text-sm font-medium">{name}</span>
         </div>
@@ -41,7 +44,9 @@ export default function UserDropdown({ name, image }: UserDropdownProps) {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>View Listings</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleLogout()}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleLogout()}>
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

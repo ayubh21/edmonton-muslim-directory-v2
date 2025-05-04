@@ -2,8 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import QueryProvider from "@/components/query-provider";
-import mongoConnection from "@/lib/db/mongo";
-import { Navbar } from "@/components/Navbar/Navbar";
+import { Navbar } from "@/components/navbar/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +19,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  mongoConnection();
   return (
     <html lang="en">
       <body

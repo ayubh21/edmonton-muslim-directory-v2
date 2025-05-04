@@ -61,13 +61,7 @@ export default async function AdminLayout({
               <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
               <span className="sr-only">Notifications</span>
             </Button>
-            <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden">
-              <img
-                src="/placeholder.svg?height=32&width=32"
-                alt="Admin"
-                className="h-full w-full object-cover"
-              />
-            </div>
+            <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden"></div>
           </div>
         </div>
       </header>

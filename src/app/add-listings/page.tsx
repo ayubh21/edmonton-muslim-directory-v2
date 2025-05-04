@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import ListingGeneral from "./components/ListingGeneral";
+import ListingGeneral from "./components/listing-general";
 import { FormProvider, useForm } from "react-hook-form";
 import Link from "next/link";
 import {
@@ -13,15 +13,15 @@ import {
   Share,
   Workflow,
 } from "lucide-react";
-import FormSection from "./components/ListingSection";
-import ListingImages, { ImageMetaData } from "./components/ListingImages";
-import ListingContact from "./components/ListingContact";
-import ListingSocials from "./components/ListingSocials";
-import ListingWorkHours from "./components/ListingWorkHours";
-import ListingLocation from "./components/ListingLocation";
+import FormSection from "./components/listing-section";
+import ListingImages, { ImageMetaData } from "./components/listing-images";
+import ListingContact from "./components/listing-contact";
+import ListingSocials from "./components/listing-socials";
+import ListingWorkHours from "./components/listing-work-hours";
+import ListingLocation from "./components/listing-location";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { MdCategory } from "react-icons/md";
-import ListingDetails from "./components/ListingDetails";
+import ListingDetails from "./components/listing-details";
 import { Button } from "@/components/ui/button";
 import { Listing } from "@/types/listing";
 import { AddListing, UploadToS3 } from "../actions/listing";
@@ -72,10 +72,9 @@ export default function page() {
   };
 
   const onSubmit = async (data: Listing) => {
-    console.log(data.imageMetaData);
     await AddListing(data);
-    const result = await Upload(data.imageMetaData);
-    console.log(result);
+    // const result = await Upload(data.imageMetaData);
+    // console.log(result);
   };
 
   return (

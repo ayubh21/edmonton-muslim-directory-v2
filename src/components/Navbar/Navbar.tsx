@@ -2,7 +2,9 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import UserDropdown from "./UserDropdown";
+import UserDropdown from "./user-dropdown";
+import { Plus } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export async function Navbar() {
   const session = await auth.api.getSession({
@@ -10,7 +12,7 @@ export async function Navbar() {
   });
 
   return (
-    <header className="top-0 z-50 w-full border-b bg-white">
+    <header className="top-0 z-50   border-b bg-white max-w-[1800px] mx-auto">
       <div className="flex h-16 items-center justify-between py-4">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
@@ -49,20 +51,23 @@ export async function Navbar() {
         <div className="flex items-center gap-4">
           {!session && (
             <div className="hidden md:flex items-center gap-2">
+              <button className="bg-emerald-600 hover:bg-emerald-700 py-2">
+                <a href="/auth/login">Login</a>
+              </button>
               <Button className="bg-emerald-600 hover:bg-emerald-700">
-                Login
-              </Button>
-              <Button className="bg-emerald-600 hover:bg-emerald-700">
-                Register
+                <a href="/auth/register">Register</a>
               </Button>
             </div>
           )}
 
           {session && (
             <>
-            <UserDropdown name={session.user.name} image={session.user.image?? ""} />
-              <Button className="bg-emerald-600 hover:bg-emerald-700">
-                Add Business
+              <UserDropdown
+                name={session.user.name}
+                // image={session.user.image ?? ""}
+              />
+              <Button className="bg-black text-white">
+                Add Listing <Plus className="text-white" />
               </Button>
             </>
           )}

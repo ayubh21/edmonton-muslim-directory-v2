@@ -1,17 +1,10 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useState,
-  ViewTransitionPseudoElement,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { produce } from "immer";
-import FileUploader from "./FileUploader.tsx";
 import { useFormContext } from "react-hook-form";
-import { UploadToS3 } from "@/app/actions/listing";
 import { S3_OBJECT_URI } from "@/lib/constants";
-import { Images } from "lucide-react";
+import FileUploader from "./file-uploader";
 
 export interface CustomFile extends File {
   preview?: string;
@@ -29,10 +22,7 @@ interface ImageUrls {
   galleryImages: string[];
 }
 
-interface ListingImagesProps {
-  onUpload: () => void;
-}
-export default function ListingImages({}: ListingImagesProps) {
+export default function ListingImages() {
   const { setValue, register } = useFormContext();
   const [imageType, setImageType] = useState<keyof ImageMetaData>();
   const [imageUrls, setImageUrls] = useState<ImageUrls>({

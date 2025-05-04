@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -12,7 +13,6 @@ export interface LoginForm {
 
 export default function Login() {
   const session = authClient.useSession();
-  //   if (!session.data) return null;
 
   const { handleSubmit, setValue, watch } = useForm<LoginForm>();
   useEffect(() => {
@@ -23,13 +23,13 @@ export default function Login() {
       <form action="">
         <div>
           <label htmlFor="">Email</label>
-          <input type="email" />
+          <Input type="email" />
         </div>
         <div>
           <label htmlFor="">Password</label>
-          <input type="password" />
+          <Input type="password" />
         </div>
-        <Button className="bg-violet-400">Login</Button>
+        <Button className="bg-emerald-600">Login</Button>
       </form>
     </div>
   );

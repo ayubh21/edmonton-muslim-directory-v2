@@ -2,18 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
 import { Separator } from "@radix-ui/react-separator";
 import { ChevronDown, Search } from "lucide-react";
-import Image from "next/image";
-import { redirect } from "next/navigation";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col ">
-      <section className="relative bg-gradient-to-r from-emerald-50 to-teal-50 py-16 md:py-24 overflow-hidden">
-        <div className="container relative z-10 px-8">
-          <div className="max-w-3xl">
+    <div className="flex flex-col bg-gradient-to-r from-emerald-50 to-teal-50 mx-auto ">
+      <section className="py-16 md:py-24 overflow-hidden  max-w-[1850px] mx-auto flex justify-between items-center gap-10">
+        <div className="  z-10 px-8">
+          <div className="">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
               Discover Edmonton's{" "}
               <span className="text-emerald-600">Muslim-Owned</span> Businesses
@@ -22,7 +19,6 @@ export default function Home() {
               Supporting our local community through business connections across
               Edmonton, Alberta
             </p>
-
             <div className="bg-white p-4 rounded-xl shadow-lg">
               <div className="flex flex-col md:flex-row md:items-center gap-4">
                 <div className="flex-1 relative">
@@ -61,13 +57,12 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <div className="absolute right-0 top-0 h-full w-1/3 hidden lg:block">
-          <div className="relative h-full w-full">
+        <div className=" overflow-visible hidden lg:block flex-end">
+          <div className="overflow-visible w-9/10">
             <img
-              src="https://picsum.photos/600/500"
+              src={"/banner-bg.webp"}
               alt="Edmonton skyline"
-              className="object-cover rotate-12"
+              className="object-cover rotate-12 rounded-xl "
             />
           </div>
         </div>

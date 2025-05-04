@@ -1,7 +1,6 @@
-import { ImageMetaData } from "@/app/add-listings/components/ListingImages";
+import { ImageMetaData } from "@/app/add-listings/components/listing-images";
 
 export interface Listing {
-  _id: string;
   title: string;
   tagLine: string;
   description: string;
@@ -47,7 +46,6 @@ export interface Images {
 
 export interface WorkDay {
   hours: WorkDayEntry[];
-  checkBoxType: string;
 }
 
 export interface ListingWorkDays {

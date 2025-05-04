@@ -38,7 +38,7 @@ import {
   Map,
   Pin,
 } from "@vis.gl/react-google-maps";
-import { UpdateListingStatus } from "@/app/actions/listing";
+// import { UpdateListingStatus } from "@/app/actions/listing";
 
 type ReviewListingProps = {
   listing: Listing;
