@@ -26,23 +26,20 @@ import { Listing } from "@/types/listing";
 import ListingApprovals from "@/components/admin/listing-approvals";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-// import { getPendingListings } from "@/lib/utils";
-import { GetListings } from "../actions/admin";
-import { getPendingListings } from "@/lib/utils";
+import { GetListings } from "../actions/listing";
+import { getListingCountByStatus } from "@/lib/utils";
 
 export default async function Admin() {
   const data = await GetListings();
-  console.log(data);
   const session = await auth.api.getSession({ headers: await headers() });
   return (
     <div className="space-y-6">
       <div className="">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Admin Dashboard
-          </h1>
-          <p className="text-gray-500">
-            Welcome back, Admin! Here's what's happening with your directory.
+          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+          <p className="text-gray-500 text-lg">
+            Welcome back, {session?.user.name} Here's what's happening with your
+            directory.
           </p>
         </div>
         <div className="flex items-center gap-2 my-4">
@@ -51,7 +48,7 @@ export default async function Admin() {
               <Clock className="mr-2 h-4 w-4" />
               Pending Approvals
               <Badge variant="destructive" className="ml-2">
-                {/* {getPendingListings(data).length} */}
+                {getListingCountByStatus(data, "pending").length}
               </Badge>
             </Link>
           </Button>
@@ -73,7 +70,7 @@ export default async function Admin() {
               <Store className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">248</div>
+              <div className="text-2xl font-bold">{data.length}</div>
               <p className="text-xs text-gray-500">
                 <span className="text-green-500 inline-flex items-center">
                   <ArrowUp className="mr-1 h-3 w-3" />
@@ -89,7 +86,9 @@ export default async function Admin() {
               <CheckCircle className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">215</div>
+              <div className="text-2xl font-bold">
+                {getListingCountByStatus(data, "approved").length}
+              </div>
               <p className="text-xs text-gray-500">
                 <span className="text-green-500 inline-flex items-center">
                   <ArrowUp className="mr-1 h-3 w-3" />
@@ -105,7 +104,9 @@ export default async function Admin() {
               <Clock className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">12</div>
+              <div className="text-2xl font-bold">
+                {getListingCountByStatus(data, "pending").length}
+              </div>
               <p className="text-xs text-gray-500">
                 <span className="text-amber-500 inline-flex items-center">
                   <ArrowUp className="mr-1 h-3 w-3" />4
@@ -120,7 +121,9 @@ export default async function Admin() {
               <XCircle className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">21</div>
+              <div className="text-2xl font-bold">
+                {getListingCountByStatus(data, "rejected").length}
+              </div>
               <p className="text-xs text-gray-500">
                 <span className="text-red-500 inline-flex items-center">
                   <ArrowDown className="mr-1 h-3 w-3" />

@@ -7,8 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
@@ -20,6 +18,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Listing>[] = [
+  {
+    accessorKey: "id",
+    header: "ListingId",
+  },
   {
     accessorKey: "title",
     header: "Submitted By",
@@ -34,18 +36,14 @@ export const columns: ColumnDef<Listing>[] = [
       return formattedDate;
     },
   },
-  {
-    accessorKey: "categories",
-    header: "Category",
-  },
 
   {
-    accessorKey: "contact.email",
+    accessorKey: "email",
     header: "Email",
   },
 
   {
-    accessorKey: "contact.phoneNumber",
+    accessorKey: "phone_number",
     header: "Phone Number",
   },
   {
@@ -53,7 +51,7 @@ export const columns: ColumnDef<Listing>[] = [
     id: "actions",
     cell: ({ row }) => {
       const router = useRouter();
-      const id = row.original._id;
+      const id = row.original.id;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

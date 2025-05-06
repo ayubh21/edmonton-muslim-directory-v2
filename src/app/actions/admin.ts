@@ -2,36 +2,45 @@
 
 import { db } from "@/lib/db/db";
 import { Listing } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
-export async function GetListings() {
-  const listing = await db.select().from(Listing);
-
-  if (!listing) {
-    console.log("failed to get all listings");
-  }
-  return listing;
-}
-
-export async function GetListingById(listingId: string) {
-  const listing = await db
+export async function GetRecentlyRejectedListing() {
+  const lastApproved = await db
     .select()
     .from(Listing)
-    .where(eq(Listing.id, listingId));
-  if (!listing) {
-    console.log("failed to get listing");
-    return;
+    .orderBy(desc(Listing.updatedAt))
+    .where(eq(Listing.status, "rejected"))
+    .limit(1);
+  if (!lastApproved) {
+    console.log("failed to get last approved listing");
   }
-  return listing;
+  return lastApproved;
 }
 
-// export async function GetRecentlyApprovedListing() {
-//   const lastApproved = await Listings1.find({ status: "approved" })
-//     .sort({ timestamp: -1 })
-//     .limit(1);
-//   console.log(lastApproved);
-//   return await serializeMongooseDoc(lastApproved[0]);
-// }
+export async function GetRecentlyCreatedListing() {
+  const lastApproved = await db
+    .select()
+    .from(Listing)
+    .orderBy(desc(Listing.createdAt))
+    .limit(1);
+  if (!lastApproved) {
+    console.log("failed to get last approved listing");
+  }
+  return lastApproved;
+}
+
+export async function GetRecentlyApprovedListing() {
+  const lastApproved = await db
+    .select()
+    .from(Listing)
+    .orderBy(desc(Listing.updatedAt))
+    .where(eq(Listing.status, "approved"))
+    .limit(1);
+  if (!lastApproved) {
+    console.log("failed to get last approved listing");
+  }
+  return lastApproved;
+}
 
 // export async function GetRecentlyRejectedListing() {
 //   try {

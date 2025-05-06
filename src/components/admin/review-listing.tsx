@@ -11,7 +11,7 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -38,27 +38,38 @@ import {
   Map,
   Pin,
 } from "@vis.gl/react-google-maps";
+import { authClient } from "@/lib/auth-client";
+import { UpdateListingStatus } from "@/app/actions/listing";
 // import { UpdateListingStatus } from "@/app/actions/listing";
+
+type Address = {
+  address: string;
+};
 
 type ReviewListingProps = {
   listing: Listing;
+  addresses: Address[];
 };
 
 export default function ReviewListing({ ...props }: ReviewListingProps) {
-  console.log(props.listing);
-  // TODO address is an arr[string], in case business want to put down multiple branches
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
 
+  const session = authClient.useSession();
+
+  if (!session) {
+    redirect("auth/login");
+  }
+
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API!);
     setKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!);
     handleGetCoordinatesFromAddress();
   }, []);
 
   const handleGetCoordinatesFromAddress = async () => {
-    if (props.listing.addresses[0]) {
-      const results = await fromAddress(props.listing.addresses[0]);
+    console.log(props.addresses[0]);
+    if (props.addresses[0]) {
+      const results = await fromAddress(props.addresses[0].address);
       if (results) {
         const location = results.results[0].geometry.location;
         setLat(location.lat);
@@ -81,7 +92,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
         </div>
         <div className="flex items-center gap-2">
           <Button
-            onClick={() => UpdateListingStatus(props.listing._id, "rejected")}
+            onClick={() => UpdateListingStatus(props.listing.id, "rejected")}
             variant="outline"
             className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
           >
@@ -89,7 +100,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
             Reject
           </Button>
           <Button
-            onClick={() => UpdateListingStatus(props.listing._id, "approved")}
+            onClick={() => UpdateListingStatus(props.listing.id, "approved")}
             className="gap-2 bg-emerald-600 hover:bg-emerald-700"
           >
             <CheckCircle className="h-4 w-4" />
@@ -108,7 +119,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                     {props.listing.title}
                   </CardTitle>
                   <CardDescription>
-                    Submitted by {props.listing.contact.email} on
+                    Submitted by {session.data?.user.name} on
                     {typeof props.listing.createdAt}
                   </CardDescription>
                 </div>
@@ -124,48 +135,45 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                   <TabsTrigger value="features">Features</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="details" className="space-y-4">
-                  <div>
-                    <h3 className="font-medium mb-2">Business Description</h3>
-                    <div className="bg-gray-50 p-4 rounded-md text-sm">
-                      {props.listing.description}
+                {/* <TabsContent value="details" className="space-y-4"> */}
+                <div>
+                  <h3 className="font-medium mb-2">Business Description</h3>
+                  <div className="bg-gray-50 p-4 rounded-md text-sm">
+                    {props.listing.description}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <h3 className="font-medium mb-2">Contact Information</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-start">
+                      <Phone className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
+                      <span className="text-sm">
+                        {props.listing.phone_number}
+                      </span>
+                    </div>
+                    <div className="flex items-start">
+                      <Mail className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
+                      <span className="text-sm">{props.listing.email}</span>
+                    </div>
+                    <div className="flex items-start">
+                      <Globe className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
+                      <span className="text-sm">
+                        {props.listing.website_url}
+                      </span>
                     </div>
                   </div>
+                </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <h3 className="font-medium mb-2">Contact Information</h3>
-                      <div className="space-y-2">
-                        <div className="flex items-start">
-                          <Phone className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
-                          <span className="text-sm">
-                            {props.listing.contact.phoneNumber}
-                          </span>
-                        </div>
-                        <div className="flex items-start">
-                          <Mail className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
-                          <span className="text-sm">
-                            {props.listing.contact.email}
-                          </span>
-                        </div>
-                        <div className="flex items-start">
-                          <Globe className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
-                          <span className="text-sm">
-                            {props.listing.contact.websiteUrl}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <h3 className="font-medium mb-2">Business Hours</h3>
-                      <div className="flex items-start">
-                        <Clock className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
-                        {/* <span className="text-sm">{business.hours}</span> */}
-                      </div>
-                    </div>
+                <div>
+                  <h3 className="font-medium mb-2">Business Hours</h3>
+                  <div className="flex items-start">
+                    <Clock className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
+                    {/* <span className="text-sm">{business.hours}</span> */}
                   </div>
-                </TabsContent>
+                </div>
+
+                {/* </TabsContent> */}
 
                 <TabsContent value="images">
                   <div className="space-y-4">
@@ -205,12 +213,11 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                               key={index}
                               className="relative aspect-video rounded-lg overflow-hidden"
                             >
-                              <Image
+                              <img
                                 src={galleryImage}
                                 alt={`${props.listing.title} gallery image ${
                                   index + 1
                                 }`}
-                                fill
                                 className="object-cover"
                               />
                             </div>
@@ -228,7 +235,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                       <div className="flex items-start">
                         <MapPin className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
                         <span className="text-sm">
-                          {props.listing.addresses}
+                          {/* {props.listing.addresses} */}
                         </span>
                       </div>
                     </div>
@@ -265,7 +272,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                   <div>
                     <h3 className="font-medium mb-2">Business Features</h3>
                     <div className="flex flex-wrap gap-2">
-                      {props.listing.tags.map((tag, index) => (
+                      {/* {props.listing.tags.map((tag, index) => (
                         <Badge
                           key={index}
                           variant="outline"
@@ -273,7 +280,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                         >
                           {tag}
                         </Badge>
-                      ))}
+                      ))} */}
                     </div>
                   </div>
                 </TabsContent>
@@ -391,9 +398,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
                 </div>
                 <div>
                   <p className="text-sm font-medium">Email</p>
-                  <p className="text-sm text-gray-500">
-                    {props.listing.contact.email}
-                  </p>
+                  <p className="text-sm text-gray-500">{props.listing.email}</p>
                 </div>
                 <div>
                   <p className="text-sm font-medium">Submission Date</p>

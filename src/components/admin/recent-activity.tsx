@@ -3,7 +3,6 @@ import {
   GetRecentlyCreatedListing,
   GetRecentlyRejectedListing,
 } from "@/app/actions/admin";
-import { revalidateAll } from "@/app/actions/revalidate";
 import { CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
 import moment from "moment";
 
@@ -11,34 +10,38 @@ export async function RecentActivityTable() {
   const lastApproved = await GetRecentlyApprovedListing();
   const lastCreated = await GetRecentlyCreatedListing();
   const lastRejected = await GetRecentlyRejectedListing();
+
+  if (!lastRejected) return null;
+
   const activities = [
     {
       id: 1,
       action: "Listing Approved",
-      business: lastApproved.title,
+      business: lastApproved[0].title,
       user: "test",
-      time: moment(lastApproved.updatedAt).startOf("seconds").fromNow(),
+      time: moment(lastApproved[0].updatedAt).startOf("seconds").fromNow(),
       status: "approved",
     },
     {
       id: 2,
       action: "New Listing Submitted",
-      business: lastCreated.title,
+      business: lastCreated[0].title,
       user: "test",
-      time: moment(lastCreated.createdAt).startOf("seconds").fromNow(),
+      time: moment(lastCreated[0].createdAt).startOf("seconds").fromNow(),
       status: "pending",
     },
     {
       id: 3,
       action: "Listing Rejected",
-      business: lastRejected.title,
+      business: lastRejected?.[0] ?? "",
       user: "test",
-      time: moment(lastRejected.updatedAt).startOf("seconds").fromNow(),
+      time: lastRejected?.[0]?.updatedAt
+        ? moment(lastRejected[0].updatedAt).startOf("seconds").fromNow()
+        : "",
       status: "rejected",
     },
   ];
 
-  // const data = await Get;
   return (
     <div className="space-y-4">
       {activities.map((activity) => (
@@ -70,9 +73,9 @@ export async function RecentActivityTable() {
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium">{activity.action}</p>
-            <p className="text-xs text-gray-500">
-              {activity.business} • {activity.user} • {activity.time}
-            </p>
+            <span className="text-xs text-gray-500">
+              {activity.user} • {activity.time}
+            </span>
           </div>
         </div>
       ))}

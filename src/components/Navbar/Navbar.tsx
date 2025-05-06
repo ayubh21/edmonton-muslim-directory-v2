@@ -12,7 +12,7 @@ export async function Navbar() {
   });
 
   return (
-    <header className="top-0 z-50   border-b bg-white max-w-[1800px] mx-auto">
+    <header className="top-0 z-50   border-b bg-white max-w-[1850px] mx-auto">
       <div className="flex h-16 items-center justify-between py-4">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
@@ -24,13 +24,13 @@ export async function Navbar() {
         </div>
         <nav className="hidden md:flex items-center gap-6">
           <Link
-            href="#"
-            className="text-sm font-medium hover:text-emerald-700 transition-colors"
+            href="/"
+            className=" font-medium hover:text-emerald-700 transition-colors"
           >
             Home
           </Link>
           <Link
-            href="#"
+            href="/"
             className="text-sm font-medium hover:text-emerald-700 transition-colors"
           >
             Explore
@@ -66,7 +66,7 @@ export async function Navbar() {
                 name={session.user.name}
                 // image={session.user.image ?? ""}
               />
-              <Button className="bg-black text-white">
+              <Button className="bg-emerald-700 text-white py-6 hover:bg-emerald-900">
                 Add Listing <Plus className="text-white" />
               </Button>
             </>

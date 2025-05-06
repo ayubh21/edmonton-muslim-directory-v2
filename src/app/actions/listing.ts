@@ -2,7 +2,6 @@
 
 import { v4 as uuidv4 } from "uuid";
 import { client } from "@/lib/s3/client";
-import { Listing as model } from "@/types/listing";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { CustomFile } from "../add-listings/components/listing-images";
 import { db } from "@/lib/db/db";
@@ -14,8 +13,11 @@ import {
 } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { ListingForm } from "../add-listings/page";
+import { eq } from "drizzle-orm";
+import { revalidateAll } from "./revalidate";
 
-export async function AddListing(business: model) {
+export async function AddListing(business: ListingForm) {
   type NewListing = typeof Listing.$inferInsert;
   try {
     const session = await auth.api.getSession({ headers: await headers() });
@@ -27,7 +29,6 @@ export async function AddListing(business: model) {
     };
 
     const newListing: NewListing = {
-      id: uuidv4(),
       title: business.title,
       tag_line: business.tagLine,
       description: business.description,
@@ -83,16 +84,19 @@ export async function AddListing(business: model) {
   }
 }
 
-// export async function UpdateListingStatus(id: string, status: string) {
-//   console.log(id);
-//   const updaetdListing = await Listings.updateOne(
-//     { _id: id },
-//     { $set: { status: status } }
-//   );
-
-//   revalidateAll();
-//   console.log(updaetdListing);
-// }
+export async function UpdateListingStatus(
+  listingId: number,
+  status: "approved" | "rejected"
+) {
+  await db
+    .update(Listing)
+    .set({
+      status: status,
+      updatedAt: new Date(),
+    })
+    .where(eq(Listing.id, listingId));
+  revalidateAll();
+}
 
 export async function UploadToS3(file: CustomFile) {
   const arrayBuffer = await file.arrayBuffer();
@@ -111,4 +115,43 @@ export async function UploadToS3(file: CustomFile) {
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function GetAddressesByListingId(listingId: number) {
+  const result = await db.query.ListingAddress.findMany({
+    where: eq(ListingAddress.listingId, listingId),
+    columns: {
+      address: true,
+    },
+  });
+  return result;
+}
+
+export async function GetCategoriesByListingId(listingId: number) {
+  const result = await db.query.ListingCategory.findMany({
+    where: eq(ListingCategory.listingId, listingId),
+    columns: {
+      category: true,
+    },
+  });
+  return result;
+}
+
+export async function GetListings() {
+  const listing = await db.select().from(Listing);
+  if (!listing) {
+    console.log("failed to get all listings");
+  }
+  return listing;
+}
+
+export async function GetListingById(listingId: number) {
+  const listing = await db.query.Listing.findFirst({
+    where: eq(Listing.id, listingId),
+  });
+  if (!listing) {
+    console.log("failed to get listing");
+    return;
+  }
+  return listing;
 }

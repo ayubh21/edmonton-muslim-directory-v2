@@ -1,11 +1,12 @@
+import { GetListings } from "@/app/actions/listing";
 import { DataTable } from "@/components/admin/data-table";
 import { columns } from "@/components/admin/pending-columns";
-import { getPendingListings } from "@/lib/utils";
-import { GetListings } from "@/app/actions/admin";
+import { getListingCountByStatus } from "@/lib/utils";
 
 export default async function PendingListingsPage() {
   const data = await GetListings();
-  const filteredListings = getPendingListings(data);
+  const pending = getListingCountByStatus(data, "pending");
+  console.log(data);
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -18,7 +19,7 @@ export default async function PendingListingsPage() {
           </p>
         </div>
       </div>
-      <DataTable columns={columns} data={filteredListings} />
+      <DataTable columns={columns} data={pending} />
     </div>
   );
 }

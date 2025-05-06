@@ -5,15 +5,13 @@ import Link from "next/link";
 import { Listing } from "@/types/listing";
 import { DataTable } from "./data-table";
 import { columns } from "./pending-columns";
-import { getPendingListings } from "@/lib/utils";
+import { getListingCountByStatus } from "@/lib/utils";
 
 type ListingApprovalsProps = {
   data: Listing[];
 };
 export default function ListingApprovals({ data }: ListingApprovalsProps) {
-  // filter on actual pending listings
-
-  const pendingListings = getPendingListings(data);
+  const pendingListings = getListingCountByStatus(data, "pending");
   return (
     <div>
       <h2 className="text-xl font-semibold">Pending Approval</h2>

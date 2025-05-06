@@ -69,8 +69,8 @@ export const listingStatusEnum = pgEnum("listing_status", [
 ]);
 
 export const Listing = pgTable("listing", {
-  id: text("id").primaryKey(),
-  title: text("title"),
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
   status: listingStatusEnum("status").default("pending").notNull(),
   tag_line: text("tag_line"),
   description: text("description").notNull(),
@@ -79,6 +79,10 @@ export const Listing = pgTable("listing", {
   website_url: text("website_url"),
   images: jsonb().$type<Images>().notNull(),
   work_hours: jsonb().$type<ListingWorkDays>().notNull(),
+  // isVerified: boolean("is_verified").notNull(),
+  // isFeatured: boolean("is_featured").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp().defaultNow().notNull(),
   userId: text("user_id")
     .references(() => user.id)
     .notNull(),
@@ -88,20 +92,15 @@ export const ListingNetwork = pgTable("listing_network", {
   id: serial("id").primaryKey(),
   type: text("type").notNull(),
   url: text("url").notNull(),
-  listingId: text("listing_id")
+  listingId: integer("listing_id")
     .references(() => Listing.id)
     .notNull(),
-});
-
-export const Category = pgTable("category", {
-  id: serial("id").primaryKey(),
-  name: text("category").notNull(),
 });
 
 export const ListingCategory = pgTable("listing_category", {
   listingCategoryId: serial("listing_category_id").primaryKey(),
   category: text("category").notNull(),
-  listingId: text("id")
+  listingId: integer("id")
     .references(() => Listing.id)
     .notNull(),
 });
@@ -109,7 +108,7 @@ export const ListingCategory = pgTable("listing_category", {
 export const ListingAddress = pgTable("listing_addresses", {
   listingAddressId: serial("listing_address_id").primaryKey(),
   address: text("address").notNull(),
-  listingId: text("id")
+  listingId: integer("id")
     .references(() => Listing.id)
     .notNull(),
 });
@@ -117,7 +116,7 @@ export const ListingAddress = pgTable("listing_addresses", {
 export const ListingTag = pgTable("listing_tag", {
   tagId: serial("tag_id").primaryKey(),
   tag: text("tag").notNull(),
-  listingId: text("id")
+  listingId: integer("id")
     .references(() => Listing.id)
     .notNull(),
 });

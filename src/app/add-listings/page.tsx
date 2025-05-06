@@ -23,11 +23,27 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/listing-details";
 import { Button } from "@/components/ui/button";
-import { Listing } from "@/types/listing";
+import { Contact, Images, ListingWorkDays, Social } from "@/types/listing";
 import { AddListing, UploadToS3 } from "../actions/listing";
 
+export interface ListingForm {
+  title: string;
+  tagLine: string;
+  description: string;
+  images: Images;
+  imageMetaData: ImageMetaData;
+  contact: Contact;
+  networks: Social[];
+  addresses: string[];
+  categories: string[];
+  tags: string[];
+  workHours: ListingWorkDays;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export default function page() {
-  const methods = useForm<Listing>({
+  const methods = useForm<ListingForm>({
     defaultValues: {},
   });
 
@@ -71,15 +87,15 @@ export default function page() {
     }
   };
 
-  const onSubmit = async (data: Listing) => {
+  const onSubmit = async (data: ListingForm) => {
     await AddListing(data);
-    // const result = await Upload(data.imageMetaData);
-    // console.log(result);
+    const result = await Upload(data.imageMetaData);
+    console.log(result);
   };
 
   return (
     <FormProvider {...methods}>
-      <div className="px-6 max-w-3xl mx-auto">
+      <div className="px-6 max-w-3xl mx-auto shadow-2xl">
         <div className="container pt-8 ">
           <div className="flex items-center mb-6">
             <Link

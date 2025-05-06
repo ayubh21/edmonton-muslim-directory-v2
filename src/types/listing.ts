@@ -1,20 +1,19 @@
-import { ImageMetaData } from "@/app/add-listings/components/listing-images";
-
 export interface Listing {
-  title: string;
-  tagLine: string;
+  id: number;
+  title: string | null;
+  status: "approved" | "rejected" | "pending";
+  tag_line: string | null;
   description: string;
+  email: string | null;
+  phone_number: string | null;
+  website_url: string | null;
   images: Images;
-  imageMetaData: ImageMetaData;
-  contact: Contact;
-  networks: Social[];
-  addresses: string[];
-  categories: string[];
-  tags: string[];
-  workHours: ListingWorkDays;
+  work_hours: ListingWorkDays;
+  userId: string;
   createdAt: Date;
-  updatedAt: Date;
-  status: Status;
+  updatedAt: Date | null;
+  isVerified: boolean;
+  isFeatured: boolean;
 }
 
 export interface Contact {
@@ -56,4 +55,10 @@ export interface ListingWorkDays {
   Fri: WorkDay;
   Sat: WorkDay;
   Sun: WorkDay;
+}
+
+export interface ListingAddress {
+  address: string;
+  listingId: number;
+  listingAddressId: number;
 }

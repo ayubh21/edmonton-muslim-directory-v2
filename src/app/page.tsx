@@ -1,14 +1,17 @@
 "use client";
 
+import CategoryCard from "@/components/category-card";
+import FeaturedBusinessCard from "@/components/featured-businesses";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
-import { ChevronDown, Search } from "lucide-react";
+import { ArrowRight, ChevronDown, Filter, Search } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col bg-gradient-to-r from-emerald-50 to-teal-50 mx-auto ">
-      <section className="py-16 md:py-24 overflow-hidden  max-w-[1850px] mx-auto flex justify-between items-center gap-10">
+    <div className="flex flex-col bg-gradient-to-r from-emerald-50 to-teal-50  mx-auto !w-full">
+      <section className="py-16 md:py-24 overflow-hidden max-w-[1850px]  mx-auto flex justify-between items-center gap-10">
         <div className="  z-10 px-8">
           <div className="">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
@@ -49,7 +52,7 @@ export default function Home() {
                     <ChevronDown className="h-4 w-4 text-gray-500" />
                   </div>
                 </div>
-                <Button className="h-12 bg-emerald-600 hover:bg-emerald-700">
+                <Button className="h-12 bg-emerald-600 hover:bg-emerald-700 w-32">
                   <Search className="h-5 w-5 mr-2" />
                   Search
                 </Button>
@@ -62,7 +65,115 @@ export default function Home() {
             <img
               src={"/banner-bg.webp"}
               alt="Edmonton skyline"
-              className="object-cover rotate-12 rounded-xl "
+              className="object-cover  rounded-xl "
+            />
+          </div>
+        </div>
+      </section>
+      {/* Categories Section */}
+      <section className="py-16 bg-white  ">
+        <div className="mx-auto  px-8 max-w-[1850px]">
+          <div className="flex flex-col md:flex-row justify-center md:items-center mb-10">
+            <div className="text-center">
+              <h2 className="text-3xl font-semibold text-gray-900 mb-2 text-center w-full">
+                Browse Popular Categories
+              </h2>
+              <p className="text-gray-600 mr-auto w-full">
+                Find the best Muslim-owned businesses in Edmonton
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <CategoryCard
+              icon="Utensils"
+              title="Restaurants"
+              count={42}
+              color="bg-amber-50"
+              iconColor="text-amber-500"
+            />
+            <CategoryCard
+              icon="ShoppingBag"
+              title="Grocery"
+              count={28}
+              color="bg-emerald-50"
+              iconColor="text-emerald-500"
+            />
+            <CategoryCard
+              icon="Stethoscope"
+              title="Healthcare"
+              count={35}
+              color="bg-blue-50"
+              iconColor="text-blue-500"
+            />
+            <CategoryCard
+              icon="GraduationCap"
+              title="Education"
+              count={19}
+              color="bg-purple-50"
+              iconColor="text-purple-500"
+            />
+            <CategoryCard
+              icon="Briefcase"
+              title="Professional"
+              count={31}
+              color="bg-gray-50"
+              iconColor="text-gray-500"
+            />
+            <CategoryCard
+              icon="Plane"
+              title="Travel"
+              count={16}
+              color="bg-red-50"
+              iconColor="text-red-500"
+            />
+          </div>
+        </div>
+      </section>
+      {/* Featured Businesses */}
+      <section className="py-16 bg-gray-50">
+        <div className="container  px-8 mx-auto">
+          <div className="flex flex-col md:flex-row justify-center md:items-center mb-10">
+            <div className="text-center">
+              <h2 className="text-3xl font-semibold text-gray-900 mb-2">
+                Featured Businesses
+              </h2>
+              <p className="text-gray-600 text-center w-full">
+                Discover top-rated Muslim-owned businesses in Edmonton
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <FeaturedBusinessCard
+              id={1}
+              image="https://picsum.photos/400/300?random=1"
+              name="Barakah Cafe"
+              category="Restaurant"
+              area="Downtown"
+              rating={4.8}
+              price="$$"
+              description="Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton."
+            />
+            <FeaturedBusinessCard
+              id={2}
+              image="https://picsum.photos/400/300?random=2"
+              name="Al-Noor Grocery"
+              category="Grocery"
+              area="Mill Woods"
+              rating={4.7}
+              price="$"
+              description="Specialty halal grocery store offering imported goods from around the world."
+            />
+            <FeaturedBusinessCard
+              id={3}
+              image="https://picsum.photos/400/300?random=3"
+              name="Shifa Medical Clinic"
+              category="Healthcare"
+              area="West Edmonton"
+              rating={4.9}
+              price="$$$"
+              description="Family healthcare with Muslim female physicians and multilingual staff."
             />
           </div>
         </div>

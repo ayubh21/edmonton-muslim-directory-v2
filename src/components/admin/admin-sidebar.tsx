@@ -100,7 +100,7 @@ export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
         })}
       </div>
 
-      <div className="mt-auto p-4">
+      <div className="mt-auto p-4 bottom-0">
         <Separator className="mb-4" />
         <Button
           variant="ghost"

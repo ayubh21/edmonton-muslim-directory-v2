@@ -11,10 +11,8 @@ import { Eye, EyeOff, Loader2, ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -23,6 +21,7 @@ import {
 import { isEmailAvailable, SignUp } from "@/app/actions/auth";
 import { User } from "@/types/user";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { revalidateAll } from "@/app/actions/revalidate";
 
 const RegisterSchema = z
   .object({
@@ -103,8 +102,9 @@ export default function Register() {
 
       setRegistrationSuccess(true);
       setIsLoading(false);
+      revalidateAll();
       setTimeout(() => {
-        router.push("/auth/login");
+        router.push("/");
       }, 2000);
     } catch (error) {
       console.error("Registration error:", error);

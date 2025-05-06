@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "edmv2.s3.us-east-2.amazonaws.com",
+        hostname: "**",
         port: "",
       },
     ],

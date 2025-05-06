@@ -26,10 +26,11 @@ export default function UserDropdown({ name }: UserDropdownProps) {
     router.push("/");
   }
 
-  async function getFirstLetterOfName(name: string) {
+  function getFirstLetterOfName(name: string) {
     const firstLetter = name.charAt(0);
     return firstLetter;
   }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
