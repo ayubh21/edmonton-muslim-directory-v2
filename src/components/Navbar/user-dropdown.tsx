@@ -33,7 +33,7 @@ export default function UserDropdown({ name }: UserDropdownProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="hover:bg-gray-100 p-3 focus:outline-none">
         <div className="hidden md:flex items-center gap-2">
           <div className="h-8 w-8 rounded-full  overflow-hidden pt-0.5 bg-gray-200">
             <span className="text-white">{getFirstLetterOfName(name)}</span>

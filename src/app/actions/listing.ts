@@ -9,6 +9,7 @@ import {
   Listing,
   ListingAddress,
   ListingCategory,
+  ListingNetwork,
   ListingTag,
 } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
@@ -28,6 +29,7 @@ export async function AddListing(business: ListingForm) {
       });
     };
 
+    console.log(business.images.galleryImages, "galleryImages");
     const newListing: NewListing = {
       title: business.title,
       tag_line: business.tagLine,
@@ -38,10 +40,11 @@ export async function AddListing(business: ListingForm) {
         galleryImages: business.images.galleryImages,
       },
       email: business.contact.email,
-      phone_number: business.contact.phoneNumber,
-      website_url: business.contact.websiteUrl,
+      phone_number: business.contact.phone_number,
+      website_url: business.contact.website_url,
       userId: session?.user.id!,
       work_hours: business.workHours,
+      // TODO remove checkbox type from being inserted in db
       status: "pending",
     };
 
@@ -66,6 +69,18 @@ export async function AddListing(business: ListingForm) {
 
       if (!res) {
         console.log("failed to insert category");
+      }
+    }
+
+    for (let i = 0; i < business.networks.length; i++) {
+      const res = await db.insert(ListingNetwork).values({
+        listingId: listing[0].insertedId,
+        type: business.networks[i].type,
+        url: business.networks[i].url,
+      });
+
+      if (!res) {
+        console.log("failed to insert tag");
       }
     }
 
@@ -154,4 +169,25 @@ export async function GetListingById(listingId: number) {
     return;
   }
   return listing;
+}
+
+export async function GetNetworksByListingId(listingId: number) {
+  const networks = await db.query.ListingNetwork.findMany({
+    where: eq(ListingNetwork.listingId, listingId),
+  });
+  if (!networks) {
+    console.log("failed to get social networks");
+  }
+  return networks;
+}
+
+export async function GetTagsByListingId(listingId: number) {
+  const tag = await db.query.ListingTag.findMany({
+    where: eq(ListingTag.listingId, listingId),
+  });
+
+  if (!tag) {
+    console.log("failed to get tag");
+  }
+  return tag;
 }

@@ -89,10 +89,10 @@ export const Listing = pgTable("listing", {
 });
 
 export const ListingNetwork = pgTable("listing_network", {
-  id: serial("id").primaryKey(),
+  id: serial("listing_network_id").primaryKey(),
   type: text("type").notNull(),
   url: text("url").notNull(),
-  listingId: integer("listing_id")
+  listingId: integer("id")
     .references(() => Listing.id)
     .notNull(),
 });

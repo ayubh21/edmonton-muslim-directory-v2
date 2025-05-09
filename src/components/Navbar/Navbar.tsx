@@ -19,7 +19,7 @@ export async function Navbar() {
             <span className="text-white font-bold">E</span>
           </div>
           <span className="text-xl font-bold text-emerald-700">
-            EdmontonHalal
+            <a href="/">EdmontonHalal</a>
           </span>
         </div>
         <nav className="hidden md:flex items-center gap-6">
@@ -66,9 +66,10 @@ export async function Navbar() {
                 name={session.user.name}
                 // image={session.user.image ?? ""}
               />
-              <Button className="bg-emerald-700 text-white py-6 hover:bg-emerald-900">
-                Add Listing <Plus className="text-white" />
-              </Button>
+              <button className="bg-emerald-700 text-sm text-white  hover:bg-emerald-900 flex rounded-md p-3 gap-2">
+                <a href="/add-listings"> Add Listing</a>
+                <Plus className="text-white " height={20} />
+              </button>
             </>
           )}
         </div>

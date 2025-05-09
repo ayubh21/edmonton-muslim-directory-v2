@@ -25,7 +25,7 @@ export default function ListingContact() {
           type="text"
           placeholder="(780)-123-5678"
           className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600 text-sm"
-          {...register("contact.phoneNumber")}
+          {...register("contact.phone_number")}
         />
       </div>
       <div className="w-full flex flex-col pt-5">
@@ -36,7 +36,7 @@ export default function ListingContact() {
           type="text"
           placeholder="www.example.com"
           className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600 text-sm"
-          {...register("contact.websiteUrl")}
+          {...register("contact.website_url")}
         />
       </div>
     </div>

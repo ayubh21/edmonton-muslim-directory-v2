@@ -139,6 +139,7 @@ export default function ListingImages() {
 
   useEffect(() => {
     setValue("images", imageUrls);
+    console.log(imageUrls);
   }, [setValue, imageUrls]);
 
   useEffect(() => {

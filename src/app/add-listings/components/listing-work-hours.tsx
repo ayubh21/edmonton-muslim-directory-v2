@@ -12,7 +12,7 @@ export interface WorkDayEntry {
 }
 
 type WorkDays = {
-  Mon: {
+  Fri: {
     hours: WorkDayEntry[];
     checkBoxType: string;
   };
@@ -32,7 +32,7 @@ type WorkDays = {
     checkBoxType: string;
   };
 
-  Fri: {
+  Mon: {
     hours: WorkDayEntry[];
     checkBoxType: string;
   };
@@ -173,9 +173,9 @@ export default function WorkHours() {
         </TabsList>
         {Object.entries(workDays).map((dayOfWeek, index) => (
           <TabsContent key={index} tabIndex={index} value={dayOfWeek[0]}>
-            <div className="  min-[500px]:grid min-[500px]:grid-cols-2  min-[1040px]:grid-cols-4  flex-col flex gap-2 pt-2 text-md lg:p-3 mb-4">
+            <div className="  min-[500px]:grid min-[500px]:grid-cols-2  min-[1070px]:grid-cols-4  flex-col flex gap-2 pt-2 text-md lg:p-3 mb-4">
               {checkBoxTypes.map((type, index) => (
-                <div key={index} className="pl-4  ">
+                <div key={index} className="  ">
                   <Checkbox
                     value={type}
                     key={index}
@@ -232,6 +232,7 @@ export default function WorkHours() {
               </Button>
             ) : null}
           </TabsContent>
+          // TODO im too lazy to do this rn
         ))}
       </Tabs>
     </div>

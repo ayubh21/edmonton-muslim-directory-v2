@@ -17,8 +17,11 @@ export class Geocode {
       `${GOOGLE_GEOCODE_API}/json?address=${address}&key=${this.apiKey}`
     );
     const data = await result.json();
+    console.log(data);
     return data.results[0].geometry.location as LatLng;
   }
 }
 
-export const geocode = new Geocode(process.env.GOOGLE_MAPS_API_KEY!);
+export const geocode = new Geocode(
+  process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!
+);

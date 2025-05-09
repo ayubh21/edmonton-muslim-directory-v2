@@ -1,15 +1,16 @@
-"use client";
-
 import { ReactNode } from "react";
+import GoogleMapComponent from "./map";
 
 interface ListingSectionProps {
-  icon?: ReactNode | null;
-  title: string;
   children: ReactNode;
+  icon: ReactNode | null;
+  title: string;
   iconColor?: string;
+  //   lat: number;
+  //   lng: number;
 }
 
-export default function ListingSection({
+export default function MapSection({
   icon,
   title,
   children,
@@ -24,7 +25,7 @@ export default function ListingSection({
           >
             <span className="font-bold text-emerald-600">{icon}</span>
           </div>
-          <span className="font-semibold text-lg">{title}</span>
+          <span className="font-semibold">{title}</span>
         </div>
         {children}
       </div>

@@ -1,12 +1,12 @@
+import { ReactNode } from "react";
+
 export interface Listing {
   id: number;
   title: string | null;
   status: "approved" | "rejected" | "pending";
   tag_line: string | null;
   description: string;
-  email: string | null;
-  phone_number: string | null;
-  website_url: string | null;
+  contact: Contact;
   images: Images;
   work_hours: ListingWorkDays;
   userId: string;
@@ -17,9 +17,9 @@ export interface Listing {
 }
 
 export interface Contact {
-  email: string;
-  phoneNumber: string;
-  websiteUrl: string;
+  email: string | null;
+  phone_number: string | null;
+  website_url: string | null;
 }
 
 enum Status {
@@ -30,6 +30,7 @@ enum Status {
 export interface Social {
   type: string;
   url: string;
+  icon: ReactNode;
 }
 
 export interface WorkDayEntry {
