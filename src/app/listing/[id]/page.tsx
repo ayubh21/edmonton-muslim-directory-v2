@@ -26,7 +26,6 @@ import Image from "next/image";
 import { MdPermMedia } from "react-icons/md";
 export default async function Listing({ params }: { params: { id: number } }) {
   const id = params.id;
-  console.log(id, "ID");
   const listing = await GetListingById(id);
   const address = await GetAddressesByListingId(id);
   const categories = await GetCategoriesByListingId(id);

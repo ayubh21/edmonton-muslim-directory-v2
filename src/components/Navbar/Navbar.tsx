@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import UserDropdown from "./user-dropdown";
 import { Plus } from "lucide-react";
-import { redirect } from "next/navigation";
+import MobileNavMenu from "./mobile-nav-menu";
 
 export async function Navbar() {
   const session = await auth.api.getSession({
@@ -12,20 +12,21 @@ export async function Navbar() {
   });
 
   return (
-    <header className="top-0 z-50   border-b bg-white max-w-[1850px] mx-auto">
-      <div className="flex h-16 items-center justify-between py-4">
+    <header className="top-0 z-50 border-b bg-white max-w-[1850px] mx-auto">
+      <div className="flex h-16 items-center justify-between px-4 py-4">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
-            <span className="text-white font-bold">E</span>
-          </div>
-          <span className="text-xl font-bold text-emerald-700">
-            <a href="/">EdmontonHalal</a>
+          <span className="text-2xl font-semibold text-emerald-700">
+            <Link href="/">
+              Edmonton Muslim <span className="text-black">Directory</span>
+            </Link>
           </span>
         </div>
+
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           <Link
             href="/"
-            className=" font-medium hover:text-emerald-700 transition-colors"
+            className="font-medium hover:text-emerald-700 transition-colors"
           >
             Home
           </Link>
@@ -48,31 +49,31 @@ export async function Navbar() {
             About
           </Link>
         </nav>
-        <div className="flex items-center gap-4">
-          {!session && (
-            <div className="hidden md:flex items-center gap-2">
-              <button className="bg-emerald-600 hover:bg-emerald-700 py-2">
-                <a href="/auth/login">Login</a>
+
+        {/* Desktop Auth Controls */}
+        <div className="hidden md:flex items-center gap-4">
+          {!session ? (
+            <>
+              <button className="bg-emerald-600 hover:bg-emerald-700 py-2 px-4 text-white rounded">
+                <Link href="/auth/login">Login</Link>
               </button>
               <Button className="bg-emerald-600 hover:bg-emerald-700">
-                <a href="/auth/register">Register</a>
+                <Link href="/auth/register">Register</Link>
               </Button>
-            </div>
-          )}
-
-          {session && (
+            </>
+          ) : (
             <>
-              <UserDropdown
-                name={session.user.name}
-                // image={session.user.image ?? ""}
-              />
-              <button className="bg-emerald-700 text-sm text-white  hover:bg-emerald-900 flex rounded-md p-3 gap-2">
-                <a href="/add-listings"> Add Listing</a>
-                <Plus className="text-white " height={20} />
+              <UserDropdown name={session.user.name} />
+              <button className="bg-emerald-700 text-sm text-white hover:bg-emerald-900 flex rounded-md p-3 gap-2">
+                <Link href="/add-listings">Add Listing</Link>
+                <Plus className="text-white" height={20} />
               </button>
             </>
           )}
         </div>
+
+        {/* Mobile Menu Toggle & Drawer */}
+        <MobileNavMenu session={session} />
       </div>
     </header>
   );

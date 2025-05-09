@@ -1,7 +1,7 @@
 "use client";
 
+import BusinessCard from "@/components/business-card";
 import CategoryCard from "@/components/category-card";
-import FeaturedBusinessCard from "@/components/featured-businesses";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
@@ -143,38 +143,68 @@ export default function Home() {
               </p>
             </div>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FeaturedBusinessCard
+            {/* <BusinessCard
               id={1}
               image="https://picsum.photos/400/300?random=1"
               name="Barakah Cafe"
-              category="Restaurant"
-              area="Downtown"
-              rating={4.8}
-              price="$$"
-              description="Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton."
+              tagLine="custom tagline"
+              phoneNumber="1234"
+              // category="Restaurant"
+              // area="Downtown"
+              // rating={4.8}
+              // price="$$"
+              // description="Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton."
             />
-            <FeaturedBusinessCard
-              id={2}
-              image="https://picsum.photos/400/300?random=2"
-              name="Al-Noor Grocery"
-              category="Grocery"
-              area="Mill Woods"
-              rating={4.7}
-              price="$"
-              description="Specialty halal grocery store offering imported goods from around the world."
+
+            <BusinessCard
+              id={1}
+              image="https://picsum.photos/400/300?random=1"
+              name="Barakah Cafe"
+              tagLine="custom tagline"
+              phoneNumber="1234"
+              // category="Restaurant"
+              // area="Downtown"
+              // rating={4.8}
+              // price="$$"
+              // description="Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton."
             />
-            <FeaturedBusinessCard
-              id={3}
-              image="https://picsum.photos/400/300?random=3"
-              name="Shifa Medical Clinic"
-              category="Healthcare"
-              area="West Edmonton"
-              rating={4.9}
-              price="$$$"
-              description="Family healthcare with Muslim female physicians and multilingual staff."
+            <BusinessCard
+              id={1}
+              image="https://picsum.photos/400/300?random=1"
+              name="Barakah Cafe"
+              tagLine="custom tagline"
+              phoneNumber="1234"
+              // category="Restaurant"
+              // area="Downtown"
+              // rating={4.8}
+              // price="$$"
+              // description="Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton."
             />
+            <BusinessCard
+              id={1}
+              image="https://picsum.photos/400/300?random=1"
+              name="Barakah Cafe"
+              tagLine="custom tagline"
+              phoneNumber="1234"
+              // category="Restaurant"
+              // area="Downtown"
+              // rating={4.8}
+              // price="$$"
+              // description="Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton."
+            />
+            <BusinessCard
+              id={1}
+              image="https://picsum.photos/400/300?random=1"
+              name="Barakah Cafe"
+              tagLine="custom tagline"
+              phoneNumber="1234"
+              // category="Restaurant"
+              // area="Downtown"
+              // rating={4.8}
+              // price="$$"
+              // description="Authentic Middle Eastern cuisine with a modern twist in the heart of downtown Edmonton."
+            /> */}
           </div>
         </div>
       </section>

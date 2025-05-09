@@ -17,17 +17,12 @@ export default function ListingDetails() {
   );
   const [selectedTagsList, setSelectedTagsList] = useState<string[]>([]);
   const categoriesList = [
-    "Automotives",
-    "Events & Weddings",
-    "Fashion & Men Grooming",
-    "Food",
-    "Government",
-    "Finanical Services",
-    "Gym and Fitness",
-    "Online Taxi",
-    "Muslim Services",
+    "Restaurants",
+    "Grocery",
+    "Healthcare",
     "Travel",
-    "Fashion & Women Beauty",
+    "Professional",
+    "Mosque",
     "Education",
   ];
 
