@@ -24,15 +24,20 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { MdPermMedia } from "react-icons/md";
-export default async function Listing({ params }: { params: { id: number } }) {
-  const id = params.id;
-  const listing = await GetListingById(id);
-  const address = await GetAddressesByListingId(id);
-  const categories = await GetCategoriesByListingId(id);
+export default async function Listing({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const listingId = parseInt(id);
+  const listing = await GetListingById(listingId);
+  const address = await GetAddressesByListingId(listingId);
+  const categories = await GetCategoriesByListingId(listingId);
   const coordinates = await geocode.getCoordinates(address[0].address);
-  const networks = await GetNetworksByListingId(id);
-  const tags = await GetTagsByListingId(id);
-
+  const networks = await GetNetworksByListingId(listingId);
+  const tags = await GetTagsByListingId(listingId);
+  // TODO use drizzle relations instead of sending multiple queries
   if (!listing) return null;
 
   return (

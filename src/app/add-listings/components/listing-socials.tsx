@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Social } from "@/types/listing";
 import { produce } from "immer";
-import { debounce } from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 export default function ListingSocials() {
@@ -22,7 +21,7 @@ export default function ListingSocials() {
     e.preventDefault();
     setSocialList(
       produce((draft) => {
-        draft.push({ type: "", url: "", icon: null }); // idk what to do with icon for now
+        draft.push({ type: "", url: "" }); // idk what to do with icon for now
       })
     );
   };
@@ -89,16 +88,17 @@ export default function ListingSocials() {
                 </div>
                 <div className="w-full">
                   <input
-                    onChange={(e) =>
-                      debounce((index: number, value: string) => {
+                    onChange={
+                      (e) =>
+                        // debounce((index: number, value: string) => {
                         setSocialList(
                           produce((draft) => {
                             if (draft[index]) {
-                              draft[index].url = value;
+                              draft[index].url = e.target.value;
                             }
                           })
-                        );
-                      }, 2000)
+                        )
+                      // }, 2000)
                     }
                     placeholder="Enter URL..."
                     className="focus:outline-none border-b-black border-b focus:border-b-emerald-600 placeholder:text-black placeholder:text-sm w-full pb-3.5 "

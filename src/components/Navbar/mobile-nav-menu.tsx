@@ -6,10 +6,10 @@ import Link from "next/link";
 import { Session } from "../../lib/auth";
 
 interface MobileNavMenuProps {
-  session: Session; // You can type this better with your auth type
+  isLoggedIn: boolean;
 }
 
-export default function MobileNavMenu({ session }: MobileNavMenuProps) {
+export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -50,7 +50,7 @@ export default function MobileNavMenu({ session }: MobileNavMenuProps) {
               About
             </Link>
 
-            {!session ? (
+            {!isLoggedIn ? (
               <>
                 <Link
                   href="/auth/login"

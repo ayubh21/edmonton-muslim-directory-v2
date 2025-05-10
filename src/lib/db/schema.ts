@@ -67,7 +67,7 @@ export const listingStatusEnum = pgEnum("listing_status", [
 ]);
 
 export const Listing = pgTable("listing", {
-  id: serial("id").primaryKey(),
+  id: serial("id").primaryKey().notNull(),
   title: text("title").notNull(),
   status: listingStatusEnum("status").default("pending").notNull(),
   tag_line: text("tag_line"),
@@ -87,7 +87,7 @@ export const Listing = pgTable("listing", {
 });
 
 export const ListingNetwork = pgTable("listing_network", {
-  id: serial("listing_network_id").primaryKey(),
+  id: serial("listing_network_id").primaryKey().notNull(),
   type: text("type").notNull(),
   url: text("url").notNull(),
   listingId: integer("id")
@@ -96,7 +96,7 @@ export const ListingNetwork = pgTable("listing_network", {
 });
 
 export const ListingCategory = pgTable("listing_category", {
-  listingCategoryId: serial("listing_category_id").primaryKey(),
+  listingCategoryId: serial("listing_category_id").primaryKey().notNull(),
   category: text("category").notNull(),
   listingId: integer("id")
     .references(() => Listing.id)
@@ -104,7 +104,7 @@ export const ListingCategory = pgTable("listing_category", {
 });
 
 export const ListingAddress = pgTable("listing_addresses", {
-  listingAddressId: serial("listing_address_id").primaryKey(),
+  listingAddressId: serial("listing_address_id").primaryKey().notNull(),
   address: text("address").notNull(),
   listingId: integer("id")
     .references(() => Listing.id)
@@ -112,7 +112,7 @@ export const ListingAddress = pgTable("listing_addresses", {
 });
 
 export const ListingTag = pgTable("listing_tag", {
-  tagId: serial("tag_id").primaryKey(),
+  tagId: serial("tag_id").primaryKey().notNull(),
   tag: text("tag").notNull(),
   listingId: integer("id")
     .references(() => Listing.id)

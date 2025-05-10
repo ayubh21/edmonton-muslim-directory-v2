@@ -5,10 +5,12 @@ import { GetAddressesByListingId } from "@/app/actions/listing";
 export default async function ReviewListingPage({
   params,
 }: {
-  params: { id: number };
+  params: Promise<{ id: string }>;
 }) {
-  const listing = await GetListingById(params.id);
-  const listingAddresses = await GetAddressesByListingId(params.id);
+  const { id } = await params;
+  const listingId = parseInt(id);
+  const listing = await GetListingById(listingId);
+  const listingAddresses = await GetAddressesByListingId(listingId);
   console.log(listingAddresses);
   if (!listing) return null;
   return (

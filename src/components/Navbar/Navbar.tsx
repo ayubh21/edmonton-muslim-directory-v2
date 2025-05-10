@@ -73,7 +73,7 @@ export async function Navbar() {
         </div>
 
         {/* Mobile Menu Toggle & Drawer */}
-        <MobileNavMenu session={session} />
+        <MobileNavMenu isLoggedIn={session ? true : false} />
       </div>
     </header>
   );

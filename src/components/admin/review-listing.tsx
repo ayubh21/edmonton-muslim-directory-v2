@@ -92,7 +92,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
         </div>
         <div className="flex items-center gap-2">
           <Button
-            onClick={() => UpdateListingStatus(props.listing.id, "rejected")}
+            onClick={() => UpdateListingStatus(props.listing.id!, "rejected")}
             variant="outline"
             className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
           >
@@ -100,7 +100,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
             Reject
           </Button>
           <Button
-            onClick={() => UpdateListingStatus(props.listing.id, "approved")}
+            onClick={() => UpdateListingStatus(props.listing.id!, "approved")}
             className="gap-2 bg-emerald-600 hover:bg-emerald-700"
           >
             <CheckCircle className="h-4 w-4" />

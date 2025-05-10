@@ -1,21 +1,23 @@
+import { Listing } from "@/lib/db/schema";
 import { ReactNode } from "react";
 
-export interface Listing {
-  id: number;
-  title: string | null;
-  status: "approved" | "rejected" | "pending";
-  tag_line: string | null;
-  description: string;
-  contact: Contact;
-  images: Images;
-  work_hours: ListingWorkDays;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date | null;
-  isVerified: boolean;
-  isFeatured: boolean;
-}
+// export interface Listing {
+//   id: number;
+//   title: string | null;
+//   status: "approved" | "rejected" | "pending";
+//   tag_line: string | null;
+//   description: string;
+//   contact: Contact;
+//   images: Images;
+//   work_hours: ListingWorkDays;
+//   userId: string;
+//   createdAt: Date;
+//   updatedAt: Date | null;
+//   isVerified: boolean;
+//   isFeatured: boolean;
+// }
 
+export type Listing = typeof Listing.$inferInsert;
 export interface Contact {
   email: string | null;
   phone_number: string | null;
@@ -30,7 +32,6 @@ export interface Contact {
 export interface Social {
   type: string;
   url: string;
-  icon: ReactNode;
 }
 
 export interface WorkDayEntry {

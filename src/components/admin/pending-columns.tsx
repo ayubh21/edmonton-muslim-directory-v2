@@ -48,7 +48,7 @@ export const columns: ColumnDef<Listing>[] = [
     id: "actions",
     cell: ({ row }) => {
       const id = row.original.id;
-      return <ActionsCell id={id} />;
+      return <ActionsCell id={id!} />;
     },
   },
 ];

@@ -1,9 +1,10 @@
 import { Listing } from "@/types/listing";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { ListingForm } from "../page";
 
 export default function ListingContact() {
-  const { register } = useFormContext<Listing>();
+  const { register } = useFormContext<ListingForm>();
   return (
     <div className="">
       <div className="w-full flex flex-col  pt-5">
