@@ -63,20 +63,20 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 
   useEffect(() => {
     setKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!);
-    handleGetCoordinatesFromAddress();
-  }, []);
 
-  const handleGetCoordinatesFromAddress = async () => {
-    console.log(props.addresses[0]);
-    if (props.addresses[0]) {
-      const results = await fromAddress(props.addresses[0].address);
-      if (results) {
-        const location = results.results[0].geometry.location;
-        setLat(location.lat);
-        setLng(location.lng);
+    const handleGetCoordinatesFromAddress = async () => {
+      console.log(props.addresses[0]);
+      if (props.addresses[0]) {
+        const results = await fromAddress(props.addresses[0].address);
+        if (results) {
+          const location = results.results[0].geometry.location;
+          setLat(location.lat);
+          setLng(location.lng);
+        }
       }
-    }
-  };
+    };
+    handleGetCoordinatesFromAddress();
+  }, [props.addresses]);
 
   return (
     <div className="space-y-6">

@@ -119,7 +119,7 @@ export default function ListingImages() {
         }
       }
     },
-    []
+    [handleCreateDBUrl, handleCreateS3Url]
   );
 
   const handleRemoveImage = useCallback(
@@ -148,7 +148,7 @@ export default function ListingImages() {
 
   useEffect(() => {
     handleCreateDBUrl(imageType!);
-  }, [imageType]);
+  }, [imageType, handleCreateDBUrl]);
 
   return (
     <div className="pl-4 space-y-4">

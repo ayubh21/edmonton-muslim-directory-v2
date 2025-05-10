@@ -1,16 +1,6 @@
 "use client";
 
 import { useMediaQuery } from "@react-hook/media-query";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../ui/drawer";
-import { ChevronDown } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
@@ -22,8 +12,6 @@ interface ContactBusinessForm {
 }
 
 export default function ContactBusiness({ title }: { title: string }) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
   //   if (!isDesktop) {
   //     return (
   //       <div>

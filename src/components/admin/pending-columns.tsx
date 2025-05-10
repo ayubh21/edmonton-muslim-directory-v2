@@ -11,10 +11,7 @@ import {
 } from "../ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "../ui/button";
-import { auth } from "@/lib/auth";
-import { authClient } from "@/lib/auth-client";
-import { headers } from "next/headers";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Listing>[] = [
@@ -50,25 +47,30 @@ export const columns: ColumnDef<Listing>[] = [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => {
-      const router = useRouter();
       const id = row.original.id;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => router.push(`/admin/listings/review/${id}`)}
-            >
-              Review
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <ActionsCell id={id} />;
     },
   },
 ];
+
+const ActionsCell = ({ id }: { id: number }) => {
+  const router = useRouter();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem
+          onClick={() => router.push(`/admin/listings/review/${id}`)}
+        >
+          Review
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};

@@ -22,11 +22,11 @@ export interface Contact {
   website_url: string | null;
 }
 
-enum Status {
-  Approved = "approved",
-  Rejected = "rejected",
-  Pending = "pending",
-}
+// enum Status {
+//   Approved = "approved",
+//   Rejected = "rejected",
+//   Pending = "pending",
+// }
 export interface Social {
   type: string;
   url: string;

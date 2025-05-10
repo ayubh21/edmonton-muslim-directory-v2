@@ -1,4 +1,4 @@
-import { Contact, Listing } from "@/types/listing";
+import { Listing } from "@/types/listing";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 

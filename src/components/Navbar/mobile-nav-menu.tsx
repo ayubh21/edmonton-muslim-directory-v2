@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { Menu, X, Plus } from "lucide-react";
 import Link from "next/link";
+import { Session } from "../../lib/auth";
 
 interface MobileNavMenuProps {
-  session: any; // You can type this better with your auth type
+  session: Session; // You can type this better with your auth type
 }
 
 export default function MobileNavMenu({ session }: MobileNavMenuProps) {

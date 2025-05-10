@@ -149,9 +149,6 @@ export default function WorkHours() {
     setValue("workHours", workDays);
   }, [workDays, setValue]);
 
-  useEffect(() => {
-    console.log(workDays);
-  }, []);
   return (
     <div className="h-full">
       <input type="hidden" {...register("workHours")} />

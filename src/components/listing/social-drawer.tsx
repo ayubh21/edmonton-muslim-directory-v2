@@ -7,16 +7,7 @@ interface SocialProps {
   url: string;
   id: number;
 }
-export default async function SocialNetworks({
-  icon,
-  type,
-  url,
-  id,
-}: SocialProps) {
+export default async function SocialNetworks({ id }: SocialProps) {
   const networks = await GetNetworksByListingId(id);
-  return(
-    <div>
-        
-    </div>
-  )
+  return <div></div>;
 }

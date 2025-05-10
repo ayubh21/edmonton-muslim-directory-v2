@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
 import ListingGeneral from "./components/listing-general";
 import { FormProvider, useForm } from "react-hook-form";
 import Link from "next/link";
 import {
   ChevronLeft,
   Contact2Icon,
-  Image,
+  Image as ImageIcon,
   Map,
   Pencil,
   Share,
@@ -42,7 +41,7 @@ export interface ListingForm {
   updatedAt: Date;
 }
 
-export default function page() {
+export default function Page() {
   const methods = useForm<ListingForm>({
     defaultValues: {},
   });
@@ -120,7 +119,7 @@ export default function page() {
             />
           </FormSection>
           <FormSection
-            icon={<Image size={18} />}
+            icon={<ImageIcon size={18} />}
             title="Images"
             description="upload images of your business"
           >

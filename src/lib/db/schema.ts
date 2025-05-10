@@ -1,5 +1,4 @@
 import { Images, ListingWorkDays } from "@/types/listing";
-import { phoneNumber } from "better-auth/plugins/phone-number";
 import {
   pgTable,
   text,
@@ -7,7 +6,6 @@ import {
   boolean,
   serial,
   jsonb,
-  uuid,
   integer,
   pgEnum,
 } from "drizzle-orm/pg-core";

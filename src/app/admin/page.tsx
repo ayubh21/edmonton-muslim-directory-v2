@@ -7,7 +7,6 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  ListIcon,
 } from "lucide-react";
 
 import {
@@ -19,10 +18,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DashboardChart } from "@/components/admin/dashboard-chart";
 import { RecentActivityTable } from "@/components/admin/recent-activity";
-import { Listing } from "@/types/listing";
 import ListingApprovals from "@/components/admin/listing-approvals";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -38,8 +35,8 @@ export default async function Admin() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
           <p className="text-gray-500 text-lg">
-            Welcome back, {session?.user.name} Here's what's happening with your
-            directory.
+            Welcome back, {session?.user.name}{" "}
+            {"Here's what's happening with your directory."}
           </p>
         </div>
         <div className="flex items-center gap-2 my-4">

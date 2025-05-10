@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Button } from "../ui/button";
-import Link from "next/link";
 import { Listing } from "@/types/listing";
 import { DataTable } from "./data-table";
 import { columns } from "./pending-columns";

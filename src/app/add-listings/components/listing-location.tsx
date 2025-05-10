@@ -41,7 +41,7 @@ export default function ListingLocation() {
     if (!getValues("addresses")) {
       setValue("addresses", []);
     }
-  }, []);
+  }, [getValues, setValue]);
 
   useEffect(() => {
     setValue("addresses", addresses);
@@ -56,7 +56,7 @@ export default function ListingLocation() {
         locations.coordinates.length - 1
       );
     }
-  }, [lat, lng]);
+  }, [lat, lng, locations.coordinates.length]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",

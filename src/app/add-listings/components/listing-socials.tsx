@@ -22,7 +22,7 @@ export default function ListingSocials() {
     e.preventDefault();
     setSocialList(
       produce((draft) => {
-        draft.push({ type: "", url: "" });
+        draft.push({ type: "", url: "", icon: null }); // idk what to do with icon for now
       })
     );
   };
@@ -39,25 +39,11 @@ export default function ListingSocials() {
     );
   };
 
-  // extract value before state mutation or else it will come back as undefined
-  const debouncedSetUrl = useCallback(
-    debounce((index: number, value: string) => {
-      setSocialList(
-        produce((draft) => {
-          if (draft[index]) {
-            draft[index].url = value;
-          }
-        })
-      );
-    }, 2000),
-    []
-  );
-
   useEffect(() => {
     if (!getValues("networks")) {
       setValue("networks", []);
     }
-  }, []);
+  }, [getValues, setValue]);
 
   useEffect(() => {
     setValue("networks", socialList);
@@ -104,7 +90,15 @@ export default function ListingSocials() {
                 <div className="w-full">
                   <input
                     onChange={(e) =>
-                      debouncedSetUrl(index, e.currentTarget.value)
+                      debounce((index: number, value: string) => {
+                        setSocialList(
+                          produce((draft) => {
+                            if (draft[index]) {
+                              draft[index].url = value;
+                            }
+                          })
+                        );
+                      }, 2000)
                     }
                     placeholder="Enter URL..."
                     className="focus:outline-none border-b-black border-b focus:border-b-emerald-600 placeholder:text-black placeholder:text-sm w-full pb-3.5 "

@@ -1,12 +1,10 @@
 "use client";
 
-import BusinessCard from "@/components/business-card";
 import CategoryCard from "@/components/category-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
-import { ArrowRight, ChevronDown, Filter, Search } from "lucide-react";
-import Link from "next/link";
+import { ChevronDown, Search } from "lucide-react";
 
 export default function Home() {
   return (
@@ -15,7 +13,7 @@ export default function Home() {
         <div className="  z-10 px-8">
           <div className="">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
-              Discover Edmonton's{" "}
+              {"Discover Edmonton's"}{" "}
               <span className="text-emerald-600">Muslim-Owned</span> Businesses
             </h1>
             <p className="text-lg text-gray-600 mb-8">

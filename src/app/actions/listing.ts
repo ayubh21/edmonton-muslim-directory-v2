@@ -22,6 +22,11 @@ export async function AddListing(business: ListingForm) {
   type NewListing = typeof Listing.$inferInsert;
   try {
     const session = await auth.api.getSession({ headers: await headers() });
+
+    if (!session) {
+      throw "session not found";
+    }
+
     // TODO remove wrapper and insert into db directly
     const insertListing = async (listing: NewListing) => {
       return db.insert(Listing).values(listing).returning({
@@ -42,7 +47,7 @@ export async function AddListing(business: ListingForm) {
       email: business.contact.email,
       phone_number: business.contact.phone_number,
       website_url: business.contact.website_url,
-      userId: session?.user.id!,
+      userId: session.user.id,
       work_hours: business.workHours,
       // TODO remove checkbox type from being inserted in db
       status: "pending",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Star, MapPin, PhoneCall, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 

@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db/db";
 import { Listing } from "@/lib/db/schema";
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 export async function GetRecentlyRejectedListing() {
   const lastApproved = await db

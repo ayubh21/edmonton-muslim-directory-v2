@@ -2,8 +2,7 @@ import FilterListing from "@/components/explore/filter-listing";
 import ListingList from "@/components/explore/listing-list";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { useState } from "react";
-import { FaSliders } from "react-icons/fa6";
+
 export default function Explore() {
   //   const [open, setOpen] = useState(false);
   return (

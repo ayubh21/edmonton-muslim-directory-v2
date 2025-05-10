@@ -1,28 +1,5 @@
 "use client";
-
-import { useMediaQuery, useMediaQueries } from "@react-hook/media-query";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../ui/drawer";
-import { Button } from "../ui/button";
-import { ChevronDown, SeparatorVertical } from "lucide-react";
-import { Separator } from "@radix-ui/react-separator";
-import { ListingWorkDays, WorkDay, WorkDayEntry } from "@/types/listing";
-import { Dispatch } from "react";
-import { SetStateAction } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { ListingWorkDays } from "@/types/listing";
 
 interface WorkHoursProps {
   workDays: ListingWorkDays;
@@ -32,7 +9,6 @@ export default function WorkHours({ workDays }: WorkHoursProps) {
   const workHoursArr = Object.entries(workDays);
 
   console.log(workHoursArr);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
   const orderedDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   // if (!isDesktop) {
   //   return (

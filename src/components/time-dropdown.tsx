@@ -1,6 +1,6 @@
 import React from "react";
 
-interface OnChangeProps extends React.HTMLAttributes<HTMLSelectElement> {}
+type OnChangeProps = React.HTMLAttributes<HTMLSelectElement>;
 export const TimeDropDown: React.FC<OnChangeProps> = ({ ...props }) => {
   const generateTimeSlots = () => {
     const times = [];
