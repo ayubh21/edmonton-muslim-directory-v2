@@ -14,5 +14,9 @@ export default async function SocialNetworks({
   id,
 }: SocialProps) {
   const networks = await GetNetworksByListingId(id);
-  return <div></div>;
+  return(
+    <div>
+        
+    </div>
+  )
 }
