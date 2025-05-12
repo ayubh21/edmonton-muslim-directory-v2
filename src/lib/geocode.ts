@@ -1,3 +1,5 @@
+import { fromLatLng } from "react-geocode";
+
 interface LatLng {
   lat: number;
   lng: number;
@@ -19,6 +21,13 @@ export class Geocode {
     const data = await result.json();
     console.log(data);
     return data.results[0].geometry.location as LatLng;
+  }
+  async getAddress(coordinates: LatLng) {
+    const result = await fetch(
+      `${GOOGLE_GEOCODE_API}/json?latlng=${coordinates.lat}, ${coordinates.lng}&key=${this.apiKey}`
+    );
+    const data = await result.json();
+    return data;
   }
 }
 

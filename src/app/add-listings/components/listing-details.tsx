@@ -5,6 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { categoriesList, tagList } from "@/lib/constants";
 import { produce } from "immer";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -16,23 +17,6 @@ export default function ListingDetails() {
     []
   );
   const [selectedTagsList, setSelectedTagsList] = useState<string[]>([]);
-  const categoriesList = [
-    "Restaurants",
-    "Grocery",
-    "Healthcare",
-    "Travel",
-    "Professional",
-    "Mosque",
-    "Education",
-  ];
-
-  const tagList = [
-    "Accept Credit Cards",
-    "Bike Parking",
-    "Coupons",
-    "Parking Street",
-    "Wireless Internet",
-  ];
   const handleAddCategory = (category: string) => {
     setSelectedCategoryList(
       produce((draft) => {

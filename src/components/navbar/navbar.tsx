@@ -31,7 +31,7 @@ export async function Navbar() {
             Home
           </Link>
           <Link
-            href="/"
+            href="/explore"
             className="text-sm font-medium hover:text-emerald-700 transition-colors"
           >
             Explore

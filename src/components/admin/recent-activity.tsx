@@ -11,21 +11,22 @@ export async function RecentActivityTable() {
   const lastCreated = await GetRecentlyCreatedListing();
   const lastRejected = await GetRecentlyRejectedListing();
 
+  if (!lastApproved) return null;
   if (!lastRejected) return null;
 
   const activities = [
     {
       id: 1,
       action: "Listing Approved",
-      business: lastApproved[0].title,
+      business: lastApproved![0].title ?? "",
       user: "test",
-      time: moment(lastApproved[0].updatedAt).startOf("seconds").fromNow(),
+      time: moment(lastApproved![0].updatedAt).startOf("seconds").fromNow(),
       status: "approved",
     },
     {
       id: 2,
       action: "New Listing Submitted",
-      business: lastCreated[0].title,
+      business: lastCreated[0].title ?? "",
       user: "test",
       time: moment(lastCreated[0].createdAt).startOf("seconds").fromNow(),
       status: "pending",
@@ -35,8 +36,8 @@ export async function RecentActivityTable() {
       action: "Listing Rejected",
       business: lastRejected?.[0] ?? "",
       user: "test",
-      time: lastRejected?.[0]?.updatedAt
-        ? moment(lastRejected[0].updatedAt).startOf("seconds").fromNow()
+      time: lastRejected![0].updatedAt
+        ? moment(lastRejected[0]!.updatedAt).startOf("seconds").fromNow()
         : "",
       status: "rejected",
     },

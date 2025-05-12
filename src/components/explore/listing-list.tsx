@@ -1,10 +1,16 @@
+
+
+
 import { GetCategoriesByListingId, GetListings } from "@/app/actions/listing";
 import { db } from "@/lib/db/db";
 import BusinessCard from "../business-card";
+import { Listing } from "@/types/listing";
 
-export default async function ListingList() {
-  const listings = await GetListings();
-  console.log(listings);
+interface ListingListProps {
+  listings: Listing[];
+}
+
+export default function ListingList({ listings }: ListingListProps) {
   // having trouble thinking about how im gonna render categories
 
   return (
@@ -12,7 +18,7 @@ export default async function ListingList() {
       {listings.map((listing, index) => (
         <div key={index} className="">
           <BusinessCard
-            id={listing.id}
+            id={listing.id!}
             logo={listing.images.logo}
             coverImage={listing.images.coverImage}
             title={listing.title}

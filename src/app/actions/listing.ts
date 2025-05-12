@@ -17,6 +17,7 @@ import { headers } from "next/headers";
 import { ListingForm } from "../add-listings/page";
 import { eq } from "drizzle-orm";
 import { revalidateAll } from "./revalidate";
+import { geocode } from "@/lib/geocode";
 
 export async function AddListing(business: ListingForm) {
   type NewListing = typeof Listing.$inferInsert;
@@ -54,11 +55,14 @@ export async function AddListing(business: ListingForm) {
     };
 
     const listing = await insertListing(newListing);
-
+    // TODO do this later
     for (let i = 0; i < business.addresses.length; i++) {
+      const coordinates = await geocode.getCoordinates(business.addresses[i]);
       const res = await db.insert(ListingAddress).values({
         listingId: listing[0].insertedId,
         address: business.addresses[i],
+        lat: coordinates.lat,
+        lng: coordinates.lng,
       });
 
       if (!res) {
@@ -147,18 +151,15 @@ export async function GetAddressesByListingId(listingId: number) {
   return result;
 }
 
-export async function GetCategoriesByListingId(listingId: number) {
-  const result = await db.query.ListingCategory.findMany({
-    where: eq(ListingCategory.listingId, listingId),
-    columns: {
-      category: true,
+export async function GetListings() {
+  const listing = await db.query.Listing.findMany({
+    with: {
+      categories: true,
+      networks: true,
+      addresses: true,
+      tags: true,
     },
   });
-  return result;
-}
-
-export async function GetListings() {
-  const listing = await db.select().from(Listing);
   if (!listing) {
     console.log("failed to get all listings");
   }
@@ -167,17 +168,30 @@ export async function GetListings() {
 
 export async function GetListingById(listingId: number) {
   const listing = await db.query.Listing.findFirst({
+    with: {
+      networks: true,
+      addresses: true,
+      tags: true,
+      categories: true,
+    },
     where: eq(Listing.id, listingId),
   });
-  if (!listing) {
-    console.log("failed to get listing");
-    return;
-  }
   return listing;
 }
 
+// export async function GetListingById(listingId: number) {
+//   const listing = await db.query.Listing.findFirst({
+//     where: eq(Listing.id, listingId),
+//   });
+//   if (!listing) {
+//     console.log("failed to get listing");
+//     return;
+//   }
+//   return listing;
+// }
+
 export async function GetNetworksByListingId(listingId: number) {
-  const networks = await db.query.ListingNetwork.findMany({
+  const networks = await db.query.ListingNetwork.findFirst({
     where: eq(ListingNetwork.listingId, listingId),
   });
   if (!networks) {

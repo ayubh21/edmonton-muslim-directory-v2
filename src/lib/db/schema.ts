@@ -1,4 +1,6 @@
 import { Images, ListingWorkDays } from "@/types/listing";
+import { relations } from "drizzle-orm";
+import { float } from "drizzle-orm/mysql-core";
 import {
   pgTable,
   text,
@@ -8,6 +10,7 @@ import {
   jsonb,
   integer,
   pgEnum,
+  decimal,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -105,8 +108,10 @@ export const ListingCategory = pgTable("listing_category", {
 
 export const ListingAddress = pgTable("listing_addresses", {
   listingAddressId: serial("listing_address_id").primaryKey().notNull(),
+  lat: decimal("lat").notNull(),
+  lng: decimal("lng").notNull(),
   address: text("address").notNull(),
-  listingId: integer("id")
+  listingId: integer("listing_id")
     .references(() => Listing.id)
     .notNull(),
 });
@@ -118,3 +123,41 @@ export const ListingTag = pgTable("listing_tag", {
     .references(() => Listing.id)
     .notNull(),
 });
+
+export const listingRelations = relations(Listing, ({ many }) => ({
+  networks: many(ListingNetwork),
+  addresses: many(ListingAddress),
+  categories: many(ListingCategory),
+  tags: many(ListingTag),
+}));
+
+export const ListingNetworkRelation = relations(ListingNetwork, ({ one }) => ({
+  listing: one(Listing, {
+    fields: [ListingNetwork.listingId],
+    references: [Listing.id],
+  }),
+}));
+
+export const ListingAddressRelation = relations(ListingAddress, ({ one }) => ({
+  listing: one(Listing, {
+    fields: [ListingAddress.listingId],
+    references: [Listing.id],
+  }),
+}));
+
+export const ListingTagRelation = relations(ListingTag, ({ one }) => ({
+  listing: one(Listing, {
+    fields: [ListingTag.listingId],
+    references: [Listing.id],
+  }),
+}));
+
+export const ListingCategoryRelation = relations(
+  ListingCategory,
+  ({ one }) => ({
+    listing: one(Listing, {
+      fields: [ListingCategory.listingId],
+      references: [Listing.id],
+    }),
+  })
+);

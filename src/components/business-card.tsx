@@ -28,10 +28,15 @@ export default function BusinessCard({
   phoneNumber,
 }: BusinessCardProps) {
   return (
-    <Link href={`/business/${id}`}>
-      <div className="bg-white rounded-md overflow-hidden  hover:shadow-md transition-shadow relative min-h-[285px] ">
+    <Link href={`/listing/${id}`}>
+      <div className="bg-white rounded-md overflow-hidden   transition-shadow relative min-h-[285px] hover:opacity-95">
         <div className="relative h-30 w-full">
-          <Image src={coverImage} alt={title} fill className="object-cover" />
+          <Image
+            src={coverImage}
+            alt={title}
+            fill
+            className="object-cover hover:opacity-100"
+          />
         </div>
         <div className="p-4">
           <div className=" my-2">

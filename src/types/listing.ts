@@ -1,4 +1,32 @@
-import { Listing } from "@/lib/db/schema";
+import type {
+  BuildQueryResult,
+  DBQueryConfig,
+  ExtractTablesWithRelations,
+} from "drizzle-orm";
+import * as schema from "@/lib/db/schema";
+
+type Schema = typeof schema;
+type TSchema = ExtractTablesWithRelations<Schema>;
+
+export type IncludeRelation<TableName extends keyof TSchema> = DBQueryConfig<
+  "one" | "many",
+  boolean,
+  TSchema,
+  TSchema[TableName]
+>["with"];
+
+export type InferResultType<
+  TableName extends keyof TSchema,
+  With extends IncludeRelation<TableName> | undefined = undefined
+> = BuildQueryResult<
+  TSchema,
+  TSchema[TableName],
+  {
+    with: With;
+  }
+>;
+
+import { Listing, ListingCategory, ListingNetwork } from "@/lib/db/schema";
 import { ReactNode } from "react";
 
 // export interface Listing {
@@ -17,7 +45,13 @@ import { ReactNode } from "react";
 //   isFeatured: boolean;
 // }
 
-export type Listing = typeof Listing.$inferInsert;
+// export type Listing = typeof Listing.$inferInsert;
+export type Listing = InferResultType<"Listing", { categories: true }>;
+// export type Listing = {
+//   [Listing._.name]: typeof Listing;
+//   [ListingCategory._.name]: typeof ListingCategory.$inferSelect;
+// };
+
 export interface Contact {
   email: string | null;
   phone_number: string | null;
@@ -63,4 +97,9 @@ export interface ListingAddress {
   address: string;
   listingId: number;
   listingAddressId: number;
+}
+
+export interface Latlng {
+  lat: number;
+  lng: number;
 }

@@ -10,13 +10,9 @@ import { produce } from "immer";
 import { MdDelete, MdMyLocation } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { useFormContext } from "react-hook-form";
+import { Latlng } from "@/types/listing";
 
 // TODO fix this later
-interface Latlng {
-  lat: number;
-  lng: number;
-}
-
 type Locations = {
   coordinates: Latlng[];
 };

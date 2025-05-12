@@ -50,7 +50,7 @@ export default function Home() {
                     <ChevronDown className="h-4 w-4 text-gray-500" />
                   </div>
                 </div>
-                <Button className="h-12 bg-emerald-600 hover:bg-emerald-700 w-32">
+                <Button className="h-12 bg-emerald-600 hover:bg-emerald-700 md:w-36 w-full">
                   <Search className="h-5 w-5 mr-2" />
                   Search
                 </Button>

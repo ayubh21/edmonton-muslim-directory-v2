@@ -9,14 +9,12 @@ import ContactBusiness from "@/components/listing/contact-business";
 import GoogleMapComponent from "@/components/listing/map";
 import ListingSection from "@/components/listing/section";
 import WorkHoursWrapper from "@/components/listing/work-hours-wrapper";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { geocode } from "@/lib/geocode";
 import {
   BadgeCheck,
   Images,
   Info,
-  MapPin,
   Share2,
   Map,
   Clock2,
@@ -32,12 +30,9 @@ export default async function Listing({
   const { id } = await params;
   const listingId = parseInt(id);
   const listing = await GetListingById(listingId);
-  const address = await GetAddressesByListingId(listingId);
-  const categories = await GetCategoriesByListingId(listingId);
-  const coordinates = await geocode.getCoordinates(address[0].address);
-  const networks = await GetNetworksByListingId(listingId);
-  const tags = await GetTagsByListingId(listingId);
-  // TODO use drizzle relations instead of sending multiple queries
+  const coordinates = await geocode.getCoordinates(
+    listing?.addresses[0].address!
+  );
   if (!listing) return null;
 
   return (
@@ -61,16 +56,16 @@ export default async function Listing({
             <BadgeCheck className="h-6 w-6 text-emerald-400" />
           </div>
           <div className="flex items-center  */}flex-wrap gap-3">
-            {categories.map((category, index) => (
+            {/* {categories.map((category, index) => (
               <div key={index}>
                 <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white">
                   {category.category}
                 </Badge>
               </div>
-            ))}
+            ))} */}
             <div className="flex items-center">
-              <MapPin className="h-4 w-4 mr-1" />
-              <span>{address[0].address}</span>
+              {/* <MapPin className="h-4 w-4 mr-1" />
+              <span>{address[0].address}</span> */}
               {/* <span>{listing.tag_line}</span> */}
             </div>
           </div>
@@ -131,7 +126,7 @@ export default async function Listing({
             </div>
             <div className="flex justify-between  items-center">
               {/* TODO redirect to google maps  */}
-              <span>{address[0].address}</span>
+              {/* <span>{address[0].address}</span> */}
               <Button className="bg-faintGrey hover:bg-[#f2f3f2] text-black  text-center  h-full my-2 shadow-none font-normal  ">
                 Get Directions
               </Button>
@@ -140,11 +135,11 @@ export default async function Listing({
         </section>
         <ListingSection title="Features and Amenities">
           <div className="flex flex-row gap-2 mt-2">
-            {tags.map((tag, index) => (
+            {/* {listingtags.map((tag, index) => (
               <Badge variant="outline" className=" bg-white " key={index}>
                 {tag.tag}
               </Badge>
-            ))}
+            ))} */}
           </div>
         </ListingSection>
         <ListingSection icon={<Mail />} title={`Contact ${listing.title}`}>
@@ -163,7 +158,7 @@ export default async function Listing({
         </ListingSection>
         <ListingSection title="Follow us on" icon={<MdPermMedia />}>
           <div>
-            {networks.map((network, index) => (
+            {listing.networks.map((network, index) => (
               <div className="flex justify-between" key={index}>
                 <a href={`https://${network.type}`}>{network.type}</a>
                 <a href={`https://${network.url}`}>{network.url}</a>

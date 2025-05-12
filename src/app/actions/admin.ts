@@ -38,6 +38,7 @@ export async function GetRecentlyApprovedListing() {
     .limit(1);
   if (!lastApproved) {
     console.log("failed to get last approved listing");
+    return;
   }
   return lastApproved;
 }

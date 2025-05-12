@@ -15,7 +15,11 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
   return (
     <div className="md:hidden relative">
       <button onClick={() => setOpen(!open)} className="text-gray-800">
-        {open ? <X size={24} /> : <Menu size={24} />}
+        {open ? (
+          <X size={24} className="cursor-pointer" />
+        ) : (
+          <Menu size={24} className="cursor-pointer" />
+        )}
       </button>
 
       {open && (

@@ -175,6 +175,7 @@ export default function WorkHours() {
                 <div key={index} className="  ">
                   <Checkbox
                     value={type}
+                    type="radio"
                     key={index}
                     label={type}
                     onCheckBoxChange={() => handleCheckboxChange(day, type)}
