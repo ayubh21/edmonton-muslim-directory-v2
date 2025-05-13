@@ -1,7 +1,7 @@
 "use client";
 
 import { useMediaQuery } from "@react-hook/media-query";
-import { RiUserLocationLine } from "react-icons/ri";
+import { RiRefreshLine, RiUserLocationLine } from "react-icons/ri";
 import {
   Drawer,
   DrawerClose,
@@ -27,21 +27,29 @@ import { geocode } from "@/lib/geocode";
 import { produce } from "immer";
 import { Slider } from "../ui/slider";
 import { Input } from "../ui/input";
-import { Search } from "lucide-react";
+import { FilterX, RefreshCcw, Search } from "lucide-react";
 import ListingList from "./listing-list";
+import { getDistanceFromLatLonInKm } from "@/lib/utils";
+import { MdRefresh } from "react-icons/md";
 
 interface FilterListingProps {
   listings: Listing[];
 }
 
+interface Filters {
+  category: string;
+  proximity: number[];
+  searchText: string;
+  tags: string[];
+}
 export default function FilterListing({ listings }: FilterListingProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [filteredListings, setFilteredListings] = useState<Listing[]>(listings);
-  const [isSelected, setIsSelected] = useState("");
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Filters>({
     category: "",
-    proximity: [40],
+    proximity: [],
     searchText: "",
+    tags: [],
   });
   const [position, setPosition] = useState<Latlng>({
     lat: 0,
@@ -49,31 +57,72 @@ export default function FilterListing({ listings }: FilterListingProps) {
   });
   const [address, setAddress] = useState("");
 
-  const clearFilters = () => {};
-
-  const  filterWithProximity = () => {
-    const filteredListings = listings.filter((listing) => {
-       
-    }) 
-  }
+  const clearFilters = () => {
+    setFilters(
+      produce((draft) => {
+        (draft.category = ""),
+          (draft.proximity = []),
+          ((draft.searchText = ""), (draft.tags = [""]));
+      })
+    );
+    // TODO make sure filters clear in memory as well
+  };
 
   useEffect(() => {
-    let filteredListings = listings.filter(({ categories }) => {
-      return (
-        categories.filter((category) => {
-          return category.category === filters.category;
-        }).length > 0
+    const addressFromCoordinates = async () => {
+      const response = await geocode.getAddress(position);
+      if (response.results.length > 0) {
+        setAddress(response.results[0].formatted_address);
+      }
+    };
+    addressFromCoordinates();
+  }, [position]);
+
+  useEffect(() => {
+    // Start with the original listings
+    let initialListings = listings;
+
+    // Apply searchText filter
+    if (filters.searchText) {
+      initialListings = initialListings.filter(({ title }) =>
+        title.toLowerCase().includes(filters.searchText.toLowerCase())
       );
-    });
+      console.log("After searchText filter:", initialListings.length);
+    }
+    // Apply category filter
+    if (filters.category) {
+      initialListings = initialListings.filter(({ categories }) => {
+        return (
+          categories.filter((category) => {
+            return category.category === filters.category;
+          }).length > 0
+        );
+      });
+    }
+    console.log(initialListings, "second");
+    // Apply proximity filter
+    if (filters.proximity && address) {
+      initialListings = initialListings.filter((listing) => {
+        const distance = getDistanceFromLatLonInKm(
+          listing.addresses[0].lat,
+          listing.addresses[0].lng,
+          position.lat,
+          position.lng
+        );
+        return distance <= filters.proximity[0];
+      });
+    }
 
-    console.log(filteredListings, "filteredListings");
+    if (filters.tags.length > 0) {
+      initialListings = initialListings.filter((listing) => {
+        return listing.tags.some((tagObj) => {
+          return filters.tags.includes(tagObj.tag);
+        });
+      });
+    }
 
-    filteredListings = filteredListings.filter(({ title }) =>
-      title.toLowerCase().includes(filters.searchText.toLowerCase())
-    );
-
-    // console.log(filteredListings);
-    // console.log(filters.searchText);
+    console.log(initialListings);
+    setFilteredListings(initialListings);
   }, [filters]);
 
   const handleLocationAccess = () => {
@@ -109,14 +158,6 @@ export default function FilterListing({ listings }: FilterListingProps) {
     }
   };
 
-  useEffect(() => {
-    const addressFromCoordinates = async () => {
-      const result = await geocode.getAddress(position);
-      setAddress(result.results[0].formatted_address);
-    };
-    addressFromCoordinates();
-  }, [position]);
-
   return (
     <div>
       <Drawer>
@@ -147,7 +188,10 @@ export default function FilterListing({ listings }: FilterListingProps) {
         </div>
         <DrawerContent className="h-screen">
           <DrawerHeader>
-            <DrawerTitle className="text-center text-2xl ">
+            <DrawerTitle className="text-center text-2xl flex justify-around gap-2">
+              <span className="bg-[#f2f3f2] p-2.5 cursor-pointer">
+                <MdRefresh onClick={clearFilters} className="" />
+              </span>
               <Button className="w-full bg-emerald-600 hover:bg-emerald-800 rounded-none">
                 Apply Filters
               </Button>
@@ -237,7 +281,11 @@ export default function FilterListing({ listings }: FilterListingProps) {
                     className={`h-8 w-8 mb-2 peer:checked:black`}
                     value={tag}
                     onChange={(e) => {
-                      setIsSelected(e.target.value);
+                      setFilters(
+                        produce((draft) => {
+                          draft.tags.push(e.target.value);
+                        })
+                      );
                     }}
                     type="checkbox"
                   />

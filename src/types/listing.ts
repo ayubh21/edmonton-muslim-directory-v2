@@ -27,26 +27,11 @@ export type InferResultType<
 >;
 
 import { Listing, ListingCategory, ListingNetwork } from "@/lib/db/schema";
-import { ReactNode } from "react";
 
-// export interface Listing {
-//   id: number;
-//   title: string | null;
-//   status: "approved" | "rejected" | "pending";
-//   tag_line: string | null;
-//   description: string;
-//   contact: Contact;
-//   images: Images;
-//   work_hours: ListingWorkDays;
-//   userId: string;
-//   createdAt: Date;
-//   updatedAt: Date | null;
-//   isVerified: boolean;
-//   isFeatured: boolean;
-// }
-
-// export type Listing = typeof Listing.$inferInsert;
-export type Listing = InferResultType<"Listing", { categories: true }>;
+export type Listing = InferResultType<
+  "Listing",
+  { categories: true; addresses: true; tags: true; networks: true }
+>;
 // export type Listing = {
 //   [Listing._.name]: typeof Listing;
 //   [ListingCategory._.name]: typeof ListingCategory.$inferSelect;

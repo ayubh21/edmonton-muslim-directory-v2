@@ -1,8 +1,3 @@
-
-
-
-import { GetCategoriesByListingId, GetListings } from "@/app/actions/listing";
-import { db } from "@/lib/db/db";
 import BusinessCard from "../business-card";
 import { Listing } from "@/types/listing";
 

@@ -108,8 +108,8 @@ export const ListingCategory = pgTable("listing_category", {
 
 export const ListingAddress = pgTable("listing_addresses", {
   listingAddressId: serial("listing_address_id").primaryKey().notNull(),
-  lat: decimal("lat").notNull(),
-  lng: decimal("lng").notNull(),
+  lat: decimal("lat", { mode: "number" }).notNull(),
+  lng: decimal("lng", { mode: "number" }).notNull(),
   address: text("address").notNull(),
   listingId: integer("listing_id")
     .references(() => Listing.id)

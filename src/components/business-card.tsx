@@ -32,6 +32,7 @@ export default function BusinessCard({
       <div className="bg-white rounded-md overflow-hidden   transition-shadow relative min-h-[285px] hover:opacity-95">
         <div className="relative h-30 w-full">
           <Image
+            priority
             src={coverImage}
             alt={title}
             fill
