@@ -80,8 +80,8 @@ export const Listing = pgTable("listing", {
   website_url: text("website_url"),
   images: jsonb().$type<Images>().notNull(),
   work_hours: jsonb().$type<ListingWorkDays>().notNull(),
-  // isVerified: boolean("is_verified").notNull(),
-  // isFeatured: boolean("is_featured").notNull(),
+  isVerified: boolean("is_verified"),
+  isFeatured: boolean("is_featured"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp().defaultNow().notNull(),
   userId: text("user_id")

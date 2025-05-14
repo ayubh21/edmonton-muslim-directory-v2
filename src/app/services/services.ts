@@ -3,6 +3,43 @@
 import { db } from "@/lib/db/db";
 import { Listing } from "@/lib/db/schema";
 import { desc, eq } from "drizzle-orm";
+import { revalidateAll } from "../actions/revalidate";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { client } from "@/lib/s3/client";
+import { CustomFile } from "@/types/listing";
+
+export async function UpdateListingStatus(
+  listingId: number,
+  status: "approved" | "rejected"
+) {
+  await db
+    .update(Listing)
+    .set({
+      status: status,
+      updatedAt: new Date(),
+    })
+    .where(eq(Listing.id, listingId));
+  revalidateAll();
+}
+
+export async function UploadToS3(file: CustomFile) {
+  const arrayBuffer = await file.arrayBuffer();
+  try {
+    const input = new PutObjectCommand({
+      Bucket: "edmv2",
+      Key: file.name,
+      Body: Buffer.from(arrayBuffer),
+      ACL: "public-read",
+      ContentType: file.type,
+    });
+
+    const res = await client.send(input);
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 export async function GetRecentlyRejectedListing() {
   const lastApproved = await db
@@ -42,29 +79,6 @@ export async function GetRecentlyApprovedListing() {
   }
   return lastApproved;
 }
-
-// export async function GetRecentlyRejectedListing() {
-//   try {
-//     const lastRejected = await Listings1.find({ status: "rejected" })
-//       .sort({ timestamp: -1 })
-//       .limit(1);
-
-//     if (!lastRejected.length) {
-//       return null;
-//     }
-
-//     console.log(serializeMongooseDoc(lastRejected[0]));
-//     return serializeMongooseDoc(lastRejected[0]);
-//   } catch (error) {
-//     console.error("Error fetching recently rejected listing:", error);
-//     return null;
-//   }
-// }
-
-// export async function GetRecentlyCreatedListing() {
-//   const lastCreated = await Listings1.find({}).sort({ _id: 1 });
-//   return await serializeMongooseDoc(lastCreated);
-// }
 
 // export async function CalcultateTotalMonthlyListingPercentage() {}
 

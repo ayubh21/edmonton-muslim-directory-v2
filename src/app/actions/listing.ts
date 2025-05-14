@@ -141,16 +141,6 @@ export async function UploadToS3(file: CustomFile) {
   }
 }
 
-export async function GetAddressesByListingId(listingId: number) {
-  const result = await db.query.ListingAddress.findMany({
-    where: eq(ListingAddress.listingId, listingId),
-    columns: {
-      address: true,
-    },
-  });
-  return result;
-}
-
 export async function GetListings() {
   const listing = await db.query.Listing.findMany({
     with: {
@@ -159,6 +149,22 @@ export async function GetListings() {
       addresses: true,
       tags: true,
     },
+  });
+  if (!listing) {
+    console.log("failed to get all listings");
+  }
+  return listing;
+}
+
+export async function GetApprovedListings() {
+  const listing = await db.query.Listing.findMany({
+    with: {
+      categories: true,
+      networks: true,
+      addresses: true,
+      tags: true,
+    },
+    where: eq(Listing.status, "approved"),
   });
   if (!listing) {
     console.log("failed to get all listings");
@@ -177,36 +183,4 @@ export async function GetListingById(listingId: number) {
     where: eq(Listing.id, listingId),
   });
   return listing;
-}
-
-// export async function GetListingById(listingId: number) {
-//   const listing = await db.query.Listing.findFirst({
-//     where: eq(Listing.id, listingId),
-//   });
-//   if (!listing) {
-//     console.log("failed to get listing");
-//     return;
-//   }
-//   return listing;
-// }
-
-export async function GetNetworksByListingId(listingId: number) {
-  const networks = await db.query.ListingNetwork.findFirst({
-    where: eq(ListingNetwork.listingId, listingId),
-  });
-  if (!networks) {
-    console.log("failed to get social networks");
-  }
-  return networks;
-}
-
-export async function GetTagsByListingId(listingId: number) {
-  const tag = await db.query.ListingTag.findMany({
-    where: eq(ListingTag.listingId, listingId),
-  });
-
-  if (!tag) {
-    console.log("failed to get tag");
-  }
-  return tag;
 }

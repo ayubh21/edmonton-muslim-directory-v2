@@ -88,3 +88,8 @@ export interface Latlng {
   lat: number;
   lng: number;
 }
+
+export interface CustomFile extends File {
+  preview?: string;
+  url: string;
+}

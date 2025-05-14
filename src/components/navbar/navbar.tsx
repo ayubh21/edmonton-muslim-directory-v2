@@ -40,12 +40,6 @@ export async function Navbar() {
             href="#"
             className="text-sm font-medium hover:text-emerald-700 transition-colors"
           >
-            Categories
-          </Link>
-          <Link
-            href="#"
-            className="text-sm font-medium hover:text-emerald-700 transition-colors"
-          >
             About
           </Link>
         </nav>
@@ -54,20 +48,20 @@ export async function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           {!session ? (
             <>
-              <button className="bg-emerald-600 hover:bg-emerald-700 py-2 px-4 text-white rounded">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
                 <Link href="/auth/login">Login</Link>
-              </button>
-              <Button className="bg-emerald-600 hover:bg-emerald-700">
+              </Button>
+              <Button className="bg-black hover:bg-emerald-700">
                 <Link href="/auth/register">Register</Link>
               </Button>
             </>
           ) : (
             <>
               <UserDropdown name={session.user.name} />
-              <button className="bg-emerald-700 text-sm text-white hover:bg-emerald-900 flex rounded-md p-3 gap-2">
+              <Button className="bg-emerald-700 text-sm text-white hover:bg-emerald-900 flex rounded-md p-3 gap-2">
                 <Link href="/add-listings">Add Listing</Link>
                 <Plus className="text-white" height={20} />
-              </button>
+              </Button>
             </>
           )}
         </div>

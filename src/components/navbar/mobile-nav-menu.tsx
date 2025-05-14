@@ -44,13 +44,6 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
               onClick={() => setOpen(false)}
               className="text-sm hover:text-emerald-700"
             >
-              Categories
-            </Link>
-            <Link
-              href="#"
-              onClick={() => setOpen(false)}
-              className="text-sm hover:text-emerald-700"
-            >
               About
             </Link>
 

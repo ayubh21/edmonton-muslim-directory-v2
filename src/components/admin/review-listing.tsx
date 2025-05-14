@@ -39,7 +39,7 @@ import {
   Pin,
 } from "@vis.gl/react-google-maps";
 import { authClient } from "@/lib/auth-client";
-import { UpdateListingStatus } from "@/app/actions/listing";
+import { UpdateListingStatus } from "@/app/services/services";
 // import { UpdateListingStatus } from "@/app/actions/listing";
 
 type Address = {

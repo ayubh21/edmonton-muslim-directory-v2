@@ -1,13 +1,11 @@
 import FilterListing from "@/components/explore/filter-listing";
-import ListingList from "@/components/explore/listing-list";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { GetListings } from "../actions/listing";
-import { db } from "@/lib/db/db";
+import { GetApprovedListings } from "../actions/listing";
+import { Latlng } from "@/types/listing";
 
 export default async function Explore() {
-  const listings = await GetListings();
-
+  const listings = await GetApprovedListings();
+  console.log(listings);
+  listings.map((listing) => {});
   return (
     <div className="">
       <div className="w-full"></div>

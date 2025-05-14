@@ -1,10 +1,4 @@
-import {
-  GetAddressesByListingId,
-  GetCategoriesByListingId,
-  GetListingById,
-  GetNetworksByListingId,
-  GetTagsByListingId,
-} from "@/app/actions/listing";
+import { GetListingById } from "@/app/actions/listing";
 import ContactBusiness from "@/components/listing/contact-business";
 import GoogleMapComponent from "@/components/listing/map";
 import ListingSection from "@/components/listing/section";
@@ -30,10 +24,10 @@ export default async function Listing({
   const { id } = await params;
   const listingId = parseInt(id);
   const listing = await GetListingById(listingId);
-  const coordinates = await geocode.getCoordinates(
-    listing?.addresses[0].address!
-  );
   if (!listing) return null;
+  const coordinates = await geocode.getCoordinates(
+    listing.addresses[0].address
+  );
 
   return (
     <div className="bg-gray-100">

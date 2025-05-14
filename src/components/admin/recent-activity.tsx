@@ -2,7 +2,7 @@ import {
   GetRecentlyApprovedListing,
   GetRecentlyCreatedListing,
   GetRecentlyRejectedListing,
-} from "@/app/actions/admin";
+} from "@/app/services/services";
 import { CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
 import moment from "moment";
 
@@ -11,8 +11,8 @@ export async function RecentActivityTable() {
   const lastCreated = await GetRecentlyCreatedListing();
   const lastRejected = await GetRecentlyRejectedListing();
 
-  if (!lastApproved) return null;
-  if (!lastRejected) return null;
+  if (!lastApproved?.length) return null;
+  if (!lastRejected.length) return null;
 
   const activities = [
     {

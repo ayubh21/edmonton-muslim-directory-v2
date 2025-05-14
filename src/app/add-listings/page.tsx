@@ -23,8 +23,10 @@ import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/listing-details";
 import { Button } from "@/components/ui/button";
 import { Contact, Images, ListingWorkDays, Social } from "@/types/listing";
-import { AddListing, UploadToS3 } from "../actions/listing";
+import { AddListing } from "../actions/listing";
+import { UploadToS3 } from "../services/services";
 
+// TODO zod form validation
 export interface ListingForm {
   title: string;
   tagLine: string;
