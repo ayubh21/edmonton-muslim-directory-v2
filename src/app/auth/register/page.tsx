@@ -78,7 +78,7 @@ export default function Register() {
     try {
       setIsLoading(true);
       const isEmailFree = await isEmailAvailable(values.email);
-      if (!isEmailFree) {
+      if (isEmailFree) {
         setClientError(
           "This email is already registered. Please use a different email or sign in."
         );

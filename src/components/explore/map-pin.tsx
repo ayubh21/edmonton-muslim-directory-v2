@@ -24,9 +24,9 @@ export default function MapPin({
   address,
   phone_number,
 }: MapPinProps) {
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(0);
   function handleClick() {
-    setShowOverlay(!showOverlay);
+    setShowOverlay(showOverlay - 1);
   }
 
   return (
@@ -40,6 +40,8 @@ export default function MapPin({
         />
         {showOverlay && (
           <MapOverlay
+            isOverlayOpen={showOverlay}
+            setIsOverlayOpen={setShowOverlay}
             phone_number={phone_number!}
             coverImage={coverImage!}
             id={id}

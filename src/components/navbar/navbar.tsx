@@ -12,7 +12,7 @@ export async function Navbar() {
   });
 
   return (
-    <header className="top-0 z-50 border-b bg-white max-w-[1850px] mx-auto">
+    <header className="top-0 z-50 border-b bg-white max-w-[1850px] mx-auto relative">
       <div className="flex h-16 items-center justify-between px-4 py-4">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-semibold text-emerald-700">

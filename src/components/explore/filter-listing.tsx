@@ -33,6 +33,7 @@ import ListingList from "./listing-list";
 import { getDistanceFromLatLonInKm, shuffleArray } from "@/lib/utils";
 import { MdRefresh } from "react-icons/md";
 import MapView from "./map-view";
+import FilterSpinner from "./filter-spinner";
 
 interface FilterListingProps {
   listings: Listing[];
@@ -46,7 +47,7 @@ interface Filters {
   orderBy: string;
 }
 export default function FilterListing({ listings }: FilterListingProps) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  // const isDesktop = useMediaQuery("(min-width: 768px)");
   const [filteredListings, setFilteredListings] = useState<Listing[]>(listings);
   const [open, setOpen] = useState(false);
   const [isMapView, setIsMapView] = useState(false);
@@ -63,8 +64,9 @@ export default function FilterListing({ listings }: FilterListingProps) {
     lng: 0,
   });
   const [address, setAddress] = useState("");
-
+  const [isSpinning, setIsSpinning] = useState(false);
   const clearFilters = () => {
+    setIsSpinning(true);
     setFilters({
       category: "",
       searchText: "",
@@ -74,7 +76,9 @@ export default function FilterListing({ listings }: FilterListingProps) {
     });
     setAddress("");
     setFilteredListings(listings);
-    // TODO make sure filters clear in memory as well
+    setTimeout(() => {
+      setIsSpinning(false);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -147,6 +151,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
       }
     }
     setFilteredListings(initialListings);
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -257,9 +262,14 @@ export default function FilterListing({ listings }: FilterListingProps) {
               <DrawerHeader className="w-full">
                 <DrawerTitle className="text-center text-2xl flex justify-around gap-2">
                   <span className="bg-[#f2f3f2] p-2.5 cursor-pointer">
-                    <MdRefresh
+                    {/* <MdRefresh
                       onClick={clearFilters}
-                      className="cursor-pointer  active:rotate-180  "
+                      className="cursor-pointer   active:animate-spin "
+                    /> */}
+                    <FilterSpinner
+                      clearFilters={clearFilters}
+                      isSpinning={isSpinning}
+                      setIsSpinning={setIsSpinning}
                     />
                   </span>
                   <span className="bg-[#f2f3f2] p-2.5 cursor-pointer">

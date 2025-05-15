@@ -7,7 +7,6 @@ interface ListingListProps {
 
 export default function ListingList({ listings }: ListingListProps) {
   // having trouble thinking about how im gonna render categories
-
   return (
     <div className="space-y-4 grid md:grid-cols-2 gap-2">
       {listings.map((listing, index) => (

@@ -24,7 +24,7 @@ export async function isEmailAvailable(email: string) {
     where: eq(user.email, email),
   });
   if (emailResult) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 }

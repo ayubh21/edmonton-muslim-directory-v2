@@ -13,7 +13,7 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="md:hidden relative">
+    <div className="md:hidden ">
       <button onClick={() => setOpen(!open)} className="text-gray-800">
         {open ? (
           <X size={24} className="cursor-pointer" />
@@ -23,26 +23,26 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 bg-white border shadow-md rounded-md w-56 py-4 px-6 z-50">
-          <nav className="flex flex-col gap-4">
+        <div className="    ">
+          <nav className="flex flex-col gap-4 w-full absolute top-16 bg-white border shadow-md rounded-md  right-0 p-6">
             <Link
               href="/"
               onClick={() => setOpen(false)}
-              className="text-sm hover:text-emerald-700"
+              className=" hover:text-emerald-700"
             >
               Home
             </Link>
             <Link
               href="/explore"
               onClick={() => setOpen(false)}
-              className="text-sm hover:text-emerald-700"
+              className=" hover:text-emerald-700"
             >
               Explore
             </Link>
             <Link
               href="#"
               onClick={() => setOpen(false)}
-              className="text-sm hover:text-emerald-700"
+              className="hover:text-emerald-700"
             >
               About
             </Link>
@@ -52,7 +52,7 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
                 <Link
                   href="/auth/login"
                   onClick={() => setOpen(false)}
-                  className="text-sm hover:text-emerald-700"
+                  className=" hover:text-emerald-700"
                 >
                   Login
                 </Link>
@@ -69,10 +69,12 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
                 <Link
                   href="/add-listings"
                   onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 text-sm hover:text-emerald-700"
+                  className="flex items-center gap-2   bg-emerald-600 text-white py-4 rounded-md hover:bg-emerald-900"
                 >
-                  <span>Add Listing</span>
-                  <Plus size={16} />
+                  <span className="text-center w-full flex items-center justify-center gap-2">
+                    Add Listing
+                    <Plus size={16} />
+                  </span>
                 </Link>
               </>
             )}
