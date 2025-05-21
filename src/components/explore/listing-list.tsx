@@ -3,14 +3,15 @@ import { Listing } from "@/types/listing";
 
 interface ListingListProps {
   listings: Listing[];
+  className: string;
 }
 
-export default function ListingList({ listings }: ListingListProps) {
+export default function ListingList({ listings, className }: ListingListProps) {
   // having trouble thinking about how im gonna render categories
   return (
-    <div className="space-y-4 grid md:grid-cols-2 gap-2">
+    <div className={className}>
       {listings.map((listing, index) => (
-        <div key={index} className="">
+        <div key={index}>
           <BusinessCard
             id={listing.id!}
             logo={listing.images.logo}

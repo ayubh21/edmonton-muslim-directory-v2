@@ -17,7 +17,7 @@ export async function Navbar() {
         <div className="flex items-center gap-2">
           <span className="text-2xl font-semibold text-emerald-700">
             <Link href="/">
-              Edmonton Muslim <span className="text-black">Directory</span>
+              Edmonton Khair <span className="text-black">Network</span>
             </Link>
           </span>
         </div>

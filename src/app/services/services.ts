@@ -1,5 +1,3 @@
-"use server";
-
 import { db } from "@/lib/db/db";
 import { Listing } from "@/lib/db/schema";
 import { desc, eq } from "drizzle-orm";

@@ -7,12 +7,10 @@ export default async function Explore() {
   console.log(listings);
   listings.map((listing) => {});
   return (
-    <div className="">
-      <div className="w-full"></div>
-      <section className="my-4 px-4">
-        <div className="">
-          <FilterListing listings={listings} />
-        </div>
+    <div className="h-full">
+      {/* <div className="w-full"></div> */}
+      <section className="my-4 h-full">
+        <FilterListing listings={listings} />
       </section>
     </div>
   );

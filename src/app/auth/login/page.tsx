@@ -53,15 +53,13 @@ const LoginSchema = z.object({
 
 type LoginForm = z.infer<typeof LoginSchema>;
 
-export default function Register() {
+export default function Login() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [clientError, setClientError] = useState("");
   const [serverError, setServerError] = useState("");
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const {
     register,
@@ -112,6 +110,16 @@ export default function Register() {
       setIsLoading(false);
     }
   };
+
+  // const resetLink = async (values: LoginForm) => {
+  //   const { data, error } = await authClient.forgetPassword({
+  //     email: values.email,
+  //     redirectTo: "auth/reset-password",
+  //   });
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   if (!isDesktop) {
     return (
@@ -188,7 +196,7 @@ export default function Register() {
                   </div> */}
 
                   <div>
-                    <a href="" className="font-bold underline">
+                    <a href="/" className="font-bold underline">
                       Forgot Password?
                     </a>
                   </div>

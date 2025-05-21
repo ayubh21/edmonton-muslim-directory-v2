@@ -5,6 +5,10 @@ import { db } from "@/lib/db/db";
 import { user } from "@/lib/db/schema";
 import { User } from "@/types/user";
 import { eq } from "drizzle-orm";
+import { Resend } from "resend";
+import SendPasswordResetEmail from "../emails/reset-password";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function SignUp(user: User) {
   const res = await auth.api.signUpEmail({
@@ -27,4 +31,24 @@ export async function isEmailAvailable(email: string) {
     return true;
   }
   return false;
+}
+
+export async function SendEmail(email: string, name: string, url: string) {
+  try {
+    const { error } = await resend.emails.send({
+      from: "noreply@edm.ca",
+      to: [email],
+      subject: "Hello world",
+      react: SendPasswordResetEmail({
+        userFirstname: name,
+        resetPasswordLink: url,
+      }) as React.ReactElement,
+    });
+
+    if (error) {
+      console.log(error);
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }

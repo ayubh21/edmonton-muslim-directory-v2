@@ -12,7 +12,7 @@ interface MapViewProps {
 export default function MapView({ positions, filteredListings }: MapViewProps) {
   return (
     <div>
-      <div className="h-screen">
+      <div className="h-lvh">
         <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
           <Map
             defaultZoom={11}
