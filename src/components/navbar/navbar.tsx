@@ -48,8 +48,7 @@ export async function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           {!session ? (
             <>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                <Link href="/auth/login">Login</Link>
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white "> <Link href="/auth/login">Login</Link>
               </Button>
               <Button className="bg-black hover:bg-emerald-700">
                 <Link href="/auth/register">Register</Link>
