@@ -34,7 +34,6 @@ export async function isEmailAvailable(email: string) {
 }
 
 export async function SendEmail(email: string, name: string, url: string) {
-	console.log("hello")
 	console.log(url)
 	try {
 		const { error } = await resend.emails.send({

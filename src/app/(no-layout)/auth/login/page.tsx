@@ -6,11 +6,10 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Eye, EyeOff, Loader2, ArrowRight, CheckCircle } from "lucide-react";
+import { Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
 	Card,
 	CardDescription,
@@ -18,7 +17,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { isEmailAvailable, SignUp } from "@/app/actions/auth";
+import { isEmailAvailable } from "@/app/actions/auth";
 import { User } from "@/types/user";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { revalidateAll } from "@/app/actions/revalidate";
@@ -30,10 +29,8 @@ import {
 	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
-	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@react-hook/media-query";
-import { BsGoogle } from "react-icons/bs";
 import {
 	Dialog,
 	DialogContent,

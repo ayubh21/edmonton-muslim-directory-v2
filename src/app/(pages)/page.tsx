@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
 
 import { ChevronDown, Search } from "lucide-react";
+import Login from "../(no-layout)/auth/login/page";
 
 export default function Home() {
 	return (
