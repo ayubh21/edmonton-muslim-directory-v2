@@ -33,7 +33,7 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
 
 			{open && (
 				<div className="    ">
-					<nav className="flex flex-col gap-4 w-full absolute top-16 bg-white border shadow-md rounded-md  right-0 p-6">
+					<nav className="flex flex-col gap-4 w-full absolute top-16 bg-white border shadow-md rounded-md  right-0 p-6 h-screen">
 						<Link
 							href="/"
 							onClick={() => setOpen(false)}

@@ -12,8 +12,8 @@ export async function Navbar() {
 	});
 
 	return (
-		<header className="top-0 z-50 border-b bg-white max-w-[1850px] mx-auto relative">
-			<div className="flex h-16 items-center justify-between px-4 py-4">
+		<header className="top-0 z-50 border-b bg-white  relative">
+			<div className="flex h-16 items-center justify-between px-4 py-4  mx-auto">
 				<div className="flex items-center gap-2">
 					<span className="text-2xl font-semibold text-emerald-700">
 						<Link href="/">
@@ -48,7 +48,7 @@ export async function Navbar() {
 				<div className="hidden md:flex items-center gap-4">
 					{!session ? (
 						<>
-							<Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+							<Button className="bg-emerald-600 hover:bg-emerald-700 text-white p-4">
 								<Link href="/auth/login">Login</Link>
 							</Button>
 							<Button className="bg-black hover:bg-emerald-700">

@@ -43,7 +43,7 @@ export const SendPasswordResetEmail = ({
 						</Text>
 						<Text style={text}>
 							To keep your account secure, please don&apos;t forward this email
-							to anyone. See our Help Center for{" "}
+							to anyone.
 						</Text>
 					</Section>
 				</Container>

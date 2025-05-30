@@ -73,7 +73,7 @@ export default async function Admin() {
 							<Store className="h-4 w-4 text-gray-500" />
 						</CardHeader>
 						<CardContent>
-							{/*<div className="text-2xl font-bold">{data.length}</div>*/}
+							<div className="text-2xl font-bold">{data.length}</div>
 							<p className="text-xs text-gray-500">
 								<span className="text-green-500 inline-flex items-center">
 									<ArrowUp className="mr-1 h-3 w-3" />

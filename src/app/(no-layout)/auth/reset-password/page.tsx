@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -36,8 +36,8 @@ const resetPasswordSchema = z.object({
 
 type ResetPasswordForm = z.infer<typeof resetPasswordSchema>
 export default function ForgotPassword() {
-
-	const token = new URLSearchParams(window.location.search).get("token")
+	const searchParams = useSearchParams()
+	const token = searchParams.get('token')
 	if (!token) return null;
 
 	const router = useRouter()

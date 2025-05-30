@@ -7,9 +7,9 @@ export default async function Explore() {
 	console.log(listings);
 	listings.map((listing) => { });
 	return (
-		<div className="h-full">
+		<div className="overflow-y-hidden overscroll-auto">
 			{/* <div className="w-full"></div> */}
-			<section className="my-4 h-full">
+			<section className="">
 				<FilterListing listings={listings} />
 			</section>
 		</div>
