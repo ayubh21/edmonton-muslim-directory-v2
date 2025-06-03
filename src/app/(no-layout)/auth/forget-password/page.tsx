@@ -58,7 +58,7 @@ export default function ForgotPassword() {
 				<Link href="/"
 					className="text-3xl"
 				>
-					Edmonton Khair <span className="text-black">Network</span>
+					Yeg Muslim <span className="text-black">Connect</span>
 				</Link>
 			</h2>
 			<div className="mt-20 w-full flex justify-center items-center px-6">

@@ -16,8 +16,8 @@ import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
 import { revalidateAll } from "./revalidate";
 import { geocode } from "@/lib/geocode";
-import { ListingForm } from "../(pages)/add-listings/page";
 import { CustomFile } from "@/types/listing";
+import { ListingForm } from "../(pages)/add-listings/components/listing-form-context";
 
 export async function AddListing(business: ListingForm) {
 	type NewListing = typeof Listing.$inferInsert;
@@ -46,8 +46,8 @@ export async function AddListing(business: ListingForm) {
 				galleryImages: business.images.galleryImages,
 			},
 			email: business.contact.email,
-			phone_number: business.contact.phone_number,
-			website_url: business.contact.website_url,
+			phone_number: business.contact.phoneNumber,
+			website_url: business.contact.websiteUrl,
 			userId: session.user.id,
 			work_hours: business.workHours,
 			// TODO remove checkbox type from being inserted in db

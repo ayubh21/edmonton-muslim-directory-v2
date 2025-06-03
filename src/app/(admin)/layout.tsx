@@ -24,7 +24,7 @@ export default async function AdminLayout({
 								<div className="flex items-center gap-2">
 									<span className=" font-semibold text-emerald-700">
 										<Link href="/">
-											Edmonton Khair <span className="text-black">Network</span>
+											Yeg Muslim <span className="text-black">Connect</span>
 										</Link>
 									</span>
 								</div>

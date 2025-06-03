@@ -12,7 +12,7 @@ export default function ListingList({ listings, className }: ListingListProps) {
 		<div className={className}>
 			{listings.map((listing, index) => (
 				<div
-					className="overflow-y-hidden"
+					className="overflow-y-hidden shadow-sm"
 					key={index}>
 					<BusinessCard
 						id={listing.id!}

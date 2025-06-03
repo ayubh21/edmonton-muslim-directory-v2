@@ -1,7 +1,6 @@
-import { GetListingById, GetListings } from "@/app/actions/listing";
+import { GetListingById } from "@/app/actions/listing";
 import ContactBusiness from "@/components/listing/contact-business";
 import GoogleMapComponent from "@/components/listing/map";
-import NearbyListings from "@/components/listing/nearby-listings";
 import ListingSection from "@/components/listing/section";
 import WorkHoursWrapper from "@/components/listing/work-hours-wrapper";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +25,6 @@ export default async function Listing({
 	const { id } = await params;
 	const listingId = parseInt(id);
 	const listing = await GetListingById(listingId);
-	const listings = await GetListings();
 
 	if (!listing) return null;
 
@@ -90,11 +88,14 @@ export default async function Listing({
 			<div className="px-6 max-w-[1375px] mx-auto md:grid grid-cols-2 gap-2">
 				<ListingSection icon={<Info size={20} />} title="About my business">
 					<p>
-						{listing.description}
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
+						consequuntur facere, in vitae laboriosam perspiciatis quae similique
+						iure maiores eaque vel quisquam. Quos officia ut, consectetur dolor
+						blanditiis ipsum inventore.
 					</p>
 				</ListingSection>
 
-				<ListingSection icon={<Clock2 size={20} />} title="Work Hours">
+				<ListingSection icon={<Clock2 />} title="Work Hours">
 					<div className="relative">
 						<WorkHoursWrapper workHours={listing.work_hours} />
 					</div>
@@ -170,11 +171,8 @@ export default async function Listing({
 					</div>
 				</ListingSection>
 
+
 			</div>
-			<section className="px-6 flex flex-col gap-2">
-				<h3 className="text-center font-semibold text-xl">Nearby Listings</h3>
-				<NearbyListings listings={listings} position={coordinates} />
-			</section>
 		</div>
 	);
 }

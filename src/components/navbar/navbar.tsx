@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import UserDropdown from "./user-dropdown";
 import { Plus } from "lucide-react";
 import MobileNavMenu from "./mobile-nav-menu";
+import Image from "next/image";
 
 export async function Navbar() {
 	const session = await auth.api.getSession({
@@ -12,18 +13,21 @@ export async function Navbar() {
 	});
 
 	return (
-		<header className="top-0 z-50 border-b bg-white  relative">
-			<div className="flex h-16 items-center justify-between px-4 py-4  mx-auto">
-				<div className="flex items-center gap-2">
-					<span className="text-2xl font-semibold text-emerald-700">
-						<Link href="/">
-							Edmonton Khair <span className="text-black">Network</span>
+		<header className="top-0 z-50 border-b bg-white  relative ">
+			<div className="flex h-16 items-center justify-between px-4 py-4  mx-auto ">
+				<div className="flex items-center gap-2  ">
+					<span className="text-xl font-semibold text-emerald-700 ">
+						<Link
+							href="/">
+							<img src={'/ymc_logo.png'} alt="logo" className="h-20 w-20 absolute bottom-4 left-0" />
+							<h2 className="pl-12  font-semibold text-emerald-600 text-lg"> <span className="font-semibold text-black"> Yeg Muslim </span>Connect</h2>
 						</Link>
 					</span>
 				</div>
 
 				{/* Desktop Nav */}
-				<nav className="hidden md:flex items-center gap-6">
+				<nav className="hidden md:flex justify-center items-center  gap-6">
+
 					<Link
 						href="/"
 						className="font-medium hover:text-emerald-700 transition-colors"
@@ -42,23 +46,29 @@ export async function Navbar() {
 					>
 						About
 					</Link>
+					<Link
+						href="#"
+						className="text-sm font-medium hover:text-emerald-700 transition-colors"
+					>
+						Contact
+					</Link>
 				</nav>
 
 				{/* Desktop Auth Controls */}
 				<div className="hidden md:flex items-center gap-4">
 					{!session ? (
 						<>
-							<Button className="bg-emerald-600 hover:bg-emerald-700 text-white p-4">
+							<Button className=" bg-emerald-700 text-white  rounded-lg py-2.5 px-4  ">
 								<Link href="/auth/login">Login</Link>
 							</Button>
-							<Button className="bg-black hover:bg-emerald-700">
+							<Button className=" hover:bg-emerald-700 py-2.5 px-4 rounded-lg border-emerald-600">
 								<Link href="/auth/register">Register</Link>
 							</Button>
 						</>
 					) : (
 						<>
 							<UserDropdown name={session.user.name} />
-							<Button className="bg-emerald-700 text-sm text-white hover:bg-emerald-900 flex rounded-md p-3 gap-2">
+							<Button className="bg-emerald-700 text-sm text-white hover:bg-emerald-900 flex rounded-md p-3 gap-2 b">
 								<Link href="/add-listings">Add Listing</Link>
 								<Plus className="text-white" height={20} />
 							</Button>

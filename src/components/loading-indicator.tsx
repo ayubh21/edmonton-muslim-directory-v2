@@ -20,41 +20,18 @@ const LoadingComponent = ({ isLoading, setIsLoading }: { isLoading: boolean, set
 
 	return (
 		<div
-			className={`fixed inset-0 z-50 flex items-center justify-center bg-gray-900 transition-opacity duration-500 ${fadeOut ? 'opacity-0' : 'opacity-100'
+			className={`fixed inset-0 z-50 flex items-center justify-center bg-gray-800 transition-opacity duration-500 ${fadeOut ? 'opacity-0' : 'opacity-100'
 				}`}
 		>
 			<div className="flex flex-col items-center space-y-6">
 				{/* Mountain Logo */}
 				<div className="relative">
-					<svg
-						width="80"
-						height="80"
-						viewBox="0 0 100 100"
-						className="animate-pulse"
-					>
-						{/* Mountain peaks */}
-						<path
-							d="M20 70 L35 45 L50 60 L65 35 L80 70 Z"
-							fill="none"
-							stroke="white"
-							strokeWidth="2"
-							strokeLinejoin="round"
-						/>
-						{/* Second mountain layer */}
-						<path
-							d="M10 70 L25 50 L40 65 L55 40 L70 55 L90 70"
-							fill="none"
-							stroke="white"
-							strokeWidth="1.5"
-							strokeLinejoin="round"
-							opacity="0.6"
-						/>
-					</svg>
+					<img src={'/ymc_logo.png'} alt="logo" className="h-20 w-20 " />
 				</div>
 
 				{/* MBD Text */}
 				<div className="text-white text-xl font-bold tracking-wider animate-pulse">
-					Edmonton Muslim Directory
+					Yeg Muslim Connect
 				</div>
 				{/* Loading dots */}
 			</div>

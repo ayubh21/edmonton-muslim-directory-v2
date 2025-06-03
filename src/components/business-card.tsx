@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface BusinessCardProps {
 	id: number;
-	coverImage: string;
+	coverImage: string
 	logo: string;
 	title: string;
 	// category: string;
@@ -29,8 +29,8 @@ export default function BusinessCard({
 }: BusinessCardProps) {
 	return (
 		<Link href={`/listing/${id}`}>
-			<div className="bg-white rounded-md overflow-hidden   transition-shadow relative min-h-[285px] hover:opacity-95 shadow-sm">
-				<div className="relative h-30 w-full">
+			<div className="bg-white rounded-md overflow-hidden   transition-shadow relative min-h-[285px] hover:opacity-95 ">
+				<div className="relative h-30 w-full ">
 					<Image
 						priority
 						src={coverImage}
@@ -39,7 +39,7 @@ export default function BusinessCard({
 						className="object-cover hover:opacity-100"
 					/>
 				</div>
-				<div className="p-4">
+				<div className="p-4 hover:hei">
 					<div className=" my-2">
 						<div>
 							<h3 className="font-semibold text-lg  text-gray-900">{title}</h3>
@@ -69,7 +69,7 @@ export default function BusinessCard({
 					{/* <p className="text-gray-600 text-sm line-clamp-2">{tagLine}</p> */}
 				</div>
 				<div className="absolute bottom-36 left-4 mt-2">
-					<img src={logo} alt={title} className="h-14 w-14 rounded-full" />
+					<img src={logo ? logo : undefined} alt={title} className="h-14 w-14 rounded-full" />
 				</div>
 			</div>
 		</Link>

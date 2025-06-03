@@ -11,6 +11,7 @@ import { MdDelete, MdMyLocation } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { useFormContext } from "react-hook-form";
 import { Latlng } from "@/types/listing";
+import { useListingFormContext } from "./listing-form-context";
 
 // TODO fix this later
 type Locations = {
@@ -20,13 +21,13 @@ type Locations = {
 const libraries: Libraries = ["places"];
 
 export default function ListingLocation() {
-	const { setValue, getValues, register } = useFormContext();
+	const { setValue, getValues, register, formState: { errors, touchedFields, dirtyFields }, setError, clearErrors, trigger } = useListingFormContext()
 
 	const [locations, setLocations] = useState<Locations>({
 		coordinates: [{ lat: 53.5461, lng: -113.4938 }],
 	});
 
-	const [addresses, setAddresses] = useState<string[]>([""]);
+	const [addresses, setAddresses] = useState<string[]>([]);
 
 	const [showCoordinates, setShowCoordinates] = useState(false);
 	const [lat, setLat] = useState("");
@@ -37,11 +38,16 @@ export default function ListingLocation() {
 		if (!getValues("addresses")) {
 			setValue("addresses", []);
 		}
+		console.log(addresses)
 	}, [getValues, setValue]);
 
 	useEffect(() => {
 		setValue("addresses", addresses);
-	}, [addresses, setValue]);
+		// Clear validation errors when addresses array updates
+		if (addresses.length > 0 && addresses.some(addr => addr.trim() !== "")) {
+			clearErrors("addresses");
+		}
+	}, [addresses, setValue, clearErrors]);
 
 	useEffect(() => {
 		setKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!);
@@ -60,6 +66,8 @@ export default function ListingLocation() {
 		libraries: libraries,
 		version: "weekly",
 	});
+
+	if (!isLoaded) return null;
 
 	const handleOnPlacesChanged = async (index: number) => {
 		const searchResults = commandRef.current?.getPlaces();
@@ -91,6 +99,8 @@ export default function ListingLocation() {
 							}
 						})
 					);
+
+					// Clear validation errors after selecting a place
 				} catch (error) {
 					console.error("Error getting place details:", error);
 				}
@@ -148,6 +158,9 @@ export default function ListingLocation() {
 						}
 					})
 				);
+
+				// Clear validation errors after getting address from coordinates
+				clearErrors("addresses");
 			}
 		} catch (e) {
 			console.log(e);
@@ -169,7 +182,6 @@ export default function ListingLocation() {
 			})
 		);
 
-		// Also remove from addresses array
 		setAddresses(
 			produce((draft) => {
 				draft.splice(index, 1);
@@ -194,10 +206,22 @@ export default function ListingLocation() {
 		}
 	};
 
+	const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		const newValue = e.target.value;
+
+		setAddresses(
+			produce((draft) => {
+				draft[index] = newValue;
+			})
+		);
+
+		if (newValue.trim() !== "") {
+			clearErrors("addresses");
+		}
+	};
+
 	return (
 		<div className={"mt-3"}>
-			<input type="hidden" {...register("addresses")} />
-
 			{isLoaded && (
 				<div className={"px-4 pt-4"}>
 					{locations.coordinates.map((location, index) => (
@@ -209,17 +233,12 @@ export default function ListingLocation() {
 								>
 									<div className="items-center mb-4 relative">
 										<input
+											{...register("addresses", { minLength: 1 })}
 											type="text"
 											placeholder="Enter your location"
 											value={addresses[index] || ""}
-											onChange={(e) => {
-												setAddresses(
-													produce((draft) => {
-														draft[index] = e.target.value;
-													})
-												);
-											}}
-											className="border-b-black border-b focus:border-b-emerald-600 w-full text-left py-3.5 placeholder-black outline-none top-0"
+											onChange={(e) => handleAddressInputChange(e, index)}
+											className={`w-full text-left py-3.5 placeholder-black outline-none top-0 ${errors.addresses ? "border-b border-red-500" : "border-b focus:border-b-emerald-600"}`}
 										/>
 										<MdMyLocation
 											size={18}
@@ -227,7 +246,6 @@ export default function ListingLocation() {
 										/>
 									</div>
 								</StandaloneSearchBox>
-
 								<button
 									onClick={() => setShowCoordinates(!showCoordinates)}
 									className="text-right w-full py-5 outline-none"
@@ -285,9 +303,9 @@ export default function ListingLocation() {
 									<button
 										onClick={(e) => handleRemoveLocation(e, index)}
 										className="bg-white p-2 rounded-full shadow-lg"
-										disabled={locations.coordinates.length <= 1}
+									// disabled={locations.coordinates.length <= 1}
 									>
-										<MdDelete />
+										<MdDelete className="cursor-pointer" />
 									</button>
 								</div>
 							</div>
