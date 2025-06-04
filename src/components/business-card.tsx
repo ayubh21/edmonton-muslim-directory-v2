@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 
@@ -10,7 +10,7 @@ interface BusinessCardProps {
 	logo: string;
 	title: string;
 	// category: string;
-	// address: string;
+	address: string;
 	// rating: number;
 	// price: string;
 	tagLine: string;
@@ -23,7 +23,7 @@ export default function BusinessCard({
 	coverImage,
 	title,
 	// category,
-	// address,
+	address,
 	tagLine,
 	phoneNumber,
 }: BusinessCardProps) {
@@ -44,9 +44,9 @@ export default function BusinessCard({
 						<div>
 							<h3 className="font-semibold text-lg  text-gray-900">{title}</h3>
 						</div>
-						<p className="text-[#7E7E89]">{tagLine}</p>
-						<div className="flex gap-2">
-							<Phone className="h-3 w-3 mt-2" />
+						<p className="text-[#52525B]">{tagLine}</p>
+						<div className="flex gap-2 text-sm items-center mt-2 text-[#52525B]">
+							<Phone className="h-3 w-3 " />
 
 							{phoneNumber}
 						</div>
@@ -56,15 +56,15 @@ export default function BusinessCard({
 						{/* </div> */}
 					</div>
 
-					<div className="flex items-center gap-2 mb-3 mt-4">
+					<div className="flex items-center gap-2 mb-3 ">
 						<Badge variant="outline" className="text-xs font-normal">
 							{/* {category} */}
 							Test
 						</Badge>
-						{/* <div className="flex items-center text-gray-500 text-xs">
-              <MapPin className="h-3 w-3 mr-1" />
-              {/* {address} */}
-						{/* </div>  */}
+						<div className="flex items-center text-[#52525B] text-xs">
+							<MapPin className="h-3 w-3 mr-1" />
+							{address}
+						</div>
 					</div>
 					{/* <p className="text-gray-600 text-sm line-clamp-2">{tagLine}</p> */}
 				</div>

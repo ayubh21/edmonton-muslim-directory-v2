@@ -5,6 +5,22 @@ body {
   /* max-width; */
   margin: auto;
 }
+
+ul.rc-pagination {
+	text-align: center
+}
+.rc-pagination-total-text {
+	
+}
+
+.hide-top-paginator-active 
+ & .rc-pagination-item.rc-pagination-item-1.rc-pagination-item-active
+{
+	display: none;
+}
+.rc-pagination-item.rc-pagination-item-1.rc-pagination-item-active {
+	/* display: none */
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

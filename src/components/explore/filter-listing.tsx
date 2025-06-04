@@ -33,6 +33,7 @@ import { getDistanceFromLatLonInKm, shuffleArray } from "@/lib/utils";
 import MapView from "./map-view";
 import FilterSpinner from "./filter-spinner";
 import LoadingComponent from "../loading-indicator";
+import Paginator from "../listing/paginator";
 
 interface FilterListingProps {
 	listings: Listing[];
@@ -451,10 +452,9 @@ export default function FilterListing({ listings }: FilterListingProps) {
 						) : (
 							<div className="p-4">
 								{filteredListings.length > 0 ? (
-									<ListingList
-										listings={filteredListings}
-										className="space-y-4 grid md:grid-cols-2 gap-2"
-									/>
+									<div className="">
+										<Paginator listings={filteredListings} />
+									</div>
 								) : (
 									<div className="col-span-full py-12 text-center">
 										<div className="mx-auto w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-4">
@@ -520,7 +520,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
 					<section className="bg-[#f4f4f4] border-2 flex-none w-1/3 max-w-[550px] flex flex-col">
 						{filteredListings.length > 0 ? (
 							<div className="overflow-y-auto flex-1 p-4">
-								<ListingList listings={filteredListings} className="grid gap-4" />
+								<Paginator listings={listings} />
 							</div>
 						) : (
 							<div className="col-span-full py-12 text-center">

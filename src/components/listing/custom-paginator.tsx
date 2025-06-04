@@ -1,17 +1,9 @@
-import { Listing } from '@/types/listing'
-import { ChevronLeft, ChevronRight, User } from 'lucide-react'
-import Pagination from 'rc-pagination'
+import React from "react";
+import "rc-pagination/assets/index.css";
 import RcPagination, {
 	PaginationProps as RcPaginationProps,
 } from "rc-pagination";
-import { useState } from 'react'
-import ListingList from '../explore/listing-list'
-import BusinessCard from '../business-card'
-
-interface PaginatorProps {
-	listings: Listing[];
-}
-
+import { cn } from "@/lib/utils";
 
 const paginationStyles = {
 	base: {
@@ -56,9 +48,128 @@ const paginationStyles = {
 		},
 	},
 };
+
+const iconStyles = {
+	base: "text-foreground",
+	outline: "border border-muted p-[5px]",
+	center: "inline-block align-middle",
+	rounded: {
+		none: "rounded-none",
+		sm: "rounded-sm",
+		md: "rounded-md",
+		lg: "rounded-lg",
+		full: "rounded-full",
+	},
+};
+
+type IconProps = {
+	icon: React.ReactNode;
+	rounded: keyof typeof iconStyles.rounded;
+	outline: boolean;
+	className: string;
+};
+
+const PrevIcon = ({ icon, rounded, outline, className }: IconProps) => (
+	<div
+		className={cn(
+			iconStyles.base,
+			outline ? iconStyles.outline : iconStyles.center,
+			iconStyles.rounded[rounded],
+			className
+		)}
+	>
+		{icon || (
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				strokeWidth={2}
+				stroke="currentColor"
+				className="m-auto h-4 w-4"
+			>
+				<path
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					d="M15.75 19.5L8.25 12l7.5-7.5"
+				/>
+			</svg>
+		)}
+	</div>
+);
+
+const NextIcon = ({ icon, rounded, outline, className }: IconProps) => (
+	<div
+		className={cn(
+			iconStyles.base,
+			outline ? iconStyles.outline : iconStyles.center,
+			iconStyles.rounded[rounded],
+			className
+		)}
+	>
+		{icon || (
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				strokeWidth={2}
+				stroke="currentColor"
+				className="m-auto h-4 w-4"
+			>
+				<path
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					d="M8.25 4.5l7.5 7.5-7.5 7.5"
+				/>
+			</svg>
+		)}
+	</div>
+);
+
+const JumpPrevIcon = ({ icon, rounded, outline, className }: IconProps) => (
+	<div
+		className={cn(
+			iconStyles.base,
+			outline ? iconStyles.outline : iconStyles.center,
+			iconStyles.rounded[rounded],
+			!icon && outline && "py-0 leading-[26px]",
+			className
+		)}
+	>
+		{icon || "•••"}
+	</div>
+);
+
+const JumpNextIcon = ({ icon, rounded, outline, className }: IconProps) => (
+	<div
+		className={cn(
+			iconStyles.base,
+			outline ? iconStyles.outline : iconStyles.center,
+			iconStyles.rounded[rounded],
+			!icon && outline && "py-0 leading-[26px]",
+			className
+		)}
+	>
+		{icon || "•••"}
+	</div>
+);
+
+export const localeDefault = {
+	items_per_page: "/ page",
+	jump_to: "Go to",
+	jump_to_confirm: "confirm",
+	page: "Page",
+	prev_page: "Previous Page",
+	next_page: "Next Page",
+	prev_5: "Previous 5 Pages",
+	next_5: "Next 5 Pages",
+	prev_3: "Previous 3 Pages",
+	next_3: "Next 3 Pages",
+	page_size: "Page Size",
+};
+
 export interface PaginationProps extends RcPaginationProps {
 	outline?: boolean;
-	rounded?: keyof typeof paginationStyles.rounded
+	rounded?: keyof typeof paginationStyles.rounded;
 	variant?: keyof typeof paginationStyles.variant;
 	color?: keyof typeof paginationStyles.variant.flat.color;
 	prevIconClassName?: string;
@@ -66,103 +177,73 @@ export interface PaginationProps extends RcPaginationProps {
 	jumpPrevIconClassName?: string;
 	jumpNextIconClassName?: string;
 }
-export default function Paginator({ listings }: PaginatorProps) {
 
-	const [perPage, setPerPage] = useState(10);
-	const [size, setSize] = useState(perPage);
-	const [current, setCurrent] = useState(1)
-	const PerPageChange = (value: number) => {
-		setSize(value);
-		const newPerPage = Math.ceil(listings.length / value);
-		if (current > newPerPage) {
-			setCurrent(newPerPage);
-		}
-	}
-
-
-	const PaginationChange = (page: number, pageSize: number) => {
-		setCurrent(page)
-		setSize(pageSize)
-	}
-
-
-	const getPaginatedListings = (current: number, pageSize: number) => {
-		return listings.slice((current - 1) * pageSize, current * pageSize)
-	}
-
-
-	const PrevNextArrow = (current: number, type: string, originalElement: React.ReactNode) => {
-		if (type === 'prev') {
-			return <ChevronLeft />
-		}
-		if (type === 'prev' && current == 1) {
-			console.log("hello")
-		}
-		if (type === 'next') {
-			return <ChevronRight />
-		}
-		return originalElement;
-	}
+export default function Pagination({
+	outline = false,
+	rounded = "md",
+	variant = "solid",
+	color = "primary",
+	locale,
+	nextIcon,
+	prevIcon,
+	prevIconClassName,
+	nextIconClassName,
+	jumpPrevIcon,
+	jumpNextIcon,
+	jumpPrevIconClassName,
+	jumpNextIconClassName,
+	className,
+	...props
+}: PaginationProps) {
 	return (
-		<div className='relative'>
-			<div>
-
-				<Pagination
-					showTotal={(total, range) => `Showing ${range[0]}-${range[1]} of ${total}`}
-					total={listings.length}
-					className='[&_.rc-pagination-item]:hidden  [&_.rc-pagination-next]:absolute  [&_.rc-pagination-next]:right-0  [&_.rc-pagination-next]:top-6 mb-4'
-					// showLessItems={true}
-					jumpNextIcon={<ChevronRight />}
-					jumpPrevIcon={<ChevronLeft />}
-					pageSize={5}
-					// hideOnSinglePage={true}
-					// defaultPageSize={5}
-					onChange={PaginationChange}
-					onShowSizeChange={PerPageChange}
-					itemRender={PrevNextArrow}
+		<RcPagination
+			locale={locale || localeDefault}
+			nextIcon={
+				<NextIcon
+					icon={nextIcon as React.ReactNode}
+					rounded={rounded}
+					outline={outline}
+					className={nextIconClassName as string}
 				/>
-			</div>
-			<div className='grid md:grid-cols-2 gap-4 lg:grid-cols-1'>
-				{getPaginatedListings(current, size).map((listing, index) => {
-					return (
-						<div key={index} className=''>
-							<BusinessCard
-								id={listing.id}
-								logo={listing.images.logo}
-								coverImage={listing.images.coverImage}
-								title={listing.title}
-								address={listing.addresses[0].address}
-								// category={listing.}
-								tagLine={listing.tag_line!}
-								phoneNumber={listing.phone_number!}
-							/>
-						</div>
-					)
-				})
-				}
-			</div>
-		</div>
-		// 	<div className='relative'>
-		//
-		// 	}
-		//
-		// //
-		// // <Pagination
-		// // 	total={listings.length}
-		// // 	jumpNextIcon={<ChevronRight />}
-		// // 	jumpPrevIcon={<ChevronLeft />}
-		// // 	pageSize={5}
-		// // 	defaultPageSize={5}
-		// // 	onChange={PaginationChange}
-		// // 	onShowSizeChange={PerPageChange}
-		// // 	showSizeChanger={true}
-		// // 	showPrevNextJumpers={true}
-		// // />
-		// 	// </div >
-		//
-		// )
-
-	)
+			}
+			prevIcon={
+				<PrevIcon
+					icon={prevIcon as React.ReactNode}
+					rounded={rounded}
+					outline={outline}
+					className={prevIconClassName as string}
+				/>
+			}
+			jumpPrevIcon={
+				<JumpPrevIcon
+					icon={jumpPrevIcon as React.ReactNode}
+					rounded={rounded}
+					outline={outline}
+					className={jumpPrevIconClassName as string}
+				/>
+			}
+			jumpNextIcon={
+				<JumpNextIcon
+					icon={jumpNextIcon as React.ReactNode}
+					rounded={rounded}
+					outline={outline}
+					className={jumpNextIconClassName as string}
+				/>
+			}
+			className={cn(
+				paginationStyles.base.item,
+				paginationStyles.base.jumperDiv,
+				paginationStyles.base.jumperInput,
+				!outline && paginationStyles.base.outline,
+				!outline && paginationStyles.base.icon,
+				paginationStyles.rounded[rounded],
+				paginationStyles.variant[variant].base,
+				paginationStyles.variant[variant].color[color],
+				className
+			)}
+			{...props}
+		/>
+	);
 }
 
-
+Pagination.displayName = "Pagination";

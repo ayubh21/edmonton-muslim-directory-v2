@@ -95,7 +95,7 @@ export default function Paginator({ listings }: PaginatorProps) {
 		if (type === 'prev') {
 			return <ChevronLeft />
 		}
-		if (type === 'prev' && current == 1) {
+		if (type === 'prev') {
 			console.log("hello")
 		}
 		if (type === 'next') {
@@ -108,13 +108,15 @@ export default function Paginator({ listings }: PaginatorProps) {
 			<div>
 
 				<Pagination
-					showTotal={(total, range) => `Showing ${range[0]}-${range[1]} of ${total}`}
+					showTotal={(total, range) => `Showing ${range[1]} results out of ${total}`}
 					total={listings.length}
-					className='[&_.rc-pagination-item]:hidden  [&_.rc-pagination-next]:absolute  [&_.rc-pagination-next]:right-0  [&_.rc-pagination-next]:top-6 mb-4'
-					// showLessItems={true}
+					className='[&_.rc-pagination-item]:hidden  [&_.rc-pagination-next]:absolute  [&_.rc-pagination-next]:right-0  [&_.rc-pagination-next]:top-6 mb-4 [&_.rc-pagination-total-text]:font-semibold'
+					showLessItems={true}
 					jumpNextIcon={<ChevronRight />}
 					jumpPrevIcon={<ChevronLeft />}
 					pageSize={5}
+					showSizeChanger={true}
+
 					// hideOnSinglePage={true}
 					// defaultPageSize={5}
 					onChange={PaginationChange}
