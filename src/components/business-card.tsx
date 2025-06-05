@@ -9,7 +9,7 @@ interface BusinessCardProps {
 	coverImage: string
 	logo: string;
 	title: string;
-	// category: string;
+	category: string;
 	address: string;
 	// rating: number;
 	// price: string;
@@ -22,7 +22,7 @@ export default function BusinessCard({
 	logo,
 	coverImage,
 	title,
-	// category,
+	category,
 	address,
 	tagLine,
 	phoneNumber,
@@ -50,16 +50,10 @@ export default function BusinessCard({
 
 							{phoneNumber}
 						</div>
-						{/* <div className="flex items-center bg-amber-50 px-2 py-1 rounded text-amber-700"> */}
-						{/* <Star className="h-4 w-4 fill-amber-500 text-amber-500 mr-1" /> */}
-						{/* <span className="text-sm font-medium">{rating}</span> */}
-						{/* </div> */}
 					</div>
-
 					<div className="flex items-center gap-2 mb-3 ">
 						<Badge variant="outline" className="text-xs font-normal">
-							{/* {category} */}
-							Test
+							{category}
 						</Badge>
 						<div className="flex items-center text-[#52525B] text-xs">
 							<MapPin className="h-3 w-3 mr-1" />

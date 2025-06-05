@@ -18,7 +18,10 @@ import { revalidateAll } from "./revalidate";
 import { geocode } from "@/lib/geocode";
 import { CustomFile } from "@/types/listing";
 import { ListingForm } from "../(pages)/add-listings/components/listing-form-context";
+import SendListingConfirmation from "../emails/listing-confirmation";
+import { Resend } from "resend";
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 export async function AddListing(business: ListingForm) {
 	type NewListing = typeof Listing.$inferInsert;
 	try {
@@ -195,5 +198,25 @@ export async function GetUserByListingId(userId: string) {
 		throw Error("failed to get user")
 	}
 	return userObj.name
+}
+
+
+
+export async function SendListingEmailConfirmation(email: string, name: string) {
+	try {
+		const { error } = await resend.emails.send({
+			from: "noreply@test.copyhub.cc",
+			to: [email],
+			subject: "Hello world",
+			react: SendListingConfirmation({
+				userFirstname: name,
+			}) as React.ReactElement,
+		});
+		if (error) {
+			console.log(error);
+		}
+	} catch (e) {
+		console.log(e);
+	}
 }
 

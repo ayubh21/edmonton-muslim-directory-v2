@@ -55,13 +55,14 @@ export async function Navbar() {
 				</nav>
 
 				{/* Desktop Auth Controls */}
+
 				<div className="hidden md:flex items-center gap-4">
 					{!session ? (
 						<>
-							<Button className=" bg-emerald-700 text-white  rounded-lg py-2.5 px-4  ">
+							<Button className=" bg-emerald-700 text-white  rounded-lg py-2.5 px-4  hover:bg-emerald-900 cursor-pointer">
 								<Link href="/auth/login">Login</Link>
 							</Button>
-							<Button className=" hover:bg-emerald-700 py-2.5 px-4 rounded-lg border-emerald-600">
+							<Button className=" hover:bg-emerald-700 py-2.5 px-4 rounded-lg border-emerald-600 hover:bg-gray-800">
 								<Link href="/auth/register">Register</Link>
 							</Button>
 						</>

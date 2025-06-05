@@ -6,6 +6,9 @@ body {
   margin: auto;
 }
 
+html, body {
+	height: 100vh;
+}
 ul.rc-pagination {
 	text-align: center
 }

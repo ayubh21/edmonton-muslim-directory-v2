@@ -1,7 +1,7 @@
 "use client";
 
 import ListingGeneral from "./components/listing-general";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import Link from "next/link";
 import {
 	ChevronLeft,
@@ -22,21 +22,18 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/listing-details";
 import { Button } from "@/components/ui/button";
-import { Contact, Images, ListingWorkDays, Social } from "@/types/listing";
-import { AddListing, UploadToS3 } from "@/app/actions/listing";
-import { CustomFile } from "@/types/listing"
-import { z } from "zod";
-import { fileSizeLimit } from "@/lib/constants";
-import { File } from "buffer";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
-import { ListingForm, useFormListing, useListingFormContext } from "./components/listing-form-context";
+import { AddListing, SendListingEmailConfirmation, UploadToS3 } from "@/app/actions/listing";
+import { ListingForm, useFormListing } from "./components/listing-form-context";
 import { useState } from "react";
 import LoadingComponent from "@/components/loading-indicator";
+import SendListingConfirmation from "@/app/emails/listing-confirmation";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 
 export default function Page() {
 	const methods = useFormListing()
+
 	const [isLoading, setIsLoading] = useState(false);
 	const Upload = async (images: ImageMetaData) => {
 		try {
@@ -78,12 +75,18 @@ export default function Page() {
 		}
 	};
 
-	const onSubmit = async (data: ListingForm) => {
-		await AddListing(data);
-		const result = await Upload(data.imageMetaData);
+	const onSubmit = async (listingData: ListingForm) => {
+		await AddListing(listingData);
+		const result = await Upload(listingData.imageMetaData);
 		if (!result) {
 			console.log(result)
 		}
+		const { data, error } = await authClient.getSession()
+		if (error) {
+			return
+		}
+		toast("listing successfully submitted")
+		await SendListingEmailConfirmation(listingData.contact.email, data.user.name)
 	};
 
 

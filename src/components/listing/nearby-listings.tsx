@@ -26,8 +26,7 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 			);
 			return distance <= proximity
 		});
-		initialListings = initialListings.slice(2)
-		// nearbyListings.push(initialListings)
+		initialListings = initialListings.slice(3)
 		setNearbyListings(initialListings)
 	}, [])
 
@@ -36,6 +35,7 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 			{nearbyListings.map((listing, index) => (
 				<div key={index} className="shadow-sm">
 					<BusinessCard
+						address={listing.addresses[0].address}
 						logo={listing.images.logo}
 						title={listing.title}
 						id={listing.id}

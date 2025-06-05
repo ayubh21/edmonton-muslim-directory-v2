@@ -7,6 +7,7 @@ import RcPagination, {
 import { useState } from 'react'
 import ListingList from '../explore/listing-list'
 import BusinessCard from '../business-card'
+import BottomPaginator from './custom-paginator';
 
 interface PaginatorProps {
 	listings: Listing[];
@@ -93,13 +94,10 @@ export default function Paginator({ listings }: PaginatorProps) {
 
 	const PrevNextArrow = (current: number, type: string, originalElement: React.ReactNode) => {
 		if (type === 'prev') {
-			return <ChevronLeft />
-		}
-		if (type === 'prev') {
-			console.log("hello")
+			return <ChevronLeft className='cursor-pointer' />
 		}
 		if (type === 'next') {
-			return <ChevronRight />
+			return <ChevronRight className='cursor-pointer' />
 		}
 		return originalElement;
 	}
@@ -114,17 +112,16 @@ export default function Paginator({ listings }: PaginatorProps) {
 					showLessItems={true}
 					jumpNextIcon={<ChevronRight />}
 					jumpPrevIcon={<ChevronLeft />}
-					pageSize={5}
+					pageSize={size}
 					showSizeChanger={true}
 
-					// hideOnSinglePage={true}
 					// defaultPageSize={5}
 					onChange={PaginationChange}
 					onShowSizeChange={PerPageChange}
 					itemRender={PrevNextArrow}
 				/>
 			</div>
-			<div className='grid md:grid-cols-2 gap-4 lg:grid-cols-1'>
+			<div className='grid  min-[784px]:grid-cols-2 gap-4   min-[1200px]:grid-cols-1'>
 				{getPaginatedListings(current, size).map((listing, index) => {
 					return (
 						<div key={index} className=''>
@@ -134,7 +131,7 @@ export default function Paginator({ listings }: PaginatorProps) {
 								coverImage={listing.images.coverImage}
 								title={listing.title}
 								address={listing.addresses[0].address}
-								// category={listing.}
+								category={listing.categories[0].category} // will only render a single category render multiple in the future
 								tagLine={listing.tag_line!}
 								phoneNumber={listing.phone_number!}
 							/>
@@ -143,26 +140,8 @@ export default function Paginator({ listings }: PaginatorProps) {
 				})
 				}
 			</div>
+			<Pagination />
 		</div>
-		// 	<div className='relative'>
-		//
-		// 	}
-		//
-		// //
-		// // <Pagination
-		// // 	total={listings.length}
-		// // 	jumpNextIcon={<ChevronRight />}
-		// // 	jumpPrevIcon={<ChevronLeft />}
-		// // 	pageSize={5}
-		// // 	defaultPageSize={5}
-		// // 	onChange={PaginationChange}
-		// // 	onShowSizeChange={PerPageChange}
-		// // 	showSizeChanger={true}
-		// // 	showPrevNextJumpers={true}
-		// // />
-		// 	// </div >
-		//
-		// )
 
 	)
 }
