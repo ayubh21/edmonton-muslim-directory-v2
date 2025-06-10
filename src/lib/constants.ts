@@ -2,14 +2,19 @@ export const S3_OBJECT_URI = "https://edmv2.s3.us-east-2.amazonaws.com";
 
 export const categoriesList = [
 	"Restaurants",
-	"Grocery",
-	"Healthcare",
-	"Travel",
-	"Professional",
 	"Mosque",
+	"Shopping",
+	"Services",
+	"Entertainment",
+	"Health & Fitness",
 	"Education",
+	"Automotive",
+	"Home & Garden",
+	"Travel",
+	"Health",
+	"Grocery",
+	"Professional"
 ];
-
 export const tagList = [
 	"Accept Credit Cards",
 	"Bike Parking",

@@ -6,7 +6,11 @@ import ListingSection from "@/components/listing/section";
 import WorkHoursWrapper from "@/components/listing/work-hours-wrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
+import { db } from "@/lib/db/db";
+import { Listing } from "@/lib/db/schema";
 import { geocode } from "@/lib/geocode";
+import { eq } from "drizzle-orm";
 import {
 	BadgeCheck,
 	Images,
@@ -16,77 +20,50 @@ import {
 	Clock2,
 	Mail,
 } from "lucide-react";
+import { headers } from "next/headers";
 import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import { MdPermMedia } from "react-icons/md";
-export default async function Listing({
+import ListingBanner from "./shareable-link";
+export default async function ListingDetails({
 	params,
 }: {
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
+	const user = await auth.api.getSession({ headers: await headers() })
+	if (!user) {
+		redirect('/')
+	}
 	const listingId = parseInt(id);
 	const listing = await GetListingById(listingId);
 	const listings = await GetListings();
+	console.log(listings);
 
 	if (!listing) return null;
 
-	console.log(listing)
 	const coordinates = await geocode.getCoordinates(
 		listing.addresses[0].address
 	);
 
+	const incrementViewCounter = async () => {
+		await db.update(Listing).set({
+			views: listing.views + 1,
+		}).where(eq(Listing.id, parseInt(id)))
+		await db.update(Listing).set({
+			weekly_views: listing.weekly_views + 1
+		}).where(eq(Listing.id, parseInt(id)))
+		await db.update(Listing).set({
+			monthly_views: listing.monthly_views + 1
+		}).where(eq(Listing.id, parseInt(id)))
+	}
+	incrementViewCounter();
+
+
 	return (
 		<div className="bg-gray-100">
-			<div className="mx-auto relative   overflow-hidden mb-8  max-h-[700px]">
-				<div className="aspect-[2/1]  min-h-[300px] ">
-					<Image
-						src={listing.images.coverImage || "/placeholder.svg"}
-						alt={listing.title}
-						fill
-						className="object-cover aspect-square"
-					/>
-				</div>
-				<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-				<div className="  absolute bottom-0 left-0 p-6 text-white">
-					<div className="flex items-center flex-col mb-2">
-						<div className="flex items-center">
-
-							<h1 className="text-3xl md:text-4xl font-bold mr-2">
-								{listing.title}
-							</h1>
-							<BadgeCheck className="h-6 w-6 text-emerald-400" />
-						</div>
-						<span className="mr-6">
-							{listing.tag_line}
-						</span>
-						{/* TODO render only if listing is verified */}
-					</div>
-					<div className="flex items-center  flex-wrap gap-3">
-						{/* {categories.map((category, index) => (
-              <div key={index}>
-                <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white">
-                  {category.category}
-                </Badge>
-              </div>
-            ))} */}
-						<div className="flex items-center">
-							{/* <MapPin className="h-4 w-4 mr-1" />
-              <span>{address[0].address}</span> */}
-							{/* <span>{listing.tag_line}</span> */}
-						</div>
-					</div>
-				</div>
-
-				<div className="absolute top-4 right-4 flex gap-2">
-					<Button
-						size="icon"
-						variant="secondary"
-						className="rounded-full bg-white/80 hover:bg-white"
-					>
-						<Share2 size={20} className="h-5 w-5 text-gray-700" />
-					</Button>
-				</div>
-			</div>
+			<ListingBanner listing={listing} />
 			<div className="px-6 max-w-[1375px] mx-auto md:grid grid-cols-2 gap-2">
 				<ListingSection icon={<Info size={20} />} title="About my business">
 					<p>
@@ -134,9 +111,11 @@ export default async function Listing({
 						<div className="flex justify-between  items-center">
 							{/* TODO redirect to google maps  */}
 							{/* <span>{address[0].address}</span> */}
-							<Button className="bg-faintGrey bg-[#f2f3f2] text-black  text-center  h-full my-2 shadow-none font-normal  rounded-none mt-4">
-								Get Directions
-							</Button>
+							<Link href={`https://www.google.com/maps/place/q=${coordinates.lat},${coordinates.lng}`}>
+								<Button className="cursor-pointer bg-faintGrey bg-[#f2f3f2] text-black  text-center  h-full my-2 shadow-none font-normal  rounded-none mt-4 hover: hover:bg-gray-200">
+									Get Directions
+								</Button>
+							</Link>
 							<span>{listing.addresses[0].address}</span>
 						</div>
 					</div>

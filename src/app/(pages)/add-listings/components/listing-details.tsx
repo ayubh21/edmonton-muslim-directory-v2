@@ -71,13 +71,13 @@ export default function ListingDetails() {
 				<h3 className="font-semibold">Categories</h3>
 				<Select onValueChange={(value: string) => handleAddCategory(value)}>
 					<div>
-						<SelectTrigger className="w-full border-none shadow-none ">
+						<SelectTrigger className="w-full border-none shadow-none cursor-pointer">
 							<SelectValue placeholder="Select Category" />
 						</SelectTrigger>
 					</div>
 					<SelectContent side="bottom">
 						<div>
-							{categoriesList.map((type, index) => (
+							{categoriesList.map((_, index) => (
 								<div key={index}>
 									<SelectItem value={categoriesList[index]} key={index}>
 										{categoriesList[index]}
@@ -111,15 +111,17 @@ export default function ListingDetails() {
 			</div>
 			<hr className="w-full my-4" />
 			<h3 className="font-semibold ">Tags</h3>
-			<Select onValueChange={(value: string) => handleAddTag(value)}>
-				<div>
-					<SelectTrigger className="w-full border-none shadow-none">
+			<Select
+
+				onValueChange={(value: string) => handleAddTag(value)}>
+				<div className="">
+					<SelectTrigger className="w-full border-none shadow-none cursor-pointer">
 						<SelectValue placeholder="Select Tags" />
 					</SelectTrigger>
 				</div>
 				<SelectContent side="bottom">
-					<div>
-						{tagList.map((type, index) => (
+					<div className="cursor-pointer">
+						{tagList.map((_, index) => (
 							<div key={index}>
 								<SelectItem value={tagList[index]}>{tagList[index]}</SelectItem>
 							</div>

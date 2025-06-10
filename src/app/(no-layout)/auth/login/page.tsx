@@ -176,7 +176,7 @@ export default function Login() {
 						</div>
 						<Button
 							type="submit"
-							className="w-full bg-emerald-900 hover:bg-emerald-700 py-6"
+							className="w-full hover:bg-emerald-700 py-6 bg-gradient-to-r from-emerald-600 to-emerald-700"
 							disabled={isLoading}
 						>
 							{isLoading ? (

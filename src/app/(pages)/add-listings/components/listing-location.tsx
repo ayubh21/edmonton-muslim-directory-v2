@@ -43,7 +43,6 @@ export default function ListingLocation() {
 
 	useEffect(() => {
 		setValue("addresses", addresses);
-		// Clear validation errors when addresses array updates
 		if (addresses.length > 0 && addresses.some(addr => addr.trim() !== "")) {
 			clearErrors("addresses");
 		}

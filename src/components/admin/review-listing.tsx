@@ -40,6 +40,9 @@ import {
 import { UpdateListingStatus } from "@/app/services/services";
 import { geocode } from "@/lib/geocode";
 import WorkHours from "@/app/(pages)/add-listings/components/listing-work-hours";
+import SendListingApproved from "@/app/emails/approved-listing";
+import { authClient } from "@/lib/auth-client";
+import { SendListingApprovedEmailConfirmation, SendListingRejectedEmailConfirmation } from "@/app/actions/listing";
 
 type Address = {
 	address: string;
@@ -50,6 +53,7 @@ type ReviewListingProps = {
 	name: string;
 	addresses: Address[];
 };
+
 
 export default function ReviewListing({ ...props }: ReviewListingProps) {
 
@@ -72,6 +76,19 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 	}, [props.addresses]);
 
 
+	const handleUpdateAndSendListingStatus = async (status: "approved" | "rejected") => {
+		await UpdateListingStatus(props.listing.id!, status)
+
+		if (props.listing.status == "approved") {
+			await SendListingApprovedEmailConfirmation(props.listing.email, props.name, props.listing.title)
+		}
+		if (props.listing.status == "rejected") {
+
+			await SendListingRejectedEmailConfirmation(props.listing.email, props.name, props.listing.title)
+		}
+	}
+
+
 	return (
 		<div className="space-y-6">
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -86,7 +103,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 				</div>
 				<div className="flex items-center gap-2">
 					<Button
-						onClick={() => UpdateListingStatus(props.listing.id!, "rejected")}
+						onClick={() => handleUpdateAndSendListingStatus("rejected")}
 						variant="outline"
 						className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
 					>
@@ -94,7 +111,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 						Reject
 					</Button>
 					<Button
-						onClick={() => UpdateListingStatus(props.listing.id!, "approved")}
+						onClick={() => handleUpdateAndSendListingStatus("approved")}
 						className="gap-2 bg-emerald-600 hover:bg-emerald-700"
 					>
 						<CheckCircle className="h-4 w-4" />
@@ -263,15 +280,15 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 									<div>
 										<h3 className="font-medium mb-2">Business Features</h3>
 										<div className="flex flex-wrap gap-2">
-											{/* {props.listing.tags.map((tag, index) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="bg-gray-50"
-                        >
-                          {tag}
-                        </Badge>
-                      ))} */}
+											{props.listing.tags.map((tag, index) => (
+												<Badge
+													key={index}
+													variant="outline"
+													className="bg-gray-50"
+												>
+													{tag.tag}
+												</Badge>
+											))}
 										</div>
 									</div>
 								</TabsContent>
@@ -294,6 +311,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 				</div>
 
 				<div className="space-y-6">
+					{/*
 					<Card>
 						<CardHeader>
 							<CardTitle>Review Decision</CardTitle>
@@ -376,8 +394,9 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 							</div>
 						</CardContent>
 					</Card>
+					*/}
 					{/* TODO ensure submitter info comes from user and not listing */}
-					<Card>
+					<Card className="">
 						<CardHeader>
 							<CardTitle>Submitter Information</CardTitle>
 						</CardHeader>

@@ -122,57 +122,49 @@ export default function Register() {
 						<CardTitle className="text-2xl">Registration Successful!</CardTitle>
 						<CardDescription>
 							Your account has been created successfully. You will be redirected
-							to the login page shortly.
+							to the Home page shortly.
 						</CardDescription>
 					</CardHeader>
-					<CardFooter>
-						<Button
-							className="w-full bg-emerald-600 hover:bg-emerald-700"
-							onClick={() => router.push("/auth/login")}
-						>
-							Continue to Login
-							<ArrowRight className="ml-2 h-4 w-4" />
-						</Button>
-					</CardFooter>
 				</Card>
 			</div>
 		);
 	}
 
 	return (
-		<div className="min-h-screen flex justify-center items-center  py-8">
-			<div className="w-full max-w-md px-4">
-				<h2 className="text-4xl text-center mb-4">Create an Account</h2>
-				{clientError && (
-					<Alert variant="destructive" className="mb-6">
-						<AlertDescription>{clientError}</AlertDescription>
-					</Alert>
-				)}
+		<div className="w-full px-4">
+			<h2 className="text-3xl text-center my-6">Create an Account</h2>
+			{clientError && (
+				<Alert variant="destructive" className="mb-6">
+					<AlertDescription>{clientError}</AlertDescription>
+				</Alert>
+			)}
 
-				{serverError && (
-					<Alert variant="destructive" className="mb-6">
-						<AlertDescription>{serverError}</AlertDescription>
-					</Alert>
-				)}
-
+			{serverError && (
+				<Alert variant="destructive" className="mb-6">
+					<AlertDescription>{serverError}</AlertDescription>
+				</Alert>
+			)}
+			<hr className="h-2 mb-6 w-full" />
+			<div className=" min-h-screen  max-w-lg mx-auto">
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					<div className="grid grid-cols-2 gap-4">
 						<div className="space-y-2">
 							<Label htmlFor="firstname">First Name</Label>
 							<Input
+								className="py-8 rounded-md"
 								id="firstname"
+
 								{...register("firstname")}
-								aria-invalid={errors.firstname ? "true" : "false"}
-							/>
-							{errors.firstname && (
-								<p className="text-sm text-red-500 font-semibold">
-									{errors.firstname.message}
-								</p>
-							)}
+								aria-invalid={errors.firstname ? "true" : "false"} /> {errors.firstname && (
+									<p className="text-sm text-red-500 font-semibold">
+										{errors.firstname.message}
+									</p>
+								)}
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="lastname">Last Name</Label>
 							<Input
+								className="py-8 rounded-md"
 								id="lastname"
 								{...register("lastname")}
 								aria-invalid={errors.lastname ? "true" : "false"}
@@ -188,6 +180,7 @@ export default function Register() {
 					<div className="space-y-2">
 						<Label htmlFor="email">Email</Label>
 						<Input
+							className="py-8 rounded-md"
 							id="email"
 							type="email"
 							autoComplete="email"
@@ -206,6 +199,7 @@ export default function Register() {
 						<div className="relative">
 							<Input
 								id="password"
+								className="py-8 rounded-md"
 								type={showPassword ? "text" : "password"}
 								autoComplete="new-password"
 								{...register("password")}
@@ -236,6 +230,7 @@ export default function Register() {
 							<Label htmlFor="confirmPassword">Confirm Password</Label>
 							<div className="relative">
 								<Input
+									className="py-8 rounded-md"
 									id="confirmPassword"
 									type={showConfirmPassword ? "text" : "password"}
 									autoComplete="new-password"
@@ -269,7 +264,7 @@ export default function Register() {
 
 					<Button
 						type="submit"
-						className="w-full bg-emerald-600 hover:bg-emerald-700"
+						className="w-full hover:bg-emerald-700 py-6 bg-gradient-to-r from-emerald-600 to-emerald-700"
 						disabled={isLoading}
 					>
 						{isLoading ? (
@@ -295,3 +290,4 @@ export default function Register() {
 		</div>
 	);
 }
+

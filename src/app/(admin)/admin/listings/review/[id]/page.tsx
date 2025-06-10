@@ -1,5 +1,5 @@
 import ReviewListing from "@/components/admin/review-listing";
-import { GetListingById, GetUserByListingId } from "@/app/actions/listing";
+import { GetListingById, GetUserByListing } from "@/app/actions/listing";
 
 export default async function ReviewListingPage({
 	params,
@@ -10,10 +10,10 @@ export default async function ReviewListingPage({
 	const listingId = parseInt(id);
 	const listing = await GetListingById(listingId);
 	if (!listing) return null;
-	const name = await GetUserByListingId(listing?.userId)
+	const name = await GetUserByListing(listing.id)
 	return (
 		<div>
-			<ReviewListing listing={listing} addresses={listing.addresses} name={name} />
+			<ReviewListing listing={listing} addresses={listing.addresses} name={name!} />
 		</div>
 	);
 }

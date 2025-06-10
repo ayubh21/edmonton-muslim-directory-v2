@@ -58,6 +58,7 @@
     "react-geocode": "^2.0.1",
     "react-hook-form": "^7.56.0",
     "react-icons": "^5.5.0",
+    "recharts": "^2.15.3",
     "resend": "^4.5.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",

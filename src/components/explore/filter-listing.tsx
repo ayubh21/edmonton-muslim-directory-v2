@@ -50,9 +50,9 @@ interface Filters {
 
 
 export default function FilterListing({ listings }: FilterListingProps) {
+
 	const isDesktop = useMediaQuery("(min-width: 1200px)");
 	const searchParams = useSearchParams();
-
 	const [filters, setFilters] = useState<Filters>({
 		category: "",
 		proximity: [40],
@@ -61,23 +61,30 @@ export default function FilterListing({ listings }: FilterListingProps) {
 		orderBy: "",
 	});
 
-	// checking on size since we don't have any other query filters 
-	let queryFilters = listings.filter(({ categories }) => {
+
+
+	let queryFilters = listings.filter(({ categories, title }) => {
 		if (searchParams.size != 0) {
-			return (
-				categories.filter((category) => {
-					return category.category === searchParams.get("category")
-				}).length > 0
-
-			)
-			// set filter category state to search param
+			if (searchParams.get("category")) {
+				return (
+					categories.filter((category) => {
+						return category.category === searchParams.get("category")
+					}).length > 0
+				)
+			} else {
+				return title.toLowerCase().includes(filters.searchText.toLowerCase())
+			}
 		}
-
 		else {
-			return listings
+			return listings;
 		}
-	})
 
+
+		if (filters.searchText == searchParams.get("search_keywords")) {
+			return title.toLowerCase().includes(filters.searchText.toLowerCase())
+		}
+
+	})
 
 	const [filteredListings, setFilteredListings] = useState<Listing[]>(queryFilters)
 	const [isLoading, setIsLoading] = useState(false)
@@ -108,17 +115,18 @@ export default function FilterListing({ listings }: FilterListingProps) {
 	};
 
 
+	// loading component to hydrate client and server interactivity
+	useEffect(() => {
+		setIsLoading(true)
+	}, [isLoading])
 
 
 	useEffect(() => {
-		if (searchParams.size == 1) {
-			const category = searchParams.get("category");
-			if (!category) {
-				return
-			}
+		if (searchParams.size > 0) {
 			setFilters(
 				produce((draft) => {
-					draft.category = category
+					draft.category = searchParams.get("category") ?? ""
+					draft.searchText = searchParams.get("search_keywords") ?? ""
 				})
 			)
 		}
@@ -147,7 +155,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
 		}
 
 	}, [filters.searchText]);
-
+	if (!isLoading) return <LoadingComponent isLoading={isLoading} setIsLoading={setIsLoading} />;
 
 	const applyFilter = () => {
 		let initialListings = listings;
@@ -269,7 +277,6 @@ export default function FilterListing({ listings }: FilterListingProps) {
 	if (!isDesktop) {
 		return (
 			<div className="bg-[#f4f4f4] ">
-				{/* {!isDesktop && ( */}
 				<Drawer open={open} onOpenChange={setOpen}>
 					<div className="flex  justify-between w-full  px-4 shadow-sm mb-1 bg-white">
 						<div className="flex flex-row-reverse  items-center justify-between my-2">
@@ -292,7 +299,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
 							<div className="flex justify-between">
 								<span className="font-semibold flex gap-2 justify-center items-center cursor-pointer ">
 									Filters
-									<FaSliders className="basis-1/3 text-emerald-600 border-none " />
+									<FaSliders className={`${filters.category != "" || filters.searchText != "" || filters.orderBy != "" || filters.tags.length > 1 ? "text-emerald-600" : null} basis-1/3  border-none`} />
 								</span>
 							</div>
 						</DrawerTrigger>
@@ -308,7 +315,9 @@ export default function FilterListing({ listings }: FilterListingProps) {
 									/>
 								</span>
 								<span className="bg-[#f2f3f2] p-2.5 cursor-pointer">
-									<X onClick={() => setOpen(!open)} />
+									<X
+										className="text-gray-500 hover:text-black"
+										onClick={() => setOpen(!open)} />
 								</span>
 								<Button
 									onClick={applyFilter}
@@ -529,12 +538,8 @@ export default function FilterListing({ listings }: FilterListingProps) {
 		return (
 			<>
 				<div className="relative">
-					{!isLoading &&
-						<LoadingComponent isLoading={isLoading} setIsLoading={setIsLoading} />
-					}
-
 					<div className="flex gap-2 h-[calc(100vh-67px)]">
-						<section className="  p-4  flex-none  w-1/3  max-w-[400px]">
+						<section className="  p-4  flex-none  w-1/3  max-w-[550px]">
 							<div className=" ">
 								<div className="px-4 ">
 									<div>
@@ -548,7 +553,6 @@ export default function FilterListing({ listings }: FilterListingProps) {
 													})
 												)
 											}
-											// onChange={filterWithSearch}
 											placeholder="What are you looking for?"
 											className="placeholder placeholder:text-black w-full py-3.5 focus:outline-none border-b focus:border-b-emerald-600 mb-4 "
 										/>
@@ -684,11 +688,11 @@ export default function FilterListing({ listings }: FilterListingProps) {
 											</SelectContent>
 										</Select>
 									</div>
-								</div>
+								</div >
 								<div className=" flex flex-col justify-center items-center gap-3">
 									<Button
 										onClick={applyFilter}
-										className=" bg-emerald-600 hover:bg-emerald-800 rounded-md basis-4/5 px-2 w-full p-4"
+										className=" bg-gradient-to-r from-emerald-600 to-emerald-700  rounded-md basis-4/5 px-2 w-full p-4 hover:from-emerald-700 hover:to-emerald-800 "
 									>
 										<Search /> Search
 									</Button>
@@ -699,24 +703,29 @@ export default function FilterListing({ listings }: FilterListingProps) {
 										label="Reset Filters"
 									/>
 								</div>
-							</div>
-						</section>
+							</div >
+						</section >
 						<section className=" border-2 flex-none w-1/3 max-w-[550px]  flex flex-col bg-[#f4f4f4] h-screen">
 							{filteredListings.length > 0 ? (
 								<div className="overflow-y-auto flex-1 p-4">
 									<Paginator listings={filteredListings} />
 								</div>
 							) : (
-								<div className=" py-12 text-center  ">
+								<div className="col-span-full py-12 text-center h-screen">
 									<div className="mx-auto w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-										<Search className="h-12 w-12 text-gray-300" />
+										<RiEmotionSadLine className="h-12 w-12 text-[#c4c4c4]" />
 									</div>
-									<h3 className="text-xl font-semibold mb-2">
-										No businesses found
-									</h3>
-									<p className="text-gray-500 mb-4">
-										We could not find any businesses matching your search criteria.
+									<p className="text-[#52525B] mb-4">
+										No listings matching your search criteria
 									</p>
+									<div className=" flex flex-col justify-center items-center gap-3">
+										<FilterSpinner
+											clearFilters={clearFilters}
+											isSpinning={isSpinning}
+											setIsSpinning={setIsSpinning}
+											label="Reset Filters"
+										/>
+									</div>
 								</div>
 							)}
 						</section>
@@ -726,8 +735,8 @@ export default function FilterListing({ listings }: FilterListingProps) {
 								filteredListings={filteredListings}
 							/>
 						</section>
-					</div>
-				</div>
+					</div >
+				</div >
 			</>
 		);
 	}

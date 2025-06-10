@@ -49,11 +49,11 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
 							Explore
 						</Link>
 						<Link
-							href="#"
+							href="/contact"
 							onClick={() => setOpen(false)}
 							className="hover:text-emerald-700"
 						>
-							About
+							Contact
 						</Link>
 
 						{!isLoggedIn ? (
@@ -85,7 +85,7 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
 								<Link
 									href="/add-listings"
 									onClick={() => setOpen(false)}
-									className="flex items-center gap-2   bg-emerald-600 text-white py-4 rounded-md hover:bg-emerald-900"
+									className="flex items-center gap-2   bg-emerald-600 text-white py-4 rounded-md hover:bg-emerald-900 bg-gradient-to-r from-emerald-600 to-emerald-700"
 								>
 									<span className="text-center w-full flex items-center justify-center gap-2">
 										Add Listing

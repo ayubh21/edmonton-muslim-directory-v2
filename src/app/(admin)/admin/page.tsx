@@ -74,13 +74,6 @@ export default async function Admin() {
 						</CardHeader>
 						<CardContent>
 							<div className="text-2xl font-bold">{data.length}</div>
-							<p className="text-xs text-gray-500">
-								<span className="text-green-500 inline-flex items-center">
-									<ArrowUp className="mr-1 h-3 w-3" />
-									12%
-								</span>{" "}
-								from last month
-							</p>
 						</CardContent>
 					</Card>
 					<Card>
@@ -92,13 +85,6 @@ export default async function Admin() {
 							<div className="text-2xl font-bold">
 								{approvedListingCount}
 							</div>
-							<p className="text-xs text-gray-500">
-								<span className="text-green-500 inline-flex items-center">
-									<ArrowUp className="mr-1 h-3 w-3" />
-									8%
-								</span>{" "}
-								from last month
-							</p>
 						</CardContent>
 					</Card>
 					<Card>
@@ -127,13 +113,6 @@ export default async function Admin() {
 							<div className="text-2xl font-bold">
 								{rejectedListingCount}
 							</div>
-							<p className="text-xs text-gray-500">
-								<span className="text-red-500 inline-flex items-center">
-									<ArrowDown className="mr-1 h-3 w-3" />
-									3%
-								</span>{" "}
-								from last month
-							</p>
 						</CardContent>
 					</Card>
 				</div>
@@ -163,7 +142,9 @@ export default async function Admin() {
 				</div>
 				{/* <div> */}
 			</div>
+
 			<ListingApprovals data={data} />
+
 		</div>
 	);
 	// }

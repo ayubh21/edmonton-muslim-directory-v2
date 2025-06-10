@@ -4,6 +4,8 @@ import ListingGeneral from "./components/listing-general";
 import { FormProvider } from "react-hook-form";
 import Link from "next/link";
 import {
+	ArrowRight,
+	CheckCircle,
 	ChevronLeft,
 	Contact2Icon,
 	Image as ImageIcon,
@@ -26,15 +28,16 @@ import { AddListing, SendListingEmailConfirmation, UploadToS3 } from "@/app/acti
 import { ListingForm, useFormListing } from "./components/listing-form-context";
 import { useState } from "react";
 import LoadingComponent from "@/components/loading-indicator";
-import SendListingConfirmation from "@/app/emails/listing-confirmation";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 
 
 export default function Page() {
-	const methods = useFormListing()
-
+	const methods = useFormListing();
 	const [isLoading, setIsLoading] = useState(false);
+	const [isSubmitted, setIsSubmitted] = useState(false);
 	const Upload = async (images: ImageMetaData) => {
 		try {
 			if (images.logo) {
@@ -67,7 +70,7 @@ export default function Page() {
 				const galleryImages = await Promise.allSettled(galleryImagesPromises);
 				console.log(galleryImages);
 			}
-
+			setIsSubmitted(true);
 			return { success: true };
 		} catch (error) {
 			console.error("Error uploading images:", error);
@@ -77,18 +80,39 @@ export default function Page() {
 
 	const onSubmit = async (listingData: ListingForm) => {
 		await AddListing(listingData);
+		console.log("test")
 		const result = await Upload(listingData.imageMetaData);
 		if (!result) {
 			console.log(result)
 		}
 		const { data, error } = await authClient.getSession()
 		if (error) {
-			return
+			redirect('/')
 		}
-		toast("listing successfully submitted")
 		await SendListingEmailConfirmation(listingData.contact.email, data.user.name)
+
+		setTimeout(() => {
+			redirect('/')
+		}, 5000)
 	};
 
+	if (isSubmitted) {
+		return (
+			<div className="h-screen flex justify-center items-center bg-gray-50">
+				<Card className="w-[450px] shadow-lg">
+					<CardHeader className="text-center">
+						<div className="mx-auto mb-4 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+							<CheckCircle className="h-6 w-6 text-green-600" />
+						</div>
+						<CardTitle className="text-2xl">Listing Successful!</CardTitle>
+						<CardDescription>
+							Thank you for submitting a listing with ymc. Your listing has been created successfully and is under review, if approved an email confirmation will be sent out.
+						</CardDescription>
+					</CardHeader>
+				</Card>
+			</div >
+		);
+	}
 
 	return (
 		<FormProvider {...methods}>

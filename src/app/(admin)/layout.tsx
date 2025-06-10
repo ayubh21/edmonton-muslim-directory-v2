@@ -32,9 +32,9 @@ export default async function AdminLayout({
 
 							<div className="hidden md:flex md:items-center md:gap-2">
 								<div className="flex items-center gap-2">
-									<span className="text-2xl font-semibold text-emerald-700">
+									<span className=" font-semibold text-emerald-700 text-2xl">
 										<Link href="/">
-											Edmonton Khair <span className="text-black">Network</span>
+											Yeg Muslim <span className="text-black">Connect</span>
 										</Link>
 									</span>
 								</div>
@@ -43,24 +43,6 @@ export default async function AdminLayout({
 								</span>
 							</div>
 
-							<div className="ml-auto flex items-center gap-4">
-								<form className="hidden md:block">
-									<div className="relative">
-										<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-										<Input
-											type="search"
-											placeholder="Search..."
-											className="w-64 bg-gray-50 pl-8 focus-visible:ring-emerald-500"
-										/>
-									</div>
-								</form>
-								<Button variant="outline" size="icon" className="relative h-8 w-8">
-									<Bell className="h-4 w-4" />
-									<span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
-									<span className="sr-only">Notifications</span>
-								</Button>
-								<div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden"></div>
-							</div>
 						</div>
 					</header>
 					<div className="flex">

@@ -14,13 +14,12 @@ export async function Navbar() {
 
 	return (
 		<header className="top-0 z-50 border-b bg-white  relative ">
-			<div className="flex h-16 items-center justify-between px-4 py-4  mx-auto ">
+			<div className="flex h-16 items-center justify-between px-4 py-4 mx-auto max-w-[1850px]">
 				<div className="flex items-center gap-2  ">
 					<span className="text-xl font-semibold text-emerald-700 ">
 						<Link
 							href="/">
-							<img src={'/ymc_logo.png'} alt="logo" className="h-20 w-20 absolute bottom-4 left-0" />
-							<h2 className="pl-12  font-semibold text-emerald-600 text-lg"> <span className="font-semibold text-black"> Yeg Muslim </span>Connect</h2>
+							<h2 className="  font-semibold text-emerald-600 text-lg"> <span className="font-semibold text-black"> Yeg Muslim </span>Connect</h2>
 						</Link>
 					</span>
 				</div>
@@ -41,13 +40,7 @@ export async function Navbar() {
 						Explore
 					</Link>
 					<Link
-						href="#"
-						className="text-sm font-medium hover:text-emerald-700 transition-colors"
-					>
-						About
-					</Link>
-					<Link
-						href="#"
+						href="/contact"
 						className="text-sm font-medium hover:text-emerald-700 transition-colors"
 					>
 						Contact
@@ -59,17 +52,17 @@ export async function Navbar() {
 				<div className="hidden md:flex items-center gap-4">
 					{!session ? (
 						<>
-							<Button className=" bg-emerald-700 text-white  rounded-lg py-2.5 px-4  hover:bg-emerald-900 cursor-pointer">
+							<Button className="  text-white  rounded-lg py-2.5 px-4  hover:bg-emerald-900 cursor-pointer bg-gradient-to-r from-emerald-600 to-emerald-700">
 								<Link href="/auth/login">Login</Link>
 							</Button>
-							<Button className=" hover:bg-emerald-700 py-2.5 px-4 rounded-lg border-emerald-600 hover:bg-gray-800">
+							<Button className="py-2.5 px-4 rounded-lg border-emerald-600 hover:bg-gray-800">
 								<Link href="/auth/register">Register</Link>
 							</Button>
 						</>
 					) : (
 						<>
 							<UserDropdown name={session.user.name} />
-							<Button className="bg-emerald-700 text-sm text-white hover:bg-emerald-900 flex rounded-md p-3 gap-2 b">
+							<Button className=" text-sm text-white hover:bg-emerald-900 flex rounded-md p-3 gap-2 bg-gradient-to-r from-emerald-600 to-emerald-700">
 								<Link href="/add-listings">Add Listing</Link>
 								<Plus className="text-white" height={20} />
 							</Button>

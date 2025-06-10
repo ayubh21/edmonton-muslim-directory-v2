@@ -4,6 +4,7 @@ import { Latlng, Listing } from "@/types/listing"
 import BusinessCard from "../business-card";
 import { useEffect, useState } from "react";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
+import { useParams, useRouter } from "next/navigation";
 
 interface NearbyListings {
 	listings: Listing[];
@@ -12,12 +13,18 @@ interface NearbyListings {
 }
 
 export default function NearbyListings({ listings, position, proximity = 20 }: NearbyListings) {
-	console.log(listings);
+
+	const params = useParams()
 
 	const [nearbyListings, setNearbyListings] = useState<Listing[]>([])
 	useEffect(() => {
+		const currentListingId = parseInt(params.id as string)
 		let initialListings = listings
 		initialListings = initialListings.filter((listing) => {
+
+			if (listing.id === currentListingId) {
+				return;
+			}
 			const distance = getDistanceFromLatLonInKm(
 				listing.addresses[0].lat,
 				listing.addresses[0].lng,
@@ -26,7 +33,7 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 			);
 			return distance <= proximity
 		});
-		initialListings = initialListings.slice(3)
+		initialListings = initialListings.slice(0, 4)
 		setNearbyListings(initialListings)
 	}, [])
 
@@ -35,6 +42,7 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 			{nearbyListings.map((listing, index) => (
 				<div key={index} className="shadow-sm">
 					<BusinessCard
+						category={listing.categories[0].category}
 						address={listing.addresses[0].address}
 						logo={listing.images.logo}
 						title={listing.title}

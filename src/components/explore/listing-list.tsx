@@ -7,7 +7,6 @@ interface ListingListProps {
 }
 
 export default function ListingList({ listings, className }: ListingListProps) {
-	// having trouble thinking about how im gonna render categories
 	return (
 		<div className={className}>
 			{listings.map((listing, index) => (
@@ -20,14 +19,12 @@ export default function ListingList({ listings, className }: ListingListProps) {
 						coverImage={listing.images.coverImage}
 						title={listing.title}
 						address={listing.addresses[0].address}
-						// category={listing.}
+						category={listing.categories[0].category}
 						tagLine={listing.tag_line!}
 						phoneNumber={listing.phone_number!}
-					// address=""
 					/>
 				</div>
 			))}
 		</div>
-		// pagination
 	);
 }

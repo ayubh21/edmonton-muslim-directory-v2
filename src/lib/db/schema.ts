@@ -84,6 +84,12 @@ export const Listing = pgTable("listing", {
 	isFeatured: boolean("is_featured"),
 	createdAt: timestamp("created_at").defaultNow().notNull(),
 	updatedAt: timestamp().defaultNow().notNull(),
+	views: integer("views").notNull(),
+	weekly_views: integer("weekly_views").notNull(),
+	monthly_views: integer("monthly_views").notNull(),
+	count_of_last_seven_days: integer("count_of_last_seven_days").notNull(),
+	count_of_last_24: integer("count_of_last_24").notNull(),
+	count_of_last_30: integer("count_of_last_30").notNull(),
 	userId: text("user_id")
 		.references(() => user.id)
 		.notNull(),
@@ -164,5 +170,6 @@ export const ListingCategoryRelation = relations(
 		}),
 	})
 );
+
 
 // get the name of the user per listing
