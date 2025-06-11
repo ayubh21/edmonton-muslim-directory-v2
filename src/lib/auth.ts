@@ -1,30 +1,28 @@
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth";
-import { MongoClient } from "mongodb";
-import { mongodbAdapter } from "better-auth/adapters/mongodb";
-
-const client = new MongoClient("mongodb://localhost:27017/database");
-const db = client.db();
+import { nextCookies } from "better-auth/next-js";
+import { db } from "./db/db";
+import { SendEmail } from "@/app/actions/auth";
 
 export const auth = betterAuth({
-  user: {
-    modelName: "users",
-    fields: {
-      email: "emailAddress",
-      name: "fullName",
-    },
-    additionalFields: {
-      is_admin: {
-        type: "boolean",
-        nullable: false,
-      },
-      compnay_name: {
-        type: "string",
-        nullable: false,
-      },
-    },
-  },
-  database: mongodbAdapter(db),
-  emailAndPassword: {
-    enabled: true,
-  },
+	user: {
+		additionalFields: {
+			is_admin: {
+				type: "boolean",
+			},
+		},
+	},
+	emailAndPassword: {
+		sendResetPassword: async ({ user, url, token }, request) => {
+			await SendEmail(user.email, user.name, url);
+		},
+		enabled: true,
+	},
+
+	database: drizzleAdapter(db, {
+		provider: "pg",
+	}),
+	plugins: [nextCookies()],
 });
+
+export type Session = typeof auth.$Infer.Session;

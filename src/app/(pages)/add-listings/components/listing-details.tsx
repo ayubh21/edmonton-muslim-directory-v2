@@ -1,0 +1,152 @@
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { categoriesList, tagList } from "@/lib/constants";
+import { produce } from "immer";
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useListingFormContext } from "./listing-form-context";
+
+export default function ListingDetails() {
+	const { setValue, register } = useListingFormContext();
+	const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
+		[]
+	);
+	const [selectedTagsList, setSelectedTagsList] = useState<string[]>([]);
+	const handleAddCategory = (category: string) => {
+		setSelectedCategoryList(
+			produce((draft) => {
+				draft.push(category);
+			})
+		);
+	};
+
+	const handleRemoveCategory = (index: number) => {
+		for (let i = 0; i < selectedCategoryList.length; i++) {
+			if (i === index) {
+				setSelectedCategoryList(
+					produce((draft) => {
+						draft.splice(i, 1);
+					})
+				);
+			}
+		}
+	};
+
+	const handleAddTag = (category: string) => {
+		setSelectedTagsList(
+			produce((draft) => {
+				draft.push(category);
+			})
+		);
+
+	};
+
+	const handleRemoveTag = (index: number) => {
+		for (let i = 0; i < selectedCategoryList.length; i++) {
+			if (i === index) {
+				setSelectedTagsList(
+					produce((draft) => {
+						draft.splice(i, 1);
+					})
+				);
+			}
+		}
+	};
+
+	useEffect(() => {
+		setValue("categories", selectedCategoryList);
+		setValue("tags", selectedTagsList);
+	}, [selectedCategoryList, selectedTagsList, setValue]);
+	return (
+		<div className="px-4">
+			<input type="hidden" {...register("categories")} />
+			<input type="hidden" {...register("tags")} />
+			<div>
+				<h3 className="font-semibold">Categories</h3>
+				<Select onValueChange={(value: string) => handleAddCategory(value)}>
+					<div>
+						<SelectTrigger className="w-full border-none shadow-none cursor-pointer">
+							<SelectValue placeholder="Select Category" />
+						</SelectTrigger>
+					</div>
+					<SelectContent side="bottom">
+						<div>
+							{categoriesList.map((_, index) => (
+								<div key={index}>
+									<SelectItem value={categoriesList[index]} key={index}>
+										{categoriesList[index]}
+									</SelectItem>
+								</div>
+							))}
+						</div>
+					</SelectContent>
+				</Select>
+
+				<div className="flex flex-col gap-2">
+					{selectedCategoryList.length > 0 && (
+						<div className="flex flex-col gap-2">
+							{selectedCategoryList.map((category, index) => (
+								<div
+									key={index}
+									className="flex flex-start items-center gap-2  bg-gray-100 px-3 py-2 rounded-md"
+								>
+									<button
+										type="button"
+										onClick={() => handleRemoveCategory(index)}
+									>
+										<X size={20} />
+									</button>
+									<span>{category}</span>
+								</div>
+							))}
+						</div>
+					)}
+				</div>
+			</div>
+			<hr className="w-full my-4" />
+			<h3 className="font-semibold ">Tags</h3>
+			<Select
+
+				onValueChange={(value: string) => handleAddTag(value)}>
+				<div className="">
+					<SelectTrigger className="w-full border-none shadow-none cursor-pointer">
+						<SelectValue placeholder="Select Tags" />
+					</SelectTrigger>
+				</div>
+				<SelectContent side="bottom">
+					<div className="cursor-pointer">
+						{tagList.map((_, index) => (
+							<div key={index}>
+								<SelectItem value={tagList[index]}>{tagList[index]}</SelectItem>
+							</div>
+						))}
+					</div>
+				</SelectContent>
+			</Select>
+
+			<div className="flex flex-col gap-2">
+				{selectedTagsList.length > 0 && (
+					<div className="flex flex-col gap-2">
+						{selectedTagsList.map((tag, index) => (
+							<div
+								key={index}
+								className="flex flex-start items-center gap-2  bg-gray-100 px-3 py-2 rounded-md"
+							>
+								<button type="button" onClick={() => handleRemoveTag(index)}>
+									<X size={20} />
+								</button>
+								<span>{tag}</span>
+							</div>
+						))}
+					</div>
+				)}
+			</div>
+		</div>
+	);
+}
