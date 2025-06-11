@@ -116,7 +116,7 @@ export default function GetListedSection() {
 							>
 								<Link href="/add-listings">
 									<Store className="mr-2 h-5 w-5" />
-									Add Your Business Free
+									Add Your Business For Free
 									<ArrowRight className="ml-2 h-5 w-5" />
 								</Link>
 							</Button>

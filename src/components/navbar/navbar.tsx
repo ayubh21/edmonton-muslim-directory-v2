@@ -11,7 +11,7 @@ export async function Navbar() {
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
-
+	console.log(session)
 	return (
 		<header className="top-0 z-50 border-b bg-white  relative ">
 			<div className="flex h-16 items-center justify-between px-4 py-4 mx-auto max-w-[1850px]">
@@ -25,7 +25,7 @@ export async function Navbar() {
 				</div>
 
 				{/* Desktop Nav */}
-				<nav className="hidden md:flex justify-center items-center  gap-6">
+				<nav className="hidden min-[820px]:flex  justify-center items-center  gap-6">
 
 					<Link
 						href="/"
@@ -45,11 +45,20 @@ export async function Navbar() {
 					>
 						Contact
 					</Link>
+					{session?.user.is_admin ?
+						(
+							<Link
+								className="text-sm font-medium hover:text-emerald-700 transition-colors"
+								href="/admin">
+								Dashboard
+							</Link>
+						) : null
+					}
 				</nav>
 
 				{/* Desktop Auth Controls */}
 
-				<div className="hidden md:flex items-center gap-4">
+				<div className="hidden min-[820px]:flex items-center gap-4">
 					{!session ? (
 						<>
 							<button className="py-2.5 px-4 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700  hover:bg-gray-800  text-white">
@@ -71,7 +80,7 @@ export async function Navbar() {
 				</div>
 
 				{/* Mobile Menu Toggle & Drawer */}
-				<MobileNavMenu isLoggedIn={session ? true : false} />
+				<MobileNavMenu isLoggedIn={session ? true : false} isAdmin={session?.user.is_admin ? true : false} />
 			</div>
 		</header>
 	);

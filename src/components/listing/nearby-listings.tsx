@@ -4,7 +4,7 @@ import { Latlng, Listing } from "@/types/listing"
 import BusinessCard from "../business-card";
 import { useEffect, useState } from "react";
 import { getDistanceFromLatLonInKm } from "@/lib/utils";
-import { useParams, useRouter } from "next/navigation";
+import { useParams} from "next/navigation";
 
 interface NearbyListings {
 	listings: Listing[];
@@ -38,7 +38,11 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 	}, [position.lat, position.lng, listings, params.id, proximity])
 
 	return (
+	<div>
+
+{nearbyListings.length == 3  ? (
 		<div className="grid md:grid-cols-2 gap-2 lg:grid-cols-3">
+				<h3 className="text-center font-semibold text-xl">Nearby Listings</h3>
 			{nearbyListings.map((listing, index) => (
 				<div key={index} className="shadow-sm">
 					<BusinessCard
@@ -52,7 +56,9 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 						phoneNumber={listing.phone_number}
 					/>
 				</div>
-			))}
-		</div>
+			))}		
+				</div>	
+): null}
+</div>	
 	)
 }

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db/db";
-import { Listing } from "@/lib/db/schema";
+import { Listing, ListingNetwork } from "@/lib/db/schema";
 import { geocode } from "@/lib/geocode";
 import { eq } from "drizzle-orm";
 import {
@@ -17,12 +17,12 @@ import {
 	Map,
 	Clock2,
 	Mail,
+	Link2,
 } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { MdPermMedia } from "react-icons/md";
 import ListingBanner from "./shareable-link";
 export default async function ListingDetails({
 	params,
@@ -31,9 +31,6 @@ export default async function ListingDetails({
 }) {
 	const { id } = await params;
 	const user = await auth.api.getSession({ headers: await headers() })
-	if (!user) {
-		redirect('/')
-	}
 	const listingId = parseInt(id);
 	const listing = await GetListingById(listingId);
 	const listings = await GetListings();
@@ -59,14 +56,26 @@ export default async function ListingDetails({
 	incrementViewCounter();
 
 
+
 	return (
 		<div className="bg-gray-100">
 			<ListingBanner listing={listing} />
 			<div className="px-6 max-w-[1375px] mx-auto md:grid grid-cols-2 gap-2">
 				<ListingSection icon={<Info size={20} />} title="About my business">
-					<p>
+				<div className="flex flex-col justify-between gap-5">
+						<span className="mt-2">
 						{listing.description}
-					</p>
+						</span>
+					<span className="">
+							<div className="flex gap-2">
+						<Link2 size={20} className="text-gray-500"/>	
+							<p className="font-semibold">Website</p>
+								</div>	
+						<div>
+						<a href={`${listing.website_url}`}>{listing.website_url}</a>
+						</div>
+					</span>
+				</div>
 				</ListingSection>
 
 				<ListingSection icon={<Clock2 size={20} />} title="Work Hours">
@@ -127,27 +136,6 @@ export default async function ListingDetails({
 						))}
 					</div>
 				</ListingSection>
-
-				{listing.networks.length > 0 &&
-					<ListingSection title="Follow us on" icon={<MdPermMedia />}>
-						<div>
-							{listing.networks.map((network, index) => (
-								<div key={index}>
-									<div className="flex justify-between" key={index}>
-										<a href={`https://${network.type}`}>{network.type}</a>
-										<a href={`https://${network.url}`}>{network.url}</a>
-									</div>
-									{listing.website_url != "" ?
-										<div className="flex justify-between">
-											<p className="font-semibold">Our Website</p>
-											<a className="" href={listing.website_url!}>{listing.website_url}</a>
-										</div> : null
-									}
-								</div>
-							))}
-						</div>
-					</ListingSection>
-				}
 				<ListingSection icon={<Mail size={20} />} title={`Contact ${listing.title}`}>
 					<div className="relative">
 						<ContactBusiness />
@@ -155,7 +143,6 @@ export default async function ListingDetails({
 				</ListingSection>
 			</div>
 			<section className="px-6 flex flex-col gap-2">
-				<h3 className="text-center font-semibold text-xl">Nearby Listings</h3>
 				<NearbyListings listings={listings} position={coordinates} />
 			</section>
 		</div>

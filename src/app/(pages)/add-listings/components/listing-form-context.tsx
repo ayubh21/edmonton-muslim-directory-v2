@@ -23,7 +23,7 @@ const ListingImagesSchema = z.object({
 
 const ListingContactSchema = z.object({
 	email: z.string().email().min(1, "please provide a valid email address"),
-	websiteUrl: z.string(),
+	websiteUrl: z.string().url(),
 	phoneNumber: z.string().min(1, "please provide a valid phone number")
 })
 

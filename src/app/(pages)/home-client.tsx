@@ -75,37 +75,40 @@ export default function HomeClient({ listings }: { listings: Listing[] }) {
 			<section className="flex flex-row justify-center w-full">
 				<GetListedSection />
 			</section>
-			<section className="w-full bg-white px-6 flex justify-center ">
-				<div className="max-w-[1850px] flex flex-col justify-center items-center">
-					<div className="flex justify-between items-center w-full">
-						<h2 className="text-center font-semibold py-6 text-2xl">Explore Listings</h2>
-						<button
-							className="cursor-pointer text-emerald-700 font-semibold underline"
-							onClick={() => router.push('/explore')}>
-							View All
-						</button>
-
-					</div>
-					<div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-12">
-						{listings.slice(0, 6).map((listing, index) => (
-							<div
-								className="overflow-y-hidden shadow-sm"
-								key={index}>
-								<BusinessCard
-									id={listing.id!}
-									logo={listing.images.logo}
-									coverImage={listing.images.coverImage}
-									title={listing.title}
-									address={listing.addresses[0].address}
-									category={listing.categories[0].category}
-									tagLine={listing.tag_line!}
-									phoneNumber={listing.phone_number!}
-								/>
+			{listings.length >= 3 ?
+				(
+					<section className="w-full bg-white px-6   ">
+						<div className="max-w-[1850px] flex flex-col justify-center items-center mx-auto">
+							<div className="flex justify-between items-center w-full">
+								<h2 className="text-center font-semibold py-6 text-2xl">Explore Listings</h2>
+								<button
+									className="cursor-pointer text-emerald-700 font-semibold underline"
+									onClick={() => router.push('/explore')}>
+									View All
+								</button>
 							</div>
-						))}
-					</div>
-				</div>
-			</section>
+							<div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-12">
+								{listings.slice(0, 3).map((listing, index) => (
+									<div
+										className="overflow-y-hidden shadow-sm"
+										key={index}>
+										<BusinessCard
+											id={listing.id!}
+											logo={listing.images.logo}
+											coverImage={listing.images.coverImage}
+											title={listing.title}
+											address={listing.addresses[0].address}
+											category={listing.categories[0].category}
+											tagLine={listing.tag_line!}
+											phoneNumber={listing.phone_number!}
+										/>
+									</div>
+								))}
+							</div>
+						</div>
+					</section>
+				) : null
+			}
 		</div>
 	)
 }

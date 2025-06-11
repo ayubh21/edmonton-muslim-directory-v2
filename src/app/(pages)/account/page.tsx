@@ -33,7 +33,7 @@ export default async function Account() {
 							<RiEmotionSadLine className="h-12 w-12 text-[#c4c4c4]" />
 						</div>
 						<p className="text-[#52525B] mb-4">
-							No listings matching your search criteria
+							Uh oh there are no listings associated with your account.
 						</p>
 					</div>
 				}

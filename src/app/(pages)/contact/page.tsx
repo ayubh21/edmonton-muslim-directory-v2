@@ -33,7 +33,7 @@ export default function ContactBusiness() {
 	}
 	return (
 		<div className="h-screen bg-[#f4f4f4] ">
-			<form onSubmit={handleSubmit(onSubmit)} className="p-6  max-w-[1850px] mx-auto">
+			<form onSubmit={handleSubmit(onSubmit)} className="p-6  max-w-[850px] mx-auto">
 				<div className="p-6 bg-white shadow-sm">
 					<div className="w-full">
 						<h2 className="font-semibold text-center text-4xl ">Contact Us</h2>

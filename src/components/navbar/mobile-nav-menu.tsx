@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X, Plus } from "lucide-react";
 import Link from "next/link";
 import { Session } from "../../lib/auth";
@@ -10,19 +10,23 @@ import { useRouter } from "next/navigation";
 
 interface MobileNavMenuProps {
 	isLoggedIn: boolean;
+	isAdmin: boolean;
 }
 
-export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
+export default function MobileNavMenu({ isLoggedIn, isAdmin }: MobileNavMenuProps) {
 	const [open, setOpen] = useState(false);
 	const router = useRouter()
+
+
 	async function handleLogout() {
 		await authClient.signOut();
 		revalidateAll();
 		router.push("/");
 	}
+
 	return (
 
-		<div className="md:hidden ">
+		<div className="min-[820px]:hidden ">
 			<button onClick={() => setOpen(!open)} className="text-gray-800">
 				{open ? (
 					<X size={24} className="cursor-pointer" />
@@ -32,7 +36,7 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
 			</button>
 
 			{open && (
-				<div className="    ">
+				<div className="">
 					<nav className="flex flex-col gap-4 w-full absolute top-16 bg-white border shadow-md rounded-md  right-0 p-6 h-screen">
 						<Link
 							href="/"
@@ -54,6 +58,22 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
 							className="hover:text-emerald-700"
 						>
 							Contact
+						</Link>
+						{isAdmin ??
+							<Link
+								href="/admin"
+								onClick={() => setOpen(false)}
+								className="hover:text-emerald-700"
+							>
+								Dashboard
+							</Link>
+						}
+						<Link
+							href="/account"
+							onClick={() => setOpen(false)}
+							className="hover:text-emerald-700"
+						>
+							Account
 						</Link>
 
 						{!isLoggedIn ? (
@@ -96,7 +116,8 @@ export default function MobileNavMenu({ isLoggedIn }: MobileNavMenuProps) {
 						)}
 					</nav>
 				</div>
-			)}
-		</div>
+			)
+			}
+		</div >
 	);
 }
