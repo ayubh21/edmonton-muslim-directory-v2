@@ -52,12 +52,12 @@ export async function Navbar() {
 				<div className="hidden md:flex items-center gap-4">
 					{!session ? (
 						<>
-							<Button className="  text-white  rounded-lg py-2.5 px-4  hover:bg-emerald-900 cursor-pointer bg-gradient-to-r from-emerald-600 to-emerald-700">
+							<button className="py-2.5 px-4 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700  hover:bg-gray-800  text-white">
 								<Link href="/auth/login">Login</Link>
-							</Button>
-							<Button className="py-2.5 px-4 rounded-lg border-emerald-600 hover:bg-gray-800">
+							</button>
+							<button className="py-2.5 px-4 rounded-lg border-emerald-600 hover:bg-gray-800 bg-black text-white">
 								<Link href="/auth/register">Register</Link>
-							</Button>
+							</button>
 						</>
 					) : (
 						<>

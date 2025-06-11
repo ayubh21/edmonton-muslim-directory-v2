@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { produce } from "immer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -52,7 +52,6 @@ type WorkDays = {
 export default function WorkHours() {
 	const { setValue, register } = useFormContext();
 	const [day, setDay] = useState<keyof WorkDays>("Mon");
-	const [open, setOpen] = useState(false);
 	const [workDays, setWorkDay] = useState<WorkDays>({
 		Mon: {
 			hours: [],
@@ -166,8 +165,9 @@ export default function WorkHours() {
 
 	useEffect(() => {
 		setValue("workHours", workDays);
-		console.log(workDays)
 	}, [workDays, setValue]);
+
+
 
 	return (
 		<div className="h-full">
@@ -176,13 +176,13 @@ export default function WorkHours() {
 				defaultValue={day}
 				onValueChange={(tabName) => setDay(tabName as keyof WorkDays)}
 			>
-				<TabsList className="flex">
+				<TabsList className="w-full flex justify-between border-b ">
 					{Object.entries(workDays).map((dayOfWeek, index) => (
 						<TabsTrigger
 							key={index}
 							tabIndex={index}
 							value={dayOfWeek[0]}
-							className="   outline-none focus:border-b-violet shadow-none border-none "
+							className="   outline-none focus:border-b-violet shadow-none cursor-pointer "
 						>
 							{dayOfWeek[0]}
 						</TabsTrigger>
@@ -205,7 +205,6 @@ export default function WorkHours() {
 								</div>
 							))}
 						</div>
-						{/* {dayOfWeek[1].checkBoxType == "Enter Hours" && ( */}
 						<div className="">
 							{dayOfWeek[1].hours.map((_, index) => (
 
@@ -262,7 +261,6 @@ export default function WorkHours() {
 							</Button>
 						) : null}
 					</TabsContent>
-					// TODO im too lazy to do this rn
 				))}
 			</Tabs>
 		</div>

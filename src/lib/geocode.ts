@@ -19,13 +19,18 @@ export class Geocode {
 			`${GOOGLE_GEOCODE_API}/json?address=${address}&key=${this.apiKey}`
 		);
 		const data = await result.json();
-		console.log(data);
 		return data.results[0].geometry.location as LatLng;
 	}
 	async getAddress(coordinates: LatLng) {
 		const result = await fetch(
 			`${GOOGLE_GEOCODE_API}/json?latlng=${coordinates.lat}, ${coordinates.lng}&key=${this.apiKey}`
 		);
+		const data = await result.json();
+		return data;
+	}
+
+	async getFromPlaceId(placeId: string) {
+		const result = await fetch(`https://places.googleapis.com/v1/places/${placeId}?fields=id,displayName&key=${this.apiKey}`)
 		const data = await result.json();
 		return data;
 	}

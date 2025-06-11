@@ -63,7 +63,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
 
 
 
-	let queryFilters = listings.filter(({ categories, title }) => {
+	const  queryFilters = listings.filter(({ categories, title }) => {
 		if (searchParams.size != 0) {
 			if (searchParams.get("category")) {
 				return (
@@ -131,7 +131,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
 			)
 		}
 
-	}, [])
+	}, [searchParams])
 
 	useEffect(() => {
 		const addressFromCoordinates = async () => {
@@ -154,7 +154,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
 			setFilteredListings(initialListings);
 		}
 
-	}, [filters.searchText]);
+	}, [filters.searchText, listings]);
 	if (!isLoading) return <LoadingComponent isLoading={isLoading} setIsLoading={setIsLoading} />;
 
 	const applyFilter = () => {

@@ -189,7 +189,7 @@ export default function Login() {
 							)}
 						</Button>
 						<p className="text-md text-gray-600 mt-3 text-center">
-							Don't have an account?
+							Don &apos;t have an account?
 							<Link
 								href="/auth/register"
 								className="text-black underline font-medium pl-2"

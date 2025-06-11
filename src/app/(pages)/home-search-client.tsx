@@ -117,8 +117,8 @@ export default function HeroSearch({ onSearch, onFiltersChange }: HeroSearchProp
 								}
 							>
 								<div>
-									<SelectTrigger className="w-full border-none shadow-none cursor-pointer">
-										<SelectValue placeholder="Select Category" />
+									<SelectTrigger className="w-full border-none shadow-none cursor-pointer [&_svg]:hidden">
+										<SelectValue placeholder="All Categories" />
 									</SelectTrigger>
 								</div>
 								<SelectContent side="bottom">

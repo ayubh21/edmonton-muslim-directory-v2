@@ -12,10 +12,8 @@ import { Listing } from "@/lib/db/schema";
 import { geocode } from "@/lib/geocode";
 import { eq } from "drizzle-orm";
 import {
-	BadgeCheck,
 	Images,
 	Info,
-	Share2,
 	Map,
 	Clock2,
 	Mail,
@@ -129,26 +127,32 @@ export default async function ListingDetails({
 						))}
 					</div>
 				</ListingSection>
-				{/*
-				{listing.networks.length > 0 &&
-					// <ListingSection title="Follow us on" icon={<MdPermMedia />}>
-					// 	<div>
-					// 		{listing.networks.map((network, index) => (
-					// 			<div className="flex justify-between" key={index}>
-					// 				<a href={`https://${network.type}`}>{network.type}</a>
-					// 				<a href={`https://${network.url}`}>{network.url}</a>
-					// 			</div>
-					// 		))}
-					// 	</div>
-					// </ListingSection>
-				*/}
 
+				{listing.networks.length > 0 &&
+					<ListingSection title="Follow us on" icon={<MdPermMedia />}>
+						<div>
+							{listing.networks.map((network, index) => (
+								<div key={index}>
+									<div className="flex justify-between" key={index}>
+										<a href={`https://${network.type}`}>{network.type}</a>
+										<a href={`https://${network.url}`}>{network.url}</a>
+									</div>
+									{listing.website_url != "" ?
+										<div className="flex justify-between">
+											<p className="font-semibold">Our Website</p>
+											<a className="" href={listing.website_url!}>{listing.website_url}</a>
+										</div> : null
+									}
+								</div>
+							))}
+						</div>
+					</ListingSection>
+				}
 				<ListingSection icon={<Mail size={20} />} title={`Contact ${listing.title}`}>
 					<div className="relative">
-						<ContactBusiness title={listing.title} />
+						<ContactBusiness />
 					</div>
 				</ListingSection>
-
 			</div>
 			<section className="px-6 flex flex-col gap-2">
 				<h3 className="text-center font-semibold text-xl">Nearby Listings</h3>

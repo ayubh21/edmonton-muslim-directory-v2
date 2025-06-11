@@ -15,7 +15,7 @@ const LoadingComponent = ({ isLoading, setIsLoading }: { isLoading: boolean, set
 			}, 5000); // Duration of fade out animation
 			return () => clearTimeout(timer);
 		}
-	}, [isLoading]);
+	}, [isLoading,, setIsLoading]);
 
 
 	return (

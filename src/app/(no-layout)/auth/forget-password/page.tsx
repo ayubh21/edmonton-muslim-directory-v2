@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import { ChevronLeft, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Link from "next/link"
@@ -53,6 +53,7 @@ export default function ForgotPassword() {
 	}
 
 	return (
+		<Suspense>
 		<>
 			<h2 className="text-2xl font-semibold text-emerald-700 p-6">
 				<Link href="/"
@@ -71,7 +72,7 @@ export default function ForgotPassword() {
 							<p className="font-semibold text-2xl">Back</p>
 						</span>
 						{!isSuccessful && <div>
-							<h2 className="text-gray-800 text-4xl  font-bold text-left mx-auto mb-20">Reset your password</h2>
+							<h2 className="text-gray-800 text-4xl  font-semibold text-left mx-auto mb-20">Reset your password</h2>
 
 							<form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full flex  flex-col justify-center">
 								<Card className=" w-full">
@@ -93,8 +94,8 @@ export default function ForgotPassword() {
 
 								</Card>
 								<div className="w-full flex justify-center ">
-									<Button type="submit" className=" items-center w-60 py-6 px-20 bg-emerald-900 hover:bg-emerald-600">
-
+									<Button type="submit"
+										className="w-full hover:bg-emerald-700 py-6 bg-gradient-to-r from-emerald-600 to-emerald-700">
 										{isLoading ? (
 											<>
 												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -102,7 +103,6 @@ export default function ForgotPassword() {
 										) : (
 											"Send Link"
 										)}
-
 									</Button>
 								</div>
 							</form>
@@ -113,10 +113,12 @@ export default function ForgotPassword() {
 					{isSuccessful && <div>
 						Password reset email has been successfully sent. Please Check your inbox or spam.
 					</div>}
-				</div>
-			</div>
+				</div >
+			</div >
 
 		</>
+
+		</Suspense>
 	)
 
 }

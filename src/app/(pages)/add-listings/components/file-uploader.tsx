@@ -85,12 +85,6 @@ export default function FileUploader({
 
 	}, [fileRejections])
 
-	useEffect(() => {
-		if (imageType == "logo") {
-
-		}
-	}, [files])
-
 
 	return (
 		<>

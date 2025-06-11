@@ -9,11 +9,9 @@ import { fromPlaceId, setKey } from "react-geocode";
 import { produce } from "immer";
 import { MdDelete, MdMyLocation } from "react-icons/md";
 import { Button } from "@/components/ui/button";
-import { useFormContext } from "react-hook-form";
 import { Latlng } from "@/types/listing";
 import { useListingFormContext } from "./listing-form-context";
 
-// TODO fix this later
 type Locations = {
 	coordinates: Latlng[];
 };
@@ -39,7 +37,7 @@ export default function ListingLocation() {
 			setValue("addresses", []);
 		}
 		console.log(addresses)
-	}, [getValues, setValue]);
+	}, [getValues, setValue, addresses]);
 
 	useEffect(() => {
 		setValue("addresses", addresses);
@@ -57,7 +55,7 @@ export default function ListingLocation() {
 				locations.coordinates.length - 1
 			);
 		}
-	}, [lat, lng, locations.coordinates.length]);
+	},);
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",

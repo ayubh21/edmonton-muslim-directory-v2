@@ -34,10 +34,9 @@ export async function UploadToS3(file: CustomFile) {
 		});
 
 		const res = await client.send(input);
-		console.log(res);
 		return res;
 	} catch (e) {
-		console.log(e);
+
 	}
 }
 

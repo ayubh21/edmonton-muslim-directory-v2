@@ -1,25 +1,16 @@
 "use client"
-import { useEffect, useState } from "react"
-import { Eye, TrendingUp, Calendar, BarChart3 } from "lucide-react"
-import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react"
+import { Eye, TrendingUp, Calendar } from "lucide-react"
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart"
-import { DeleteListing, GetDailyViews, GetListingById, GetListingByTitle, GetWeeklyViews } from "@/app/actions/listing"
-import { db } from "@/lib/db/db"
-import { eq } from "drizzle-orm"
+import { DeleteListing, GetListingById } from "@/app/actions/listing"
 import { Listing } from "@/types/listing"
-import { Listing as ListingSchema } from "@/lib/db/schema"
-import { current, produce } from "immer"
 import BusinessCard from "./business-card"
 import { Button } from "./ui/button"
-import { Dialog, DialogHeader, DialogDescription, DialogTitle, DialogContent, DialogTrigger, DialogFooter } from "./ui/dialog"
-import { redirect, useRouter } from "next/navigation"
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from "./ui/dialog"
+import { useRouter } from "next/navigation"
 import moment from "moment"
-import Footer from "./footer"
-import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
 
 interface AnalyticsDashboardProps {
@@ -34,9 +25,9 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 	const [currentListing, setCurrentListing] = useState<Listing>(listings[0])
 	const router = useRouter();
 
-	const dailyChange = (currentListing.views - currentListing.count_of_last_24) / currentListing.count_of_last_24 * 100
-	const weeklyChange = (currentListing.weekly_views - currentListing.count_of_last_seven_days) / currentListing.count_of_last_seven_days * 100
-	const monthlyChange = (currentListing.monthly_views - currentListing.count_of_last_30) / currentListing.count_of_last_30 * 100
+	const dailyChange = Math.round((currentListing.views - currentListing.count_of_last_24) / currentListing.count_of_last_24 * 100)
+	const weeklyChange = Math.round((currentListing.weekly_views - currentListing.count_of_last_seven_days) / currentListing.count_of_last_seven_days * 100)
+	const monthlyChange = Math.round((currentListing.monthly_views - currentListing.count_of_last_30) / currentListing.count_of_last_30 * 100)
 
 	const handleCurrentActiveListing = async (id: string) => {
 		const listing = await GetListingById(parseInt(id))
@@ -69,7 +60,7 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 						</SelectTrigger>
 						<SelectContent>
 							{listings.map((listing, index) => (
-								<SelectItem
+								<SelectItem className=""
 									key={index} value={listing.id.toString()}>{listing.title}</SelectItem>
 							))}
 						</SelectContent>

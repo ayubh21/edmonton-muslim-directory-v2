@@ -20,7 +20,7 @@ export default async function Home() {
 						<div className="container relative z-10 ">
 							<div className="">
 								<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-									Discover Edmonton's{" "}
+								{"Discover Edmonton's"}
 									<span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
 										Muslim-Owned
 									</span>{" "}

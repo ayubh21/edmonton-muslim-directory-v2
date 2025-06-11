@@ -8,7 +8,6 @@ import Link from "next/link";
 export default async function PendingListingsPage() {
 	const data = await GetListings();
 	const pending = getListingCountByStatus(data, "pending");
-	console.log(data);
 	return (
 		<div className="space-y-6">
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

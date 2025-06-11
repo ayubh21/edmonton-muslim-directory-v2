@@ -35,7 +35,7 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 		});
 		initialListings = initialListings.slice(0, 4)
 		setNearbyListings(initialListings)
-	}, [])
+	}, [position.lat, position.lng, listings, params.id, proximity])
 
 	return (
 		<div className="grid md:grid-cols-2 gap-2 lg:grid-cols-3">

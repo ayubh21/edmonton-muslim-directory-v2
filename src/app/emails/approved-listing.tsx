@@ -41,7 +41,7 @@ export const SendListingApproved = ({ userFirstname, listingTitle, listingUrl }:
 							</Section>
 						)}
 						<Text style={text}>
-							If you have any questions or need to make updates to your listing, please don't hesitate to reach out to us.
+							If you have any questions or need to make updates to your listing, please {"don't"} hesitate to reach out to us.
 						</Text>
 						<Text style={text}>
 							Barakallahu feeki,<br />

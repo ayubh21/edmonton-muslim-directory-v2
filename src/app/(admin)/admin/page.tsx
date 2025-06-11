@@ -25,6 +25,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getListingCountByStatus } from "@/lib/utils";
 import { GetListings } from "@/app/actions/listing";
+import { redirect } from "next/navigation";
 
 export default async function Admin() {
 	const data = await GetListings();
@@ -33,6 +34,9 @@ export default async function Admin() {
 	const rejectedListingCount = getListingCountByStatus(data, "rejected").length;
 	const session = await auth.api.getSession({ headers: await headers() });
 
+	if (!session?.user.is_admin) {
+		redirect('/auth/login')
+	}
 
 	return (
 		<div className="space-y-6">
@@ -54,14 +58,6 @@ export default async function Admin() {
 							</Badge>
 						</Link>
 					</Button>
-					{/*
-					<Button asChild>
-						<Link href="/admin/listings">
-							View All Listings
-							<ArrowUpRight className="ml-2 h-4 w-4" />
-						</Link>
-					</Button>
-					*/}
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-4">

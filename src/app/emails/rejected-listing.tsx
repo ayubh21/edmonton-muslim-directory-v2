@@ -41,14 +41,14 @@ export const SendListingRejected = ({
 						<Text style={greeting}>Hi {userFirstname},</Text>
 
 						<Text style={text}>
-							Assalamu Alaykum! Thank you for submitting "{listingTitle}" to our Business Directory.
+							Assalamu Alaykum! Thank you for submitting {listingTitle} to our Business Directory.
 						</Text>
 
 						{/* Notice box */}
 						<Section style={noticeBox}>
 							<Text style={noticeTitle}>Action Required</Text>
 							<Text style={noticeText}>
-								Unfortunately, we're unable to approve your listing at this time as it doesn't meet our current guidelines.
+								Unfortunately, {"we're"} unable to approve your listing at this time as it {"doesn't"} meet our current guidelines.
 							</Text>
 						</Section>
 
@@ -60,7 +60,7 @@ export const SendListingRejected = ({
 						)}
 
 						<Text style={text}>
-							Don't worry - this is common and easily fixable! We're here to help you get your business listed successfully.
+							{"Don't"} worry - this is common and easily {"fixable!"} We're here to help you get your business listed successfully.
 						</Text>
 
 						{/* Action buttons */}
@@ -78,7 +78,7 @@ export const SendListingRejected = ({
 						</Section>
 
 						<Text style={text}>
-							Once you've made the necessary updates, feel free to resubmit your listing. We're excited to welcome your business to our growing community of local Muslim businesses in Edmonton.
+							Once {"you've"} made the necessary updates, feel free to resubmit your {"listing."} {"We're"} excited to welcome your business to our growing community of local Muslim businesses in Edmonton.
 						</Text>
 
 						<Text style={text}>
@@ -255,42 +255,6 @@ const footer = {
 const footerText = {
 	fontSize: "14px",
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
