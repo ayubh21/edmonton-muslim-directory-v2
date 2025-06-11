@@ -19,7 +19,7 @@ export async function Navbar() {
 					<span className="text-xl font-semibold text-emerald-700 ">
 						<Link
 							href="/">
-							<h2 className="  font-semibold text-emerald-600 text-lg"> <span className="font-semibold text-black"> Yeg Muslim </span>Connect</h2>
+							<h2 className="  font-semibold text-emerald-600 text-2xl"> <span className="font-semibold text-black"> Yeg Muslim </span>Connect</h2>
 						</Link>
 					</span>
 				</div>
@@ -35,20 +35,20 @@ export async function Navbar() {
 					</Link>
 					<Link
 						href="/explore"
-						className="text-sm font-medium hover:text-emerald-700 transition-colors"
+						className=" font-medium hover:text-emerald-700 transition-colors"
 					>
 						Explore
 					</Link>
 					<Link
 						href="/contact"
-						className="text-sm font-medium hover:text-emerald-700 transition-colors"
+						className="font-medium hover:text-emerald-700 transition-colors"
 					>
 						Contact
 					</Link>
 					{session?.user.is_admin ?
 						(
 							<Link
-								className="text-sm font-medium hover:text-emerald-700 transition-colors"
+								className="font-medium hover:text-emerald-700 transition-colors"
 								href="/admin">
 								Dashboard
 							</Link>

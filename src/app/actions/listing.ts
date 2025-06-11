@@ -347,7 +347,7 @@ export async function SendListingEmailConfirmation(email: string, name: string) 
 		const { error } = await resend.emails.send({
 			from: "noreply@test.copyhub.cc",
 			to: [email],
-			subject: "Hello world",
+			subject: "Thank You for your Submission - We're Reviewing it",
 			react: SendListingConfirmation({
 				userFirstname: name,
 			}) as React.ReactElement,
@@ -364,9 +364,9 @@ export async function SendListingEmailConfirmation(email: string, name: string) 
 export async function SendListingApprovedEmailConfirmation(email: string, name: string, title: string) {
 	try {
 		const { error } = await resend.emails.send({
-			from: "noreply@test.copyhub.cc",
+			from: "noreply@yegmuslimconnect.ca",
 			to: [email],
-			subject: "Hello world",
+			subject: "Your Listing is Now Live on YEG Muslim Connect",
 			react: SendListingApproved({
 				userFirstname: name,
 				listingTitle: title
@@ -384,9 +384,9 @@ export async function SendListingApprovedEmailConfirmation(email: string, name: 
 export async function SendListingRejectedEmailConfirmation(email: string, name: string, title: string) {
 	try {
 		const { error } = await resend.emails.send({
-			from: "noreply@test.copyhub.cc",
+			from: "noreply@yegmuslimconnect.ca",
 			to: [email],
-			subject: "Hello world",
+			subject: "Update on Your Listing Submission",
 			react: SendListingApproved({
 				userFirstname: name,
 				listingTitle: title
@@ -404,9 +404,9 @@ export async function SendListingRejectedEmailConfirmation(email: string, name: 
 export async function SendContactEmail(email: string, name: string, phone: string, subject: string, message: string) {
 	try {
 		const { error } = await resend.emails.send({
-			from: "noreply@test.copyhub.cc",
+			from: "noreply@yegmuslimconnect.ca",
 			to: [email],
-			subject: "Hello world",
+			subject: "New Message via YEG Muslim Connect",
 			react: SendListingContactEmail({
 				email: email,
 				phone: phone,
