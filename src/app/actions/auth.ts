@@ -37,7 +37,7 @@ export async function SendEmail(email: string, name: string, url: string) {
 	console.log(url)
 	try {
 		const { error } = await resend.emails.send({
-			from: "noreply@test.copyhub.cc",
+			from: "noreply@yegmuslimconnect.ca",
 			to: [email],
 			subject: "Hello world",
 			react: SendPasswordResetEmail({
