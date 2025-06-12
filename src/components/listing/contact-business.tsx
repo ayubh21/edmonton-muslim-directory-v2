@@ -50,7 +50,6 @@ export default function ContactBusiness() {
 					<input
 						{...register("email")}
 						type="email"
-						placeholder="foo@bar.com"
 						className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600"
 					/>
 				</div>

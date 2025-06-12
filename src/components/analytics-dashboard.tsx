@@ -80,7 +80,7 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 							</div>
 						</div>
 						<div className="mt-4 flex items-center">
-							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(dailyChange) ? 0 : dailyChange}</Badge>
+							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(dailyChange) || currentListing.count_of_last_24 == 0  ? 0 : dailyChange}</Badge>
 							<span className="text-blue-100 text-sm ml-2">vs yesterday</span>
 						</div>
 					</CardContent>
@@ -97,7 +97,7 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 							</div>
 						</div>
 						<div className="mt-4 flex items-center">
-							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(weeklyChange) ? 0 : weeklyChange}</Badge>
+							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(weeklyChange) || currentListing.count_of_last_seven_days == 0 ? 0 : weeklyChange}</Badge>
 							<span className="text-blue-100 text-sm ml-2">vs last week</span>
 						</div>
 					</CardContent>
@@ -114,7 +114,7 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 							</div>
 						</div>
 						<div className="mt-4 flex items-center">
-							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(monthlyChange) ? 0 : monthlyChange}</Badge>
+							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(monthlyChange) || currentListing.count_of_last_30 == 0 ? 0 : monthlyChange}</Badge>
 							<span className="text-blue-100 text-sm ml-2">vs last month</span>
 						</div>
 					</CardContent>

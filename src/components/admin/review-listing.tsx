@@ -149,7 +149,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 								{/* <TabsContent value="details" className="space-y-4"> */}
 								<div>
 									<h3 className="font-medium mb-2">Business Description</h3>
-									<div className="bg-gray-50 p-4 rounded-md text-sm">
+									<div className="bg-gray-50 p-4 rounded-md text-sm my-4">
 										{props.listing.description}
 									</div>
 								</div>
@@ -278,6 +278,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 								</TabsContent>
 
 								<TabsContent value="features">
+									{props.listing.tags.length > 0 && 
 									<div>
 										<h3 className="font-medium mb-2">Business Features</h3>
 										<div className="flex flex-wrap gap-2">
@@ -292,6 +293,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 											))}
 										</div>
 									</div>
+								    }
 								</TabsContent>
 							</Tabs>
 						</CardContent>

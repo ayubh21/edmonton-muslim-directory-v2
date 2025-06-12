@@ -13,7 +13,7 @@ import { useFormContext } from "react-hook-form";
 import { useListingFormContext } from "./listing-form-context";
 
 export default function ListingDetails() {
-	const { setValue, register, formState: {errors} } = useListingFormContext();
+	const { setValue, register, formState: {errors}, clearErrors } = useListingFormContext();
 	const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
 		[]
 	);
@@ -24,6 +24,7 @@ export default function ListingDetails() {
 				draft.push(category);
 			})
 		);
+		clearErrors("categories")
 	};
 
 	const handleRemoveCategory = (index: number) => {
@@ -63,6 +64,7 @@ export default function ListingDetails() {
 		setValue("categories", selectedCategoryList);
 		setValue("tags", selectedTagsList);
 	}, [selectedCategoryList, selectedTagsList, setValue]);
+
 	return (
 		<div className="px-4">
 			<input type="hidden" {...register("categories")} />

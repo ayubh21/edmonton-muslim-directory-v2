@@ -91,7 +91,7 @@ export default function Page() {
 
 	const onSubmit = async (listingData: ListingForm) => {
 		await AddListing(listingData);
-		console.log("test")
+		console.log(listingData)
 		const result = await Upload(listingData.imageMetaData);
 		if (!result) {
 			console.log(result)

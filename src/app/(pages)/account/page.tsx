@@ -19,7 +19,7 @@ export default async function Account() {
 	}
 
 	const listings = await GetListingsByUserId(session.user.id)
-
+	console.log(listings)
 	return (
 		<div className="bg-[#f4f4f4] h-screen  w-full mx-auto">
 			<div className="max-w-[1850px] mx-auto">

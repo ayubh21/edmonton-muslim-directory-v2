@@ -1,4 +1,4 @@
-import { GetListingById, GetListings } from "@/app/actions/listing";
+import { GetApprovedListings, GetListingById, GetListings } from "@/app/actions/listing";
 import ContactBusiness from "@/components/listing/contact-business";
 import GoogleMapComponent from "@/components/listing/map";
 import NearbyListings from "@/components/listing/nearby-listings";
@@ -33,14 +33,15 @@ export default async function ListingDetails({
 	const user = await auth.api.getSession({ headers: await headers() })
 	const listingId = parseInt(id);
 	const listing = await GetListingById(listingId);
-	const listings = await GetListings();
-	console.log(listings);
+	const listings = await GetApprovedListings();
 
 	if (!listing) return null;
 
 	const coordinates = await geocode.getCoordinates(
 		listing.addresses[0].address
 	);
+
+	console.log(coordinates)
 
 	const incrementViewCounter = async () => {
 		await db.update(Listing).set({
@@ -62,7 +63,7 @@ export default async function ListingDetails({
 	return (
 		<div className="bg-gray-100">
 			<ListingBanner listing={listing} />
-			<div className="px-6 max-w-[1375px] mx-auto md:grid grid-cols-2 gap-2">
+			<div className="px-4 max-w-[1375px] mx-auto md:grid grid-cols-2 gap-2">
 				<ListingSection icon={<Info size={20} />} title="About my business">
 				<div className="flex flex-col justify-between gap-5">
 						<span className="mt-2">
@@ -74,7 +75,9 @@ export default async function ListingDetails({
 							<p className="font-semibold">Website</p>
 								</div>	
 						<div>
-						<a href={`${listing.website_url}`}>{listing.website_url}</a>
+						<a 
+						className="underline"	
+						href={`${listing.website_url}`}>{listing.website_url}</a>
 						</div>
 					</span>
 				</div>
@@ -120,7 +123,7 @@ export default async function ListingDetails({
 							<GoogleMapComponent lat={coordinates.lat} lng={coordinates.lng} />
 
 						</div>
-						<div className="flex justify-between  items-center">
+						<div className="flex justify-between  items-center gap-10 mt-5">
 							{/* TODO redirect to google maps  */}
 							{/* <span>{address[0].address}</span> */}
 							<Link href={`https://www.google.com/maps/place/q=${coordinates.lat},${coordinates.lng}`}>
@@ -133,7 +136,7 @@ export default async function ListingDetails({
 					</div>
 				</section>
 				<ListingSection title="Features and Amenities">
-					<div className="flex flex-row gap-2 mt-2">
+					<div className="flex flex-row flex-wrap gap-2 mt-2">
 						{listing.tags.map((tag, index) => (
 							<Badge variant="outline" className=" bg-white " key={index}>
 								{tag.tag}

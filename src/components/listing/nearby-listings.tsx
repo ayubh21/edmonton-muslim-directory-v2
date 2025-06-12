@@ -15,7 +15,7 @@ interface NearbyListings {
 export default function NearbyListings({ listings, position, proximity = 20 }: NearbyListings) {
 
 	const params = useParams()
-
+	console.log(listings);
 	const [nearbyListings, setNearbyListings] = useState<Listing[]>([])
 	useEffect(() => {
 		const currentListingId = parseInt(params.id as string)
@@ -37,6 +37,7 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 		setNearbyListings(initialListings)
 	}, [position.lat, position.lng, listings, params.id, proximity])
 
+	console.log(nearbyListings)
 	return (
 	<div>
 

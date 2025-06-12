@@ -42,7 +42,7 @@ export default function ForgotPassword() {
 
 		const { data, error } = await authClient.forgetPassword({
 			email: values.email,
-			redirectTo: "/auth/reset-password"
+			redirectTo: "https://yegmuslimconnect.ca/auth/reset-password"
 		})
 
 		if (error) {
