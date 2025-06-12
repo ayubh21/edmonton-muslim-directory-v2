@@ -49,7 +49,6 @@ export default function ForgotPassword() {
 			console.log("failed to send password reset link ")
 		}
 		setIsSuccessful(true)
-		console.log(data)
 	}
 
 	return (

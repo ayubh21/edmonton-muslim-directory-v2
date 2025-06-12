@@ -401,7 +401,7 @@ export async function SendListingRejectedEmailConfirmation(email: string, name: 
 	}
 }
 
-export async function SendContactEmail(email: string, name: string, phone: string, subject: string, message: string, title: string) {
+export async function SendContactEmail(email: string, name: string, phone: string, subject: string, message: string) {
 	try {
 		const { error } = await resend.emails.send({
 			from: "noreply@yegmuslimconnect.ca",
@@ -413,7 +413,6 @@ export async function SendContactEmail(email: string, name: string, phone: strin
 				subject: subject,
 				userFirstName: name,
 				message: message,
-				title: title
 			}) as React.ReactElement,
 		});
 		if (error) {

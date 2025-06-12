@@ -27,7 +27,7 @@ export default function ContactBusiness() {
 		}
 	})
 	const onSubmit = async (values: ContactBusinessForm) => {
-		await SendContactEmail(values.email, values.name, values.phone, values.subject, values.message, "yeg muslim connect")
+		await SendContactEmail(values.email, values.name, values.phone, values.subject, values.message)
 		toast('email sent successfully')
 	}
 	return (

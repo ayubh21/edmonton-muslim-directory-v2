@@ -15,7 +15,6 @@ interface ContactProps {
 	phone: string;
 	subject?: string;
 	message: string;
-	title: string;
 }
 
 export const SendListingContactEmail = ({
@@ -23,7 +22,6 @@ export const SendListingContactEmail = ({
 	subject,
 	email,
 	phone,
-	title,
 	message
 }: ContactProps) => {
 	return (
@@ -71,7 +69,7 @@ export const SendListingContactEmail = ({
 						</Section>
 
 						<Text style={footer}>
-							This message was sent through your {title} contact form. Please respond promptly to maintain excellent customer service.
+							This message was sent through your contact form. Please respond promptly to maintain excellent customer service.
 						</Text>
 					</Section>
 				</Container>

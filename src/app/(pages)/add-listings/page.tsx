@@ -36,16 +36,16 @@ import { redirect } from "next/navigation";
 
 export default function Page() {
 	const methods = useFormListing();
+
+	useEffect(() => {
 	const isAuthenticated = async () => {
 		const {data} = await authClient.getSession()
 		if(!data) {
 			redirect('/auth/login')
 		}
 	}
-
-	useEffect(() => {
 		isAuthenticated()
-	},[isAuthenticated])
+	},[])
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
