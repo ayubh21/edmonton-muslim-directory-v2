@@ -6,7 +6,7 @@ import HeroSearch from "./home-search-client";
 
 export default async function Home() {
 	const listings = await GetApprovedListings();
-		console.log(listings);
+	console.log(listings);
 	return (
 		<div className=" flex-col bg-gradient-to-r from-emerald-50 to-teal-50  mx-auto !w-full">
 			<section className="py-16 md:py-24 overflow-hidden max-w-[1850px]  mx-auto flex flex-row justify-center items-center gap-10">
@@ -48,7 +48,7 @@ export default async function Home() {
 							This platform is made possible through the generous donations of our community members who believe in
 							supporting Muslim-owned businesses in Edmonton.
 						</p>
-						<div className="mt-6 flex items-center justify-center  text-sm text-gray-500">
+						<div className="mt-6 flex justify-around items-cente text-sm text-gray-500">
 							<div className="flex items-center">
 								<div className="w-2 h-2 bg-emerald-500 rounded-full mr-2"></div>
 								Community Supported
@@ -56,10 +56,6 @@ export default async function Home() {
 							<div className="flex items-center">
 								<div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
 								Non-Profit Initiative
-							</div>
-							<div className="flex items-center">
-								<div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-								100% Volunteer Run
 							</div>
 						</div>
 					</div>
