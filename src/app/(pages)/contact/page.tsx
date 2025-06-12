@@ -27,9 +27,8 @@ export default function ContactBusiness() {
 		}
 	})
 	const onSubmit = async (values: ContactBusinessForm) => {
-		await SendContactEmail("ayubhussein625@gmail.com", values.name, values.phone, values.subject, values.message)
+		await SendContactEmail(values.email, values.name, values.phone, values.subject, values.message, "yeg muslim connect")
 		toast('email sent successfully')
-		console.log(values)
 	}
 	return (
 		<div className="h-screen bg-[#f4f4f4] ">
@@ -45,7 +44,6 @@ export default function ContactBusiness() {
 						<input
 							{...register("name")}
 							type="text"
-							placeholder="(780)-123-5678"
 							className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600 text-sm"
 						/>
 					</div>
@@ -60,17 +58,28 @@ export default function ContactBusiness() {
 							className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600"
 						/>
 					</div>
+					<div className="w-full flex flex-col  pt-5">
+						<label className="font-semibold text-sm" htmlFor="">
+							Email
+						</label>
+						<input
+							{...register("email")}
+							type="text"
+							placeholder=""
+							className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600"
+						/>
+					</div>
 					<div className="w-full flex flex-col pt-5">
 						<label className="font-semibold text-sm" htmlFor="">
 							Message
 						</label>
-						<Textarea
+						<textarea
 							{...register("message")}
-							className=" focus:outline-amber-200  focus-visible:ring-0 border-t-0 border-l-0 border-r-0 shadow-none rounded-none" />
+							className=" focus:outline-amber-200  focus:outline-none border-b focus:border-b-emerald-600" />
 					</div>
 					<Button
 						type="submit"
-						className="w-full hover:bg-emerald-700 py-10 bg-gradient-to-r from-emerald-600 to-emerald-700 cursor-pointer"
+						className="w-full hover:bg-emerald-700 py-10 bg-gradient-to-r from-emerald-600 to-emerald-700 cursor-pointer mt-5"
 					>
 						Send Message
 					</Button>

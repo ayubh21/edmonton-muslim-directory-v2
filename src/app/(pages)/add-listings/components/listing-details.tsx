@@ -13,7 +13,7 @@ import { useFormContext } from "react-hook-form";
 import { useListingFormContext } from "./listing-form-context";
 
 export default function ListingDetails() {
-	const { setValue, register } = useListingFormContext();
+	const { setValue, register, formState: {errors} } = useListingFormContext();
 	const [selectedCategoryList, setSelectedCategoryList] = useState<string[]>(
 		[]
 	);
@@ -71,7 +71,7 @@ export default function ListingDetails() {
 				<h3 className="font-semibold">Categories</h3>
 				<Select onValueChange={(value: string) => handleAddCategory(value)}>
 					<div>
-						<SelectTrigger className="w-full border-none shadow-none cursor-pointer">
+						<SelectTrigger className="w-full border-none shadow-none cursor-pointer ">
 							<SelectValue placeholder="Select Category" />
 						</SelectTrigger>
 					</div>
@@ -109,7 +109,7 @@ export default function ListingDetails() {
 					)}
 				</div>
 			</div>
-			<hr className="w-full my-4" />
+			<input className={`${errors.categories ? " border-t border-red-400": "border-t"} w-full mt-4 `} />
 			<h3 className="font-semibold ">Tags</h3>
 			<Select
 

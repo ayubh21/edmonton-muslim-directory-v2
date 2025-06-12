@@ -69,7 +69,7 @@ export default function MapPin({
 					src={logo}
 					onClick={handleClick}
 					alt="business-logo"
-					className={`rounded-full h-11 w-11 `}
+					className={`rounded-full h-15 w-15 `}
 				/>
 				<MapOverlay
 					phone_number={phone_number!}

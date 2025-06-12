@@ -75,21 +75,22 @@ export default function Login() {
 				password: values.password,
 			};
 
-			const res = await authClient.signIn.email({
+			const {data, error} = await authClient.signIn.email({
 				email: user.email!,
 				password: user.password!,
 			});
-			console.log(res);
-			if (!res) {
-				setServerError("Error Logging in");
-			}
 
-			// setRegistrationSuccess(true);
+			if(error?.status == 401) {
+				setClientError("Invalid Email or Password")	
+				setIsLoading(false);
+				return;
+			}
+			if(data) {	
 			setIsLoading(false);
-			revalidateAll();
-			setTimeout(() => {
+				return setTimeout(() => {
 				router.push("/");
 			}, 2000);
+			}
 		} catch (error) {
 			console.error("login error:", error);
 			setIsLoading(false);

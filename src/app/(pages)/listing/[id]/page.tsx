@@ -56,6 +56,8 @@ export default async function ListingDetails({
 	incrementViewCounter();
 
 
+	console.log(listing.addresses[0].address)
+	console.log(coordinates.lat, coordinates.lng)
 
 	return (
 		<div className="bg-gray-100">
@@ -85,13 +87,16 @@ export default async function ListingDetails({
 				</ListingSection>
 				{listing.images.galleryImages.length > 0 &&
 					<ListingSection icon={<Images />} title="Gallery">
-						<div className="flex gap-2">
+						<div className="flex gap-2 ">
 							{listing.images.galleryImages
-								.slice(1)
+								.slice(0,2)
 								.map((galleryImage, index) => (
 									<Image
+									
+									quality={100}
+										// unoptimized={true}
 										key={index}
-										className="rounded-lg w-full h-full mt-2"
+										className="rounded-lg h-full  w-full  mt-2"
 										width={100}
 										height={100}
 										src={galleryImage}

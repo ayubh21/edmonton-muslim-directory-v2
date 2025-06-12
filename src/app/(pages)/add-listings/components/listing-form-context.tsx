@@ -23,17 +23,17 @@ const ListingImagesSchema = z.object({
 
 const ListingContactSchema = z.object({
 	email: z.string().email().min(1, "please provide a valid email address"),
-	websiteUrl: z.string().url(),
+	websiteUrl:  z.string().url().optional().or(z.literal('')),
 	phoneNumber: z.string().min(1, "please provide a valid phone number")
 })
 
 const ListingLocationSchema = z.array(
-	z.string()
-).min(1)
+	z.string().min(1)
+).refine((arr) => arr.length > 0, "location is required")
 
 const ListingCategoriesSchema = z.array(
 	z.string().min(1)
-)
+).refine((arr) => arr.length > 0, "category is required")
 
 const ListingTagsSchema = z.array(
 	z.string().min(1)

@@ -7,6 +7,7 @@ import { User } from "@/types/user";
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
 import SendPasswordResetEmail from "../emails/reset-password";
+import SendAccountCreation from "../emails/account-creation";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -42,6 +43,27 @@ export async function SendEmail(email: string, name: string, url: string) {
 			react: SendPasswordResetEmail({
 				userFirstname: name,
 				resetPasswordLink: url,
+			}) as React.ReactElement,
+		});
+
+		if (error) {
+			console.log(error);
+		}
+	} catch (e) {
+		console.log(e);
+	}
+}
+
+export async function SendAccountCreatedEmail(email: string, name: string)  {
+
+	try {
+		const { error } = await resend.emails.send({
+			from: "noreply@yegmuslimconnect.ca",
+			to: [email],
+			subject: "Your Account Has Been Created!",
+			react: SendAccountCreation({
+				userFirstname: name,
+				loginUrl: `https://yegmuslimconnect.ca`
 			}) as React.ReactElement,
 		});
 

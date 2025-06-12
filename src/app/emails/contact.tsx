@@ -4,19 +4,18 @@ import {
 	Container,
 	Head,
 	Html,
-	Img,
-	Link,
 	Preview,
 	Section,
 	Text,
 } from "@react-email/components";
 
-interface BakeryContactProps {
+interface ContactProps {
 	userFirstName: string;
 	email: string;
 	phone: string;
 	subject?: string;
 	message: string;
+	title: string;
 }
 
 export const SendListingContactEmail = ({
@@ -24,8 +23,9 @@ export const SendListingContactEmail = ({
 	subject,
 	email,
 	phone,
+	title,
 	message
-}: BakeryContactProps) => {
+}: ContactProps) => {
 	return (
 		<Html>
 			<Head />
@@ -36,7 +36,7 @@ export const SendListingContactEmail = ({
 						<Text style={heading}>New Contact Form Submission</Text>
 
 						<Text style={text}>
-							You have received a new message through your bakery contact form.
+							You have received a new message through your website contact form.
 						</Text>
 
 						<Section style={infoSection}>
@@ -71,7 +71,7 @@ export const SendListingContactEmail = ({
 						</Section>
 
 						<Text style={footer}>
-							This message was sent through your bakery contact form. Please respond promptly to maintain excellent customer service.
+							This message was sent through your {title} contact form. Please respond promptly to maintain excellent customer service.
 						</Text>
 					</Section>
 				</Container>
@@ -100,7 +100,7 @@ const heading = {
 	fontFamily:
 		"'Open Sans', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif",
 	fontWeight: "600",
-	color: "#2c5530", // Bakery green color
+	color: "#000000",
 	lineHeight: "32px",
 	marginBottom: "24px",
 };

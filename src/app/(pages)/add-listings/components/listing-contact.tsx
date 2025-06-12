@@ -35,7 +35,7 @@ export default function ListingContact() {
 				</label>
 				<input
 					type="text"
-					placeholder="www.example.com"
+					placeholder="https://www.example.com"
 					className={`placeholder:text-sm py-3.5 focus:outline-none border-b  mb-2 ${errors.contact?.websiteUrl ? "border-b-red-500 " : "focus:border-b-emerald-600"}`}
 					{...register("contact.websiteUrl")}
 				/>

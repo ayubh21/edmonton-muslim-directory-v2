@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
 	LayoutDashboard,
 	ListChecks,
@@ -17,12 +17,16 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { authClient } from "@/lib/auth-client";
+import { revalidateAll } from "@/app/actions/revalidate";
+import { useEffect } from "react";
 
 type AdminSidebarProps = {
 	numOfListings: number;
 };
 export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
 
+	const router = useRouter()
 	const navItems = [
 		{
 			title: "Dashboard",
@@ -36,8 +40,18 @@ export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
 		},
 	];
 
+
+	useEffect(() => {
+		console.log("test")
+	},[])
+	async function handleLogout() {
+		await authClient.signOut();
+		revalidateAll();
+		router.push("/");
+	}
+
 	return (
-		<aside className="hidden md:flex h-screen  w-64 flex-col border-r bg-white">
+		<aside className="hidden md:flex  h-[calc(100vh-70px)] w-64 flex-col border-r bg-white">
 			<div className="flex flex-col gap-2 p-4">
 				{navItems.map((item) => {
 					const Icon = item.icon;
@@ -69,6 +83,7 @@ export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
 			<div className="mt-auto p-4 bottom-0">
 				<Separator className="mb-4" />
 				<Button
+				onClick={handleLogout}
 					variant="ghost"
 					className="w-full justify-start gap-3 text-red-600 hover:bg-red-50 hover:text-red-700"
 				>

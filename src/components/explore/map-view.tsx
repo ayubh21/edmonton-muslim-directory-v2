@@ -40,4 +40,3 @@ export default function MapView({ positions, filteredListings }: MapViewProps) {
 		</div>
 	);
 }
-// TODO preview listing on map

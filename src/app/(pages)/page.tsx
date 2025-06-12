@@ -1,10 +1,5 @@
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@radix-ui/react-separator";
-import { ChevronDown, Search } from "lucide-react";
 import Footer from "@/components/footer";
-import { Card, CardContent } from "@/components/ui/card";
 import { GetListings } from "../actions/listing";
 import HomeClient from "./home-client";
 import HeroSearch from "./home-search-client";
@@ -26,7 +21,7 @@ export default async function Home() {
 									</span>
 									Businesses
 								</h1>
-								<p className="text-xl text-gray-600 mb-10 leading-relaxed text-left">
+								<p className="text-xl text-gray-600 mb-10 leading-relaxed xl:text-center text-left">
 									Supporting our local community through business connections across Edmonton, Alberta.
 								</p>
 								<HeroSearch />
@@ -40,7 +35,7 @@ export default async function Home() {
 				</div>
 			</section>
 			<HomeClient listings={listings} />
-			<section className="p-10 bg-white relative overflow-hidden mx-auto">
+			<section className="p-4 bg-white relative overflow-hidden mx-auto">
 				<div className=" relative z-10">
 					<div className="max-w-4xl mx-auto text-center">
 						<h3 className="text-2xl font-semibold text-gray-900 mb-3 ">

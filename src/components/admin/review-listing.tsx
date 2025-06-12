@@ -43,6 +43,7 @@ import WorkHours from "@/app/(pages)/add-listings/components/listing-work-hours"
 import SendListingApproved from "@/app/emails/approved-listing";
 import { authClient } from "@/lib/auth-client";
 import { SendListingApprovedEmailConfirmation, SendListingRejectedEmailConfirmation } from "@/app/actions/listing";
+import { useMediaQuery } from "@react-hook/media-query";
 
 type Address = {
 	address: string;

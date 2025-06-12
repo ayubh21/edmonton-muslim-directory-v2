@@ -18,10 +18,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { isEmailAvailable, SignUp } from "@/app/actions/auth";
+import { isEmailAvailable, SendAccountCreatedEmail, SignUp } from "@/app/actions/auth";
 import { User } from "@/types/user";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { revalidateAll } from "@/app/actions/revalidate";
+import SendAccountCreation from "@/app/emails/account-creation";
 
 const RegisterSchema = z
 	.object({
@@ -99,7 +100,7 @@ export default function Register() {
 			if (!res) {
 				setServerError("Error registration failed");
 			}
-
+			await SendAccountCreatedEmail(values.email, values.firstname)
 			setRegistrationSuccess(true);
 			setIsLoading(false);
 			revalidateAll();

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
 	Libraries,
 	StandaloneSearchBox,
 	useJsApiLoader,
 } from "@react-google-maps/api";
-import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
+import { AdvancedMarker, Map as GMap, Pin } from "@vis.gl/react-google-maps";
 import { fromPlaceId, setKey } from "react-geocode";
 import { produce } from "immer";
 import { MdDelete, MdMyLocation } from "react-icons/md";
@@ -14,48 +14,40 @@ import { useListingFormContext } from "./listing-form-context";
 
 type Locations = {
 	coordinates: Latlng[];
+	addresses: string[];
 };
 
 const libraries: Libraries = ["places"];
 
 export default function ListingLocation() {
-	const { setValue, getValues, register, formState: { errors, touchedFields, dirtyFields }, setError, clearErrors, trigger } = useListingFormContext()
-
+	const { setValue, getValues, register, formState: { errors }, setError, clearErrors, trigger } = useListingFormContext()
 	const [locations, setLocations] = useState<Locations>({
-		coordinates: [{ lat: 53.5461, lng: -113.4938 }],
+		coordinates: [{ lat: 53.5461, lng: -113.4938 }], addresses: []
 	});
-
-	const [addresses, setAddresses] = useState<string[]>([]);
-
 	const [showCoordinates, setShowCoordinates] = useState(false);
 	const [lat, setLat] = useState("");
 	const [lng, setLng] = useState("");
-	const commandRef = useRef<google.maps.places.SearchBox>(null);
+	const commandRef = useRef(new Map<number,google.maps.places.SearchBox>())
 
 	useEffect(() => {
 		if (!getValues("addresses")) {
 			setValue("addresses", []);
 		}
-		console.log(addresses)
-	}, [getValues, setValue, addresses]);
+	}, [getValues, setValue, locations.addresses]);
 
 	useEffect(() => {
-		setValue("addresses", addresses);
-		if (addresses.length > 0 && addresses.some(addr => addr.trim() !== "")) {
+		setValue("addresses", locations.addresses);
+		if (locations.addresses.length > 0 && locations.addresses.some(addr => addr.trim() !== "")) {
 			clearErrors("addresses");
 		}
-	}, [addresses, setValue, clearErrors]);
+	}, [locations.addresses, setValue, clearErrors]);
 
 	useEffect(() => {
 		setKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!);
-		if (lat !== "" && lng !== "") {
-			handleGetAddress(
-				Number(lat),
-				Number(lng),
-				locations.coordinates.length - 1
-			);
-		}
 	},);
+
+
+
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -65,9 +57,10 @@ export default function ListingLocation() {
 	});
 
 	if (!isLoaded) return null;
-
 	const handleOnPlacesChanged = async (index: number) => {
-		const searchResults = commandRef.current?.getPlaces();
+		// call get places from the correct index of my map	
+		const searchBox = commandRef.current.get(index) 
+		const searchResults = searchBox?.getPlaces()
 		if (searchResults && searchResults.length > 0) {
 			const placeId = searchResults[0].place_id;
 			const placeAddress = searchResults[0].formatted_address;
@@ -77,26 +70,20 @@ export default function ListingLocation() {
 					const results = await fromPlaceId(placeId);
 					const location = results.results[0].geometry.location;
 
-					setLocations(
+					
+					for(let i = 0; i < locations.coordinates.length; i++) {
+							if(i == index) {						
+						setLocations(
 						produce((draft) => {
 							if (index < draft.coordinates.length) {
 								draft.coordinates[index].lat = location.lat;
 								draft.coordinates[index].lng = location.lng;
+								draft.addresses[index] = placeAddress!
 							}
-						})
-					);
-
-					// Update address in our local array
-					setAddresses(
-						produce((draft) => {
-							if (index < draft.length) {
-								draft[index] = placeAddress || "";
-							} else {
-								draft.push(placeAddress || "");
-							}
-						})
-					);
-
+								})
+							);
+					}
+					}
 					// Clear validation errors after selecting a place
 				} catch (error) {
 					console.error("Error getting place details:", error);
@@ -111,13 +98,7 @@ export default function ListingLocation() {
 		setLocations(
 			produce((draft) => {
 				draft.coordinates.push({ lat: 53.5461, lng: -113.4938 });
-			})
-		);
-
-		// Add empty address to our array
-		setAddresses(
-			produce((draft) => {
-				draft.push("");
+				draft.addresses.push("")
 			})
 		);
 	};
@@ -145,18 +126,6 @@ export default function ListingLocation() {
 			if (data.results && data.results.length > 0) {
 				const formattedAddress = data.results[0].formatted_address;
 
-				// Update address in our local array
-				setAddresses(
-					produce((draft) => {
-						if (index < draft.length) {
-							draft[index] = formattedAddress;
-						} else {
-							draft.push(formattedAddress);
-						}
-					})
-				);
-
-				// Clear validation errors after getting address from coordinates
 				clearErrors("addresses");
 			}
 		} catch (e) {
@@ -172,16 +141,10 @@ export default function ListingLocation() {
 
 		// Don't remove if it's the last one
 		if (locations.coordinates.length <= 1) return;
-
 		setLocations(
 			produce((draft) => {
 				draft.coordinates.splice(index, 1);
-			})
-		);
-
-		setAddresses(
-			produce((draft) => {
-				draft.splice(index, 1);
+				draft.addresses.splice(index,1)
 			})
 		);
 	};
@@ -205,17 +168,18 @@ export default function ListingLocation() {
 
 	const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
 		const newValue = e.target.value;
-
-		setAddresses(
+		
+		setLocations(
 			produce((draft) => {
-				draft[index] = newValue;
+				draft.addresses[index] = newValue;
 			})
-		);
+		)
 
 		if (newValue.trim() !== "") {
 			clearErrors("addresses");
 		}
 	};
+
 
 	return (
 		<div className={"mt-3"}>
@@ -225,16 +189,14 @@ export default function ListingLocation() {
 						<div key={index}>
 							<div className={""}>
 								<StandaloneSearchBox
-									onLoad={(ref) => (commandRef.current = ref)}
+									onLoad={(ref) => commandRef.current.set(index, ref)}
 									onPlacesChanged={() => handleOnPlacesChanged(index)}
 								>
 									<div className="items-center mb-4 relative">
 										<input
-											{...register("addresses", { minLength: 1 })}
+											{...register(`addresses.${index}`, {minLength: 1})}
 											type="text"
 											placeholder="Enter your location"
-											value={addresses[index] || ""}
-											onChange={(e) => handleAddressInputChange(e, index)}
 											className={`w-full text-left py-3.5 placeholder-black outline-none top-0 ${errors.addresses ? "border-b border-red-500" : "border-b focus:border-b-emerald-600"}`}
 										/>
 										<MdMyLocation
@@ -277,7 +239,7 @@ export default function ListingLocation() {
 							</div>
 
 							<div className={"h-56"}>
-								<Map
+								<GMap
 									defaultCenter={location}
 									defaultZoom={10}
 									streetViewControl={false}
@@ -291,7 +253,7 @@ export default function ListingLocation() {
 									>
 										<Pin />
 									</AdvancedMarker>
-								</Map>
+								</GMap>
 							</div>
 
 							<div className="relative my-4">

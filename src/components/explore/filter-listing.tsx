@@ -114,6 +114,9 @@ export default function FilterListing({ listings }: FilterListingProps) {
 		}, 1000);
 	};
 
+	useEffect(() => {
+			console.log(filteredListings)
+	},[filteredListings])
 
 	// loading component to hydrate client and server interactivity
 	useEffect(() => {

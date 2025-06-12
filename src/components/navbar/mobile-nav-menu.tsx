@@ -59,7 +59,7 @@ export default function MobileNavMenu({ isLoggedIn, isAdmin }: MobileNavMenuProp
 						>
 							Contact
 						</Link>
-						{isAdmin ??
+						{isAdmin ? (
 							<Link
 								href="/admin"
 								onClick={() => setOpen(false)}
@@ -67,7 +67,10 @@ export default function MobileNavMenu({ isLoggedIn, isAdmin }: MobileNavMenuProp
 							>
 								Dashboard
 							</Link>
+						): null
 						}
+						{isLoggedIn ?
+						(
 						<Link
 							href="/account"
 							onClick={() => setOpen(false)}
@@ -75,6 +78,7 @@ export default function MobileNavMenu({ isLoggedIn, isAdmin }: MobileNavMenuProp
 						>
 							Account
 						</Link>
+						): null}
 
 						{!isLoggedIn ? (
 							<>

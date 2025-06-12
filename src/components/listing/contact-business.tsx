@@ -40,7 +40,6 @@ export default function ContactBusiness() {
 					<input
 						{...register("name")}
 						type="text"
-						placeholder="(780)-123-5678"
 						className="placeholder:text-sm py-3.5 focus:outline-none border-b focus:border-b-emerald-600 text-sm"
 					/>
 				</div>
@@ -76,7 +75,7 @@ export default function ContactBusiness() {
 				</div>
 				<Button
 					type="submit"
-					className="w-full mt-2  bg-emerald-600 text-white p-2 rounded-md hover:bg-emerald-800"
+					className="w-full mt-2 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white p-2 rounded-md hover:bg-emerald-800"
 				>
 					Send Message
 				</Button>

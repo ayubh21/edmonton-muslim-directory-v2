@@ -31,7 +31,7 @@ export const SendPasswordResetEmail = ({
 					<Section>
 						<Text style={text}>Hi {userFirstname},</Text>
 						<Text style={text}>
-							Someone recently requested a password change for your Edmonton Muslim Directory account,
+							Someone recently requested a password change for your Yeg muslim connect account,
 							If this was you, you can set a new password here:
 						</Text>
 						<Button style={button} href={resetPasswordLink}>

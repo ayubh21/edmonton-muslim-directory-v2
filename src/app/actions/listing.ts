@@ -345,7 +345,7 @@ export async function DeleteListing(listingId: number) {
 export async function SendListingEmailConfirmation(email: string, name: string) {
 	try {
 		const { error } = await resend.emails.send({
-			from: "noreply@test.copyhub.cc",
+			from: "noreply@yegmuslimconnect.ca",
 			to: [email],
 			subject: "Thank You for your Submission - We're Reviewing it",
 			react: SendListingConfirmation({
@@ -401,18 +401,19 @@ export async function SendListingRejectedEmailConfirmation(email: string, name: 
 	}
 }
 
-export async function SendContactEmail(email: string, name: string, phone: string, subject: string, message: string) {
+export async function SendContactEmail(email: string, name: string, phone: string, subject: string, message: string, title: string) {
 	try {
 		const { error } = await resend.emails.send({
 			from: "noreply@yegmuslimconnect.ca",
-			to: [email],
+			to: ["ayubhussein625@gmail.com"],
 			subject: "New Message via YEG Muslim Connect",
 			react: SendListingContactEmail({
 				email: email,
 				phone: phone,
 				subject: subject,
 				userFirstName: name,
-				message: message
+				message: message,
+				title: title
 			}) as React.ReactElement,
 		});
 		if (error) {

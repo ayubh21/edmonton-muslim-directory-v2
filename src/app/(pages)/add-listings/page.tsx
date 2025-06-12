@@ -26,7 +26,7 @@ import ListingDetails from "./components/listing-details";
 import { Button } from "@/components/ui/button";
 import { AddListing, SendListingEmailConfirmation, UploadToS3 } from "@/app/actions/listing";
 import { ListingForm, useFormListing } from "./components/listing-form-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingComponent from "@/components/loading-indicator";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
@@ -36,6 +36,17 @@ import { redirect } from "next/navigation";
 
 export default function Page() {
 	const methods = useFormListing();
+	const isAuthenticated = async () => {
+		const {data} = await authClient.getSession()
+		if(!data) {
+			redirect('/auth/login')
+		}
+	}
+
+	useEffect(() => {
+		isAuthenticated()
+	},[isAuthenticated])
+
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const Upload = async (images: ImageMetaData) => {
@@ -190,7 +201,6 @@ export default function Page() {
 							title="Details"
 							description="Details about your business"
 							icon={<MdCategory size={18} />}
-							optional="(optional)"
 						>
 							<ListingDetails />
 						</FormSection>
