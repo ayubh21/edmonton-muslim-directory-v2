@@ -13,7 +13,7 @@ import {
 } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { and, eq, ne } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { revalidateAll } from "./revalidate";
 import { geocode } from "@/lib/geocode";
 import { CustomFile } from "@/types/listing";
@@ -22,7 +22,6 @@ import SendListingConfirmation from "../emails/listing-confirmation";
 import { Resend } from "resend";
 import SendListingApproved from "../emails/approved-listing";
 import { SendListingContactEmail } from "../emails/contact";
-import slug from "slug";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 export async function AddListing(business: ListingForm) {
@@ -43,6 +42,11 @@ export async function AddListing(business: ListingForm) {
 		};
 
 		console.log("test2")
+
+		const slug = (title: string) => {
+			return title.replace(" ", "-")
+		}
+
 		let businessSlug = slug(business.title)
 		console.log("test3")
 		const l = await db.query.Listing.findMany({
