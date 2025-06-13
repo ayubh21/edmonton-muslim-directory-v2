@@ -19,7 +19,6 @@ import ListingImages, { ImageMetaData } from "./components/listing-images";
 import ListingContact from "./components/listing-contact";
 import ListingSocials from "./components/listing-socials";
 import ListingWorkHours from "./components/listing-work-hours";
-// import ListingLocation from "./components/listing-location";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/listing-details";
@@ -32,6 +31,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { redirect } from "next/navigation";
+import ListingLocation from "./components/listing-location";
 
 
 export default function Page() {
@@ -189,7 +189,6 @@ export default function Page() {
 						>
 							<ListingWorkHours />
 						</FormSection>
-						{/*
 						<FormSection
 							title="Location"
 							description="Where your business is"
@@ -199,7 +198,6 @@ export default function Page() {
 								<ListingLocation />
 							</APIProvider>
 						</FormSection>
-						*/}
 						<FormSection
 							title="Details"
 							description="Details about your business"

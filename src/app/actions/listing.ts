@@ -26,6 +26,7 @@ import slug from "slug";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 export async function AddListing(business: ListingForm) {
+	console.log("test")
 	type NewListing = typeof Listing.$inferInsert;
 	try {
 		const session = await auth.api.getSession({ headers: await headers() });
@@ -41,11 +42,13 @@ export async function AddListing(business: ListingForm) {
 			});
 		};
 
+		console.log("test2")
 		let businessSlug = slug(business.title)
 		const l = await db.query.Listing.findMany({
 			where: (eq(Listing.slug, businessSlug))
 		})
 
+		console.log("test3")
 		if (l.length > 0) {
 			businessSlug = businessSlug + `-${l.length}`
 		}
@@ -75,19 +78,20 @@ export async function AddListing(business: ListingForm) {
 		};
 
 		const listing = await insertListing(newListing);
-		// for (let i = 0; i < business.addresses.length; i++) {
-		// 	const coordinates = await geocode.getCoordinates(business.addresses[i]);
-		// 	const res = await db.insert(ListingAddress).values({
-		// 		listingId: listing[0].insertedId,
-		// 		address: "",
-		// 		lat: 0,
-		// 		lng: 0,
-		// 	});
-		//
-		// 	if (!res) {
-		// 		console.log("failed to insert address");
-		// 	}
-		// }
+
+		for (let i = 0; i < business.addresses.length; i++) {
+			const coordinates = await geocode.getCoordinates(business.addresses[i]);
+			const res = await db.insert(ListingAddress).values({
+				listingId: listing[0].insertedId,
+				address: business.addresses[i],
+				lat: coordinates.lat,
+				lng: coordinates.lng,
+			});
+
+			if (!res) {
+				console.log("failed to insert address");
+			}
+		}
 
 		for (let i = 0; i < business.categories.length; i++) {
 			const res = await db.insert(ListingCategory).values({

@@ -15,23 +15,6 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
-	async headers() {
-		return [
-			{
-				source: '/api/views/daily',
-				headers: [
-					{
-						key: 'Access-Control-Allow-Origin',
-						value: '*',
-					},
-					{
-						key: 'Access-Control-Allow-Methods',
-						value: 'GET,DELETE,PATCH,POST,PUT,OPTIONS',
-					},
-				],
-			},
-		]
-	},
 };
 
 export default nextConfig;

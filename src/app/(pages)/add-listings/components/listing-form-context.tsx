@@ -45,7 +45,7 @@ const ListingSchema = z.object({
 	images: ListingImagesSchema,
 	imageMetaData: ListingImageMetaDataSchema,
 	contact: ListingContactSchema,
-	// addresses: ListingLocationSchema,
+	addresses: ListingLocationSchema,
 	categories: ListingCategoriesSchema,
 	tags: ListingTagsSchema,
 	workHours: z.custom<ListingWorkDays>(),
