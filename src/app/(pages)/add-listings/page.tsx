@@ -189,6 +189,7 @@ export default function Page() {
 						>
 							<ListingWorkHours />
 						</FormSection>
+						{/*
 						<FormSection
 							title="Location"
 							description="Where your business is"
@@ -198,6 +199,7 @@ export default function Page() {
 								<ListingLocation />
 							</APIProvider>
 						</FormSection>
+						*/}
 						<FormSection
 							title="Details"
 							description="Details about your business"
