@@ -32,7 +32,7 @@ export default function CategoryCard({ icon, title, count, color, iconColor, lis
 		<div
 			onClick={() => router.push(`explore?category=${title}`)}
 			className="">
-			<Link href={`/category/${title.toLowerCase()}`}>
+			<Link href={`explore?category=${title}`}>
 				<div
 					className={`${color} rounded-3xl p-6 text-center transition-all hover:shadow-lg hover:-translate-y-1 duration-300 group`}
 				>

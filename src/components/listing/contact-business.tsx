@@ -35,7 +35,7 @@ export default function ContactBusiness() {
 			<div>
 				<div className="w-full flex flex-col  pt-5">
 					<label className="font-semibold text-sm" htmlFor="">
-						name
+						Name
 					</label>
 					<input
 						{...register("name")}
@@ -68,7 +68,7 @@ export default function ContactBusiness() {
 					<label className="font-semibold text-sm" htmlFor="">
 						Message
 					</label>
-					<Textarea
+					<textarea
 						{...register("message")}
 						className=" focus:outline-amber-200  focus-visible:ring-0 border-t-0 border-l-0 border-r-0 shadow-none rounded-none" />
 				</div>

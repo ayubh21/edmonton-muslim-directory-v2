@@ -63,25 +63,25 @@ export default async function ListingDetails({
 			<ListingBanner listing={listing} />
 			<div className="px-4 max-w-[1375px] mx-auto md:grid grid-cols-2 gap-2">
 				<ListingSection icon={<Info size={20} />} title="About my business">
-				<div className="flex flex-col justify-between gap-5">
+					<div className="flex flex-col justify-between gap-5">
 						<span className="mt-2">
-						{listing.description}
+							{listing.description}
 						</span>
 
-						{listing.website_url !=  "" &&
-					<span className="">
-							<div className="flex gap-2">
-						<Link2 size={20} className="text-gray-500"/>	
-							<p className="font-semibold">Website</p>
-								</div>	
-						<div>
-						<a 
-						className="underline"	
-						href={`${listing.website_url}`}>{listing.website_url}</a>
-						</div>
-					</span>
-}
-				</div>
+						{listing.website_url != "" &&
+							<span className="">
+								<div className="flex gap-2">
+									<Link2 size={20} className="text-gray-500" />
+									<p className="font-semibold">Website</p>
+								</div>
+								<div>
+									<a
+										className="underline"
+										href={`${listing.website_url}`}>{listing.website_url}</a>
+								</div>
+							</span>
+						}
+					</div>
 				</ListingSection>
 
 				<ListingSection icon={<Clock2 size={20} />} title="Work Hours">
@@ -93,11 +93,11 @@ export default async function ListingDetails({
 					<ListingSection icon={<Images />} title="Gallery">
 						<div className="flex gap-2 ">
 							{listing.images.galleryImages
-								.slice(0,2)
+								.slice(0, 2)
 								.map((galleryImage, index) => (
 									<Image
-									
-									quality={100}
+
+										quality={100}
 										// unoptimized={true}
 										key={index}
 										className="rounded-lg h-full  w-full  mt-2"
@@ -127,7 +127,7 @@ export default async function ListingDetails({
 						<div className="flex justify-between  items-center gap-10 mt-5">
 							{/* TODO redirect to google maps  */}
 							{/* <span>{address[0].address}</span> */}
-							<Link href={`https://www.google.com/maps/place/q=${coordinates.lat},${coordinates.lng}`}>
+							<Link href={`http://maps.google.com/?ll=${coordinates.lat},${coordinates.lng}`}>
 								<Button className="cursor-pointer bg-faintGrey bg-[#f2f3f2] text-black  text-center  h-full my-2 shadow-none font-normal  rounded-none mt-4 hover: hover:bg-gray-200">
 									Get Directions
 								</Button>
@@ -137,16 +137,16 @@ export default async function ListingDetails({
 					</div>
 				</section>
 				{!listing.tags.length &&
-				<ListingSection title="Features and Amenities">
-					<div className="flex flex-row flex-wrap gap-2 mt-2">
-						{listing.tags.map((tag, index) => (
-							<Badge variant="outline" className=" bg-white " key={index}>
-								{tag.tag}
-							</Badge>
-						))}
-					</div>
-				</ListingSection>
-}
+					<ListingSection title="Features and Amenities">
+						<div className="flex flex-row flex-wrap gap-2 mt-2">
+							{listing.tags.map((tag, index) => (
+								<Badge variant="outline" className=" bg-white " key={index}>
+									{tag.tag}
+								</Badge>
+							))}
+						</div>
+					</ListingSection>
+				}
 				<ListingSection icon={<Mail size={20} />} title={`Contact ${listing.title}`}>
 					<div className="relative">
 						<ContactBusiness />

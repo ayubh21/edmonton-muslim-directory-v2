@@ -11,6 +11,7 @@ import { MdDelete, MdMyLocation } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { Latlng } from "@/types/listing";
 import { useListingFormContext } from "./listing-form-context";
+import LoadingComponent from "@/components/loading-indicator";
 
 type Locations = {
 	coordinates: Latlng[];
@@ -22,6 +23,7 @@ const libraries: Libraries = ["places"];
 
 export default function ListingLocation() {
 	const { setValue, getValues, register, formState: { errors }, setError, clearErrors, trigger } = useListingFormContext()
+	const [isLoading, setIsLoading] = useState(false);
 	const [locations, setLocations] = useState<Locations>({
 		coordinates: [{ lat: 53.5461, lng: -113.4938 }], addresses: []
 	});
@@ -55,7 +57,8 @@ export default function ListingLocation() {
 		version: "weekly",
 	});
 
-	if (!isLoaded) return null;
+	if (!isLoaded) return <LoadingComponent isLoading={isLoading} setIsLoading={setIsLoading} />
+
 	const handleOnPlacesChanged = async (index: number) => {
 		// call get places from the correct index of my map	
 		const searchBox = commandRef.current.get(index)

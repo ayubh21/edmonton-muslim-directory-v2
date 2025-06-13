@@ -44,7 +44,7 @@ interface HeroSearchProps {
 	onFiltersChange?: (filters: SearchFilters) => void;
 }
 
-export default function HeroSearch({ onSearch, onFiltersChange }: HeroSearchProps) {
+export default function HeroSearch({ onFiltersChange }: HeroSearchProps) {
 	const router = useRouter()
 	const [filters, setFilters] = useState<SearchFilters>({
 		searchText: "",
@@ -64,30 +64,13 @@ export default function HeroSearch({ onSearch, onFiltersChange }: HeroSearchProp
 		}));
 	};
 
-	const handleCategoryChange = (value: string) => {
-		setFilters(prev => ({
-			...prev,
-			category: value === "all" ? "" : value
-		}));
-	};
 
 	const handleSearch = () => {
-		console.log("")
-		if (filters.category) {
-			router.push(`explore?category=${filters.category}`)
-		}
-		if (filters.searchText) {
-			router.push(`explore?search_keywords=${filters.searchText}`)
+		if (filters.category && filters.searchText) {
+			router.push(`explore?category=${filters.category}&search_keywords=${filters.searchText}`)
 		}
 	};
 
-
-	const clearFilter = (filterType: 'searchText' | 'category') => {
-		setFilters(prev => ({
-			...prev,
-			[filterType]: filterType === 'category' ? '' : ''
-		}));
-	};
 
 
 	return (

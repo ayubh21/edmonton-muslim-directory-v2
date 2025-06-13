@@ -25,7 +25,7 @@ export default function HomeClient({ listings }: { listings: Listing[] }) {
 							<p className="text-gray-600 text-center">Find the best Muslim-owned businesses in Edmonton</p>
 						</div>
 					</div>
-					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-20 sm:px-6">
+					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-20 px-6">
 						<CategoryCard
 							icon="Utensils"
 							title="Restaurants"
