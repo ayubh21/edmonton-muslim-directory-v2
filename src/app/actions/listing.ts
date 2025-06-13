@@ -13,7 +13,7 @@ import {
 } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { and, eq, ne, sql } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { revalidateAll } from "./revalidate";
 import { geocode } from "@/lib/geocode";
 import { CustomFile } from "@/types/listing";
@@ -44,15 +44,16 @@ export async function AddListing(business: ListingForm) {
 
 		console.log("test2")
 		let businessSlug = slug(business.title)
+		console.log("test3")
 		const l = await db.query.Listing.findMany({
 			where: (eq(Listing.slug, businessSlug))
 		})
-
-		console.log("test3")
+		console.log("test4")
 		if (l.length > 0) {
 			businessSlug = businessSlug + `-${l.length}`
 		}
 
+		console.log("test5")
 		const newListing: NewListing = {
 			title: business.title,
 			tag_line: business.tagLine,
@@ -309,7 +310,6 @@ export async function updateWeeklyViews(listingId: number) {
 		console.log("failed to get listing")
 		return;
 	}
-	console.log(listing)
 	await db.update(Listing).set({
 		count_of_last_seven_days: listing.weekly_views
 	}).where(eq(Listing.id, listingId))

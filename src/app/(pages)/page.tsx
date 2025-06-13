@@ -6,7 +6,6 @@ import HeroSearch from "./home-search-client";
 
 export default async function Home() {
 	const listings = await GetApprovedListings();
-	console.log(listings);
 	return (
 		<div className=" flex-col bg-gradient-to-r from-emerald-50 to-teal-50  mx-auto !w-full">
 			<section className="py-16 md:py-24 overflow-hidden max-w-[1850px]  mx-auto flex flex-row justify-center items-center gap-10">
