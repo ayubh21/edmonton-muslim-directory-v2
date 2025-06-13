@@ -75,19 +75,19 @@ export async function AddListing(business: ListingForm) {
 		};
 
 		const listing = await insertListing(newListing);
-		for (let i = 0; i < business.addresses.length; i++) {
-			const coordinates = await geocode.getCoordinates(business.addresses[i]);
-			const res = await db.insert(ListingAddress).values({
-				listingId: listing[0].insertedId,
-				address: "",
-				lat: 0,
-				lng: 0,
-			});
-
-			if (!res) {
-				console.log("failed to insert address");
-			}
-		}
+		// for (let i = 0; i < business.addresses.length; i++) {
+		// 	const coordinates = await geocode.getCoordinates(business.addresses[i]);
+		// 	const res = await db.insert(ListingAddress).values({
+		// 		listingId: listing[0].insertedId,
+		// 		address: "",
+		// 		lat: 0,
+		// 		lng: 0,
+		// 	});
+		//
+		// 	if (!res) {
+		// 		console.log("failed to insert address");
+		// 	}
+		// }
 
 		for (let i = 0; i < business.categories.length; i++) {
 			const res = await db.insert(ListingCategory).values({

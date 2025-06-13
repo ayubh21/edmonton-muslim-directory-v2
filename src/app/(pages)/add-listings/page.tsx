@@ -19,7 +19,7 @@ import ListingImages, { ImageMetaData } from "./components/listing-images";
 import ListingContact from "./components/listing-contact";
 import ListingSocials from "./components/listing-socials";
 import ListingWorkHours from "./components/listing-work-hours";
-import ListingLocation from "./components/listing-location";
+// import ListingLocation from "./components/listing-location";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { MdCategory } from "react-icons/md";
 import ListingDetails from "./components/listing-details";
