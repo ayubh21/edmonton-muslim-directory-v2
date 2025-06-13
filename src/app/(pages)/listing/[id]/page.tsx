@@ -91,18 +91,15 @@ export default async function ListingDetails({
 				</ListingSection>
 				{listing.images.galleryImages.length > 0 &&
 					<ListingSection icon={<Images />} title="Gallery">
-						<div className="flex gap-2 ">
+						<div className="flex gap-2 h-full w-1/2">
 							{listing.images.galleryImages
 								.slice(0, 2)
 								.map((galleryImage, index) => (
-									<Image
-
-										quality={100}
+									<img
+										// quality={100}
 										// unoptimized={true}
 										key={index}
-										className="rounded-lg h-full  w-full  mt-2"
-										width={100}
-										height={100}
+										className="rounded-lg object-cover  mt-2 "
 										src={galleryImage}
 										alt={listing.title}
 									/>
@@ -111,9 +108,9 @@ export default async function ListingDetails({
 					</ListingSection>
 				}
 				<section>
-					<div className="bg-white p-4 shadow-sm mb-4">
+					<div className="bg-white p-4 ps shadow-sm mb-4">
 						<div>
-							<div className="flex gap-2 mb-4">
+							<div className="flex gap-2 ">
 								<div
 									className={` rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden`}
 								>

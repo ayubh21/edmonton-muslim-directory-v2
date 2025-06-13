@@ -108,10 +108,6 @@ export default function WorkHours() {
 		);
 	};
 
-	const handleRemoveWorkDayHours = () => {
-
-	}
-	// I need the specific day, which means going thru a list
 	const handleClick = (
 		e: React.MouseEvent<HTMLButtonElement>,
 		day: keyof WorkDays
