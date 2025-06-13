@@ -19,6 +19,7 @@ type Locations = {
 
 const libraries: Libraries = ["places"];
 
+
 export default function ListingLocation() {
 	const { setValue, getValues, register, formState: { errors }, setError, clearErrors, trigger } = useListingFormContext()
 	const [locations, setLocations] = useState<Locations>({
@@ -27,7 +28,7 @@ export default function ListingLocation() {
 	const [showCoordinates, setShowCoordinates] = useState(false);
 	const [lat, setLat] = useState("");
 	const [lng, setLng] = useState("");
-	const commandRef = useRef(new Map<number,google.maps.places.SearchBox>())
+	const commandRef = useRef(new Map<number, google.maps.places.SearchBox>())
 
 	useEffect(() => {
 		if (!getValues("addresses")) {
@@ -47,8 +48,6 @@ export default function ListingLocation() {
 	},);
 
 
-
-
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -59,7 +58,7 @@ export default function ListingLocation() {
 	if (!isLoaded) return null;
 	const handleOnPlacesChanged = async (index: number) => {
 		// call get places from the correct index of my map	
-		const searchBox = commandRef.current.get(index) 
+		const searchBox = commandRef.current.get(index)
 		const searchResults = searchBox?.getPlaces()
 		if (searchResults && searchResults.length > 0) {
 			const placeId = searchResults[0].place_id;
@@ -70,19 +69,19 @@ export default function ListingLocation() {
 					const results = await fromPlaceId(placeId);
 					const location = results.results[0].geometry.location;
 
-					
-					for(let i = 0; i < locations.coordinates.length; i++) {
-							if(i == index) {						
-						setLocations(
-						produce((draft) => {
-							if (index < draft.coordinates.length) {
-								draft.coordinates[index].lat = location.lat;
-								draft.coordinates[index].lng = location.lng;
-								draft.addresses[index] = placeAddress!
-							}
+
+					for (let i = 0; i < locations.coordinates.length; i++) {
+						if (i == index) {
+							setLocations(
+								produce((draft) => {
+									if (index < draft.coordinates.length) {
+										draft.coordinates[index].lat = location.lat;
+										draft.coordinates[index].lng = location.lng;
+										draft.addresses[index] = placeAddress!
+									}
 								})
 							);
-					}
+						}
 					}
 					// Clear validation errors after selecting a place
 				} catch (error) {
@@ -94,7 +93,6 @@ export default function ListingLocation() {
 
 	const handleAddLocations = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-
 		setLocations(
 			produce((draft) => {
 				draft.coordinates.push({ lat: 53.5461, lng: -113.4938 });
@@ -144,7 +142,7 @@ export default function ListingLocation() {
 		setLocations(
 			produce((draft) => {
 				draft.coordinates.splice(index, 1);
-				draft.addresses.splice(index,1)
+				draft.addresses.splice(index, 1)
 			})
 		);
 	};
@@ -168,7 +166,7 @@ export default function ListingLocation() {
 
 	const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
 		const newValue = e.target.value;
-		
+
 		setLocations(
 			produce((draft) => {
 				draft.addresses[index] = newValue;
@@ -194,7 +192,7 @@ export default function ListingLocation() {
 								>
 									<div className="items-center mb-4 relative">
 										<input
-											{...register(`addresses.${index}`, {minLength: 1})}
+											{...register(`addresses.${index}`, { minLength: 1 })}
 											type="text"
 											placeholder="Enter your location"
 											className={`w-full text-left py-3.5 placeholder-black outline-none top-0 ${errors.addresses ? "border-b border-red-500" : "border-b focus:border-b-emerald-600"}`}

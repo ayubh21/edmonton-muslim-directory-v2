@@ -23,7 +23,7 @@ const ListingImagesSchema = z.object({
 
 const ListingContactSchema = z.object({
 	email: z.string().email().min(1, "please provide a valid email address"),
-	websiteUrl:  z.string().url().optional().or(z.literal('')),
+	websiteUrl: z.string().url().optional().or(z.literal('')),
 	phoneNumber: z.string().min(1, "please provide a valid phone number")
 })
 
@@ -49,7 +49,8 @@ const ListingSchema = z.object({
 	categories: ListingCategoriesSchema,
 	tags: ListingTagsSchema,
 	workHours: z.custom<ListingWorkDays>(),
-	networks: z.custom<Social[]>()
+	networks: z.custom<Social[]>(),
+	slug: z.string().optional()
 })
 
 

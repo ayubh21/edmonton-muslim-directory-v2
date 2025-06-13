@@ -4,7 +4,7 @@ import { revalidateAll } from "@/app/actions/revalidate";
 import AnalyticsDashboard from "@/components/analytics-dashboard";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db/db";
-import { Listing } from "@/lib/db/schema";
+import { Listing } from "@/types/listing";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
@@ -19,13 +19,19 @@ export default async function Account() {
 	}
 
 	const listings = await GetListingsByUserId(session.user.id)
-	console.log(listings)
+	const approvedListing: Listing[] = []
+	listings.forEach((listing) => {
+		if (listing.status == "approved") {
+			approvedListing.push(listing);
+		}
+	})
+
 	return (
 		<div className="bg-[#f4f4f4] h-screen  w-full mx-auto">
 			<div className="max-w-[1850px] mx-auto">
 				{listings.length > 0 ? (
 					<div className="w-full h-screen">
-						<AnalyticsDashboard listings={listings} name={session.user.name} />
+						<AnalyticsDashboard listings={approvedListing} name={session.user.name} />
 					</div>
 				) :
 					<div className="col-span-full py-12 text-center h-screen">

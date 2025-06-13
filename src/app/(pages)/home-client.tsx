@@ -93,6 +93,7 @@ export default function HomeClient({ listings }: { listings: Listing[] }) {
 										className="overflow-y-hidden shadow-sm"
 										key={index}>
 										<BusinessCard
+											slug={listing.slug}
 											id={listing.id!}
 											logo={listing.images.logo}
 											coverImage={listing.images.coverImage}

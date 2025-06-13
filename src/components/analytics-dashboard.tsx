@@ -34,8 +34,10 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 		if (!listing) {
 			return;
 		}
+
 		setCurrentListing(listing)
 	}
+
 
 	const handleDeleteListing = async () => {
 		await DeleteListing(currentListing.id)
@@ -44,7 +46,8 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 		location.reload();
 	}
 
-	console.log(listings)
+
+
 	return (
 		<div className="space-y-8 p-6">
 			{/* Header */}
@@ -80,7 +83,7 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 							</div>
 						</div>
 						<div className="mt-4 flex items-center">
-							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(dailyChange) || currentListing.count_of_last_24 == 0  ? 0 : dailyChange}</Badge>
+							<Badge className="bg-white/20 text-white hover:bg-white/30">% {isNaN(dailyChange) || currentListing.count_of_last_24 == 0 ? 0 : dailyChange}</Badge>
 							<span className="text-blue-100 text-sm ml-2">vs yesterday</span>
 						</div>
 					</CardContent>
@@ -122,6 +125,7 @@ export default function AnalyticsDashboard({ name, listings }: AnalyticsDashboar
 			</div>
 			<div className="sm:grid grid-cols-1  md:max-w-2/3 ">
 				<BusinessCard
+					slug={currentListing.slug}
 					id={currentListing.id!}
 					logo={currentListing.images.logo}
 					coverImage={currentListing.images.coverImage}

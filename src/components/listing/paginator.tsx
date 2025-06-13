@@ -127,6 +127,7 @@ export default function Paginator({ listings }: PaginatorProps) {
 						<div key={index} className=''>
 							<BusinessCard
 								id={listing.id}
+								slug={listing.slug}
 								logo={listing.images.logo}
 								coverImage={listing.images.coverImage}
 								title={listing.title}

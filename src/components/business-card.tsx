@@ -11,6 +11,7 @@ interface BusinessCardProps {
 	title: string;
 	category: string;
 	address: string;
+	slug: string;
 	// rating: number;
 	// price: string;
 	tagLine: string;
@@ -19,6 +20,7 @@ interface BusinessCardProps {
 
 export default function BusinessCard({
 	id,
+	slug,
 	logo,
 	coverImage,
 	title,
@@ -28,7 +30,7 @@ export default function BusinessCard({
 	phoneNumber,
 }: BusinessCardProps) {
 	return (
-		<Link href={`/listing/${id}`}>
+		<Link href={`/listing/${slug}`}>
 			<div className="bg-white rounded-md overflow-hidden   transition-shadow relative min-h-[285px] hover:opacity-95 ">
 				<div className="relative h-30 w-full ">
 					<Image

@@ -15,6 +15,7 @@ export default function ListingList({ listings, className }: ListingListProps) {
 					key={index}>
 					<BusinessCard
 						id={listing.id!}
+						slug={listing.slug}
 						logo={listing.images.logo}
 						coverImage={listing.images.coverImage}
 						title={listing.title}

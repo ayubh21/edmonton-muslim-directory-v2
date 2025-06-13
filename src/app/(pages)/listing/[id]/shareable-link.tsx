@@ -33,7 +33,7 @@ export default function ListingBanner({ listing }: ListingBannerProps) {
 	if(!isMounted) return <LoadingComponent isLoading={isMounted} setIsLoading={setIsMounted}/>
 
 	const handleClick = () => {
-		navigator.clipboard.writeText(`${BASE_URL}/listing/${listing.id}`)
+		navigator.clipboard.writeText(`${BASE_URL}/listing/${listing.slug}`)
 		setIsClicked(true)
 	}
 
@@ -139,7 +139,7 @@ export default function ListingBanner({ listing }: ListingBannerProps) {
 				<Dialog open={open} onOpenChange={(open) => setOpen(open)} >
 					<DialogContent>
 						<div className="flex justify-between mt-5">
-							<DialogTitle className="text-center underline">{`${BASE_URL}/listing/${listing.id}`}</DialogTitle>
+							<DialogTitle className="text-center underline">{`${BASE_URL}/listing/${listing.slug}`}</DialogTitle>
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<CopyIcon size={20} onClick={handleClick} className={`${!isClicked ? "text-black" : "text-gray-200"}`} />
@@ -176,7 +176,7 @@ export default function ListingBanner({ listing }: ListingBannerProps) {
 						))}
 						<div className="flex items-center">
 							<MapPin className="h-4 w-4 mr-1" />
-							<span>{listing.addresses[0].address}</span>
+							<span className="text-xs">{listing.addresses[0].address}</span>
 						</div>
 					</div>
 				</div>

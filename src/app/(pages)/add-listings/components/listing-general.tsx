@@ -1,6 +1,7 @@
 import { Textarea } from "@/components/ui/textarea";
 import { useFormContext } from "react-hook-form";
 import { ListingForm, useListingFormContext } from "./listing-form-context";
+import { GetListings } from "@/app/actions/listing";
 
 type ListingGeneralProps = {
 	title: string;
@@ -14,6 +15,7 @@ export default function ListingGeneral({
 	description,
 }: ListingGeneralProps) {
 	const { register, formState: { errors } } = useListingFormContext();
+
 	return (
 		<div className="">
 			<div className="w-full flex flex-col px-5 pt-5">

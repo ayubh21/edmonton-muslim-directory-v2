@@ -13,7 +13,7 @@ import {
 } from "@/lib/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, ne, sql } from "drizzle-orm";
 import { revalidateAll } from "./revalidate";
 import { geocode } from "@/lib/geocode";
 import { CustomFile } from "@/types/listing";
@@ -22,6 +22,7 @@ import SendListingConfirmation from "../emails/listing-confirmation";
 import { Resend } from "resend";
 import SendListingApproved from "../emails/approved-listing";
 import { SendListingContactEmail } from "../emails/contact";
+import slug from "slug";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 export async function AddListing(business: ListingForm) {
@@ -40,7 +41,15 @@ export async function AddListing(business: ListingForm) {
 			});
 		};
 
-		console.log(business.images.galleryImages, "galleryImages");
+		let businessSlug = slug(business.title)
+		const l = await db.query.Listing.findMany({
+			where: (eq(Listing.slug, businessSlug))
+		})
+
+		if (l.length > 0) {
+			businessSlug = businessSlug + `-${l.length}`
+		}
+
 		const newListing: NewListing = {
 			title: business.title,
 			tag_line: business.tagLine,
@@ -55,18 +64,17 @@ export async function AddListing(business: ListingForm) {
 			website_url: business.contact.websiteUrl,
 			userId: session.user.id,
 			work_hours: business.workHours,
-			// TODO remove checkbox type from being inserted in db
 			status: "pending",
 			views: 0,
 			weekly_views: 0,
 			monthly_views: 0,
 			count_of_last_24: 0,
 			count_of_last_seven_days: 0,
-			count_of_last_30: 0
+			count_of_last_30: 0,
+			slug: businessSlug
 		};
 
 		const listing = await insertListing(newListing);
-		// TODO do this later
 		for (let i = 0; i < business.addresses.length; i++) {
 			const coordinates = await geocode.getCoordinates(business.addresses[i]);
 			const res = await db.insert(ListingAddress).values({
@@ -204,40 +212,56 @@ export async function GetListingById(listingId: number) {
 }
 
 
+export async function GetListingBySlug(listingSlug: string) {
+	const listing = await db.query.Listing.findFirst({
+		with: {
+			networks: true,
+			addresses: true,
+			tags: true,
+			categories: true,
+		},
+		where: eq(Listing.slug, listingSlug),
+	});
+
+	console.log(listing)
+	return listing;
+}
+
+
 export async function GetListingsByUserId(userId: string) {
-	const listing = await db.query.Listing.findMany({
+	const listings = await db.query.Listing.findMany({
 		with: {
 			categories: true,
 			networks: true,
 			addresses: true,
 			tags: true,
 		},
+
 		where: eq(Listing.userId, userId),
 	});
-	if (!listing) {
-		console.log("failed to get all listings");
-	}
-	return listing;
+
+
+	return listings;
 }
 
 
 export async function GetUserByListing(listingId: number) {
 	const listing = await db.query.Listing.findFirst({
 		where: eq(Listing.id, listingId),
-		columns: {
-			userId: true
+	})
+
+
+	// only want approved listings to be found
+	if (listing?.status == "approved") {
+		const userObj = await db.query.user.findFirst({
+			where: eq(user.id, listing?.userId)
+		})
+		if (!userObj) {
+			return;
 		}
-	})
-	if (!listing) {
-		return;
+		return userObj.name
 	}
-	const userObj = await db.query.user.findFirst({
-		where: eq(user.id, listing?.userId)
-	})
-	if (!userObj) {
-		return;
-	}
-	return userObj.name
+
 }
 
 
@@ -255,30 +279,23 @@ export async function GetDailyViews(listingId: number) {
 export async function updateDailyViews(listingId: number) {
 
 	const listing = await db.query.Listing.findFirst({
-		where: (eq(Listing.id, listingId))
+		where: (Listing, { eq }) => (eq(Listing.id, listingId)),
 	})
 
-	if (!listing) {
-		console.log("failed to get listing")
-		return;
+	if (!listing) return;
+
+	if (listing.status == "approved") {
+		await db.update(Listing).set({
+			count_of_last_24: listing.views,
+		})
+		await db.update(Listing).set({
+			views: 0
+		}).where(eq(Listing.id, listingId))
 	}
-	// assuming that 24hrs has passed
-	await db.update(Listing).set({
-		count_of_last_24: listing.views
-	})
 
-	await db.update(Listing).set({
-		views: 0
-	}).where(eq(Listing.id, listingId))
-
-
-	return { message: "success" }
-	// await db.update(Listing).set({
-	// 	weekly_views: listing.views + listing?.weekly_views
-	// })
 }
 
-export async function udpateWeeklyViews(listingId: number) {
+export async function updateWeeklyViews(listingId: number) {
 
 	const listing = await db.query.Listing.findFirst({
 		where: (eq(Listing.id, listingId))
@@ -301,7 +318,7 @@ export async function udpateWeeklyViews(listingId: number) {
 }
 
 
-export async function udpateMonthlViews(listingId: number) {
+export async function updateMonthlViews(listingId: number) {
 
 	const listing = await db.query.Listing.findFirst({
 		where: (eq(Listing.id, listingId))

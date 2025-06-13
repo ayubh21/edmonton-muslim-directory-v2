@@ -1,6 +1,5 @@
 import { Images, ListingWorkDays } from "@/types/listing";
 import { relations } from "drizzle-orm";
-import { float } from "drizzle-orm/mysql-core";
 import {
 	pgTable,
 	text,
@@ -90,6 +89,7 @@ export const Listing = pgTable("listing", {
 	count_of_last_seven_days: integer("count_of_last_seven_days").notNull(),
 	count_of_last_24: integer("count_of_last_24").notNull(),
 	count_of_last_30: integer("count_of_last_30").notNull(),
+	slug: text("slug").notNull(),
 	userId: text("user_id")
 		.references(() => user.id)
 		.notNull(),
@@ -171,5 +171,3 @@ export const ListingCategoryRelation = relations(
 	})
 );
 
-
-// get the name of the user per listing

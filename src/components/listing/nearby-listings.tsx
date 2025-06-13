@@ -47,6 +47,7 @@ export default function NearbyListings({ listings, position, proximity = 20 }: N
 			{nearbyListings.map((listing, index) => (
 				<div key={index} className="shadow-sm">
 					<BusinessCard
+						slug={listing.slug}
 						category={listing.categories[0].category}
 						address={listing.addresses[0].address}
 						logo={listing.images.logo}

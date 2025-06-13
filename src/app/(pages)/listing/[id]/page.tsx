@@ -1,4 +1,4 @@
-import { GetApprovedListings, GetListingById, GetListings } from "@/app/actions/listing";
+import { GetApprovedListings, GetListingById, GetListingBySlug, GetListings } from "@/app/actions/listing";
 import ContactBusiness from "@/components/listing/contact-business";
 import GoogleMapComponent from "@/components/listing/map";
 import NearbyListings from "@/components/listing/nearby-listings";
@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db/db";
-import { Listing, ListingNetwork } from "@/lib/db/schema";
+import { Listing } from "@/lib/db/schema";
 import { geocode } from "@/lib/geocode";
 import { eq } from "drizzle-orm";
 import {
@@ -22,7 +22,6 @@ import {
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import ListingBanner from "./shareable-link";
 export default async function ListingDetails({
 	params,
@@ -31,8 +30,7 @@ export default async function ListingDetails({
 }) {
 	const { id } = await params;
 	const user = await auth.api.getSession({ headers: await headers() })
-	const listingId = parseInt(id);
-	const listing = await GetListingById(listingId);
+	const listing = await GetListingBySlug(id);
 	const listings = await GetApprovedListings();
 
 	if (!listing) return null;
@@ -69,6 +67,8 @@ export default async function ListingDetails({
 						<span className="mt-2">
 						{listing.description}
 						</span>
+
+						{listing.website_url !=  "" &&
 					<span className="">
 							<div className="flex gap-2">
 						<Link2 size={20} className="text-gray-500"/>	
@@ -80,6 +80,7 @@ export default async function ListingDetails({
 						href={`${listing.website_url}`}>{listing.website_url}</a>
 						</div>
 					</span>
+}
 				</div>
 				</ListingSection>
 
@@ -135,6 +136,7 @@ export default async function ListingDetails({
 						</div>
 					</div>
 				</section>
+				{!listing.tags.length &&
 				<ListingSection title="Features and Amenities">
 					<div className="flex flex-row flex-wrap gap-2 mt-2">
 						{listing.tags.map((tag, index) => (
@@ -144,6 +146,7 @@ export default async function ListingDetails({
 						))}
 					</div>
 				</ListingSection>
+}
 				<ListingSection icon={<Mail size={20} />} title={`Contact ${listing.title}`}>
 					<div className="relative">
 						<ContactBusiness />

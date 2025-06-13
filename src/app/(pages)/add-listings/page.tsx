@@ -38,14 +38,14 @@ export default function Page() {
 	const methods = useFormListing();
 
 	useEffect(() => {
-	const isAuthenticated = async () => {
-		const {data} = await authClient.getSession()
-		if(!data) {
-			redirect('/auth/login')
+		const isAuthenticated = async () => {
+			const { data } = await authClient.getSession()
+			if (!data) {
+				redirect('/auth/login')
+			}
 		}
-	}
 		isAuthenticated()
-	},[])
+	}, [])
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
@@ -90,6 +90,7 @@ export default function Page() {
 	};
 
 	const onSubmit = async (listingData: ListingForm) => {
+
 		await AddListing(listingData);
 		console.log(listingData)
 		const result = await Upload(listingData.imageMetaData);
