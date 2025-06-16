@@ -15,7 +15,7 @@ const LoadingComponent = ({ isLoading, setIsLoading }: { isLoading: boolean, set
 			}, 5000); // Duration of fade out animation
 			return () => clearTimeout(timer);
 		}
-	}, [isLoading,, setIsLoading]);
+	}, [isLoading, , setIsLoading]);
 
 
 	return (
@@ -31,7 +31,7 @@ const LoadingComponent = ({ isLoading, setIsLoading }: { isLoading: boolean, set
 
 				{/* MBD Text */}
 				<div className="text-white text-xl font-bold tracking-wider animate-pulse">
-					Yeg Muslim Connect
+					YEG Muslim Connect
 				</div>
 				{/* Loading dots */}
 			</div>

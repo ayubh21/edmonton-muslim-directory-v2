@@ -144,7 +144,7 @@ export default function GetListedSection() {
 								</div>
 							</div>
 							<CardContent className="p-6">
-								<div className="flex items-center justify-between mb-4">
+								<div className="flex items-center justify-between mb-4 gap-2">
 									<Badge variant="outline" className="text-emerald-600 border-emerald-200">
 										Mosque
 									</Badge>

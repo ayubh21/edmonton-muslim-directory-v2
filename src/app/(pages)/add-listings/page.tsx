@@ -9,6 +9,7 @@ import {
 	ChevronLeft,
 	Contact2Icon,
 	Image as ImageIcon,
+	Loader2,
 	Map,
 	Pencil,
 	Share,
@@ -26,9 +27,7 @@ import { Button } from "@/components/ui/button";
 import { AddListing, SendListingEmailConfirmation, UploadToS3 } from "@/app/actions/listing";
 import { ListingForm, useFormListing } from "./components/listing-form-context";
 import { useEffect, useState } from "react";
-import LoadingComponent from "@/components/loading-indicator";
 import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { redirect } from "next/navigation";
 import ListingLocation from "./components/listing-location";
@@ -36,6 +35,7 @@ import ListingLocation from "./components/listing-location";
 
 export default function Page() {
 	const methods = useFormListing();
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		const isAuthenticated = async () => {
@@ -47,7 +47,9 @@ export default function Page() {
 		isAuthenticated()
 	}, [])
 
-	const [isLoading, setIsLoading] = useState(false);
+	useEffect(() => {
+		console.log(isLoading)
+	}, [isLoading])
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const Upload = async (images: ImageMetaData) => {
 		try {
@@ -90,19 +92,20 @@ export default function Page() {
 	};
 
 	const onSubmit = async (listingData: ListingForm) => {
-
+		setIsLoading(true)
 		await AddListing(listingData);
-		console.log(listingData)
 		const result = await Upload(listingData.imageMetaData);
 		if (!result) {
 			console.log(result)
 		}
 		const { data, error } = await authClient.getSession()
 		if (error) {
+			setIsSubmitted(false);
 			redirect('/')
 		}
 		await SendListingEmailConfirmation(listingData.contact.email, data.user.name)
-
+		setIsSubmitted(true)
+		setIsLoading(false);
 		setTimeout(() => {
 			redirect('/')
 		}, 5000)
@@ -129,10 +132,7 @@ export default function Page() {
 	return (
 		<FormProvider {...methods}>
 			<div className="bg-[#f4f4f4]">
-				<div className=" max-w-3xl mx-auto  px-4">
-					{!isLoading &&
-						<LoadingComponent isLoading={isLoading} setIsLoading={setIsLoading} />
-					}
+				<div className=" max-w-3xl mx-auto px-4 ">
 					<div className=" pt-8 ">
 						<div className="flex items-center mb-6 ">
 							<Link
@@ -186,6 +186,7 @@ export default function Page() {
 							description="When your business is open"
 							icon={<Workflow size={18} />}
 							optional="(optional)"
+							isWorkHours={true}
 						>
 							<ListingWorkHours />
 						</FormSection>
@@ -206,14 +207,20 @@ export default function Page() {
 							<ListingDetails />
 						</FormSection>
 						<Button
-							className="bg-emerald-600 text-white w-full mb-4 text-center hover:bg-emerald-700 py-6"
+							disabled={isLoading}
 							type="submit"
-						>
-							Submit Listing
+							className="w-full hover:bg-emerald-700 py-6 bg-gradient-to-r from-emerald-600 to-emerald-700">
+							{isLoading ? (
+								<>
+									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+								</>
+							) : (
+								"Submit Listing"
+							)}
 						</Button>
 					</form>
 				</div>
 			</div>
-		</FormProvider>
+		</FormProvider >
 	);
 }

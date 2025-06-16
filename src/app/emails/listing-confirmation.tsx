@@ -21,7 +21,7 @@ export const SendListingConfirmation = ({ userFirstname }: ListingConfirmationPr
 		<Html>
 			<Head />
 			<Body style={main}>
-				<Preview>Yeg Muslim Connect</Preview>
+				<Preview>YEG Muslim Connect</Preview>
 				<Container style={container}>
 					<Section>
 						<Text style={text}>Hi ,</Text>

@@ -26,7 +26,7 @@ export default function MobileNavMenu({ isLoggedIn, isAdmin }: MobileNavMenuProp
 
 	return (
 
-		<div className="min-[820px]:hidden ">
+		<div className="min-[1000px]:hidden ">
 			<button onClick={() => setOpen(!open)} className="text-gray-800">
 				{open ? (
 					<X size={24} className="cursor-pointer" />
@@ -59,6 +59,14 @@ export default function MobileNavMenu({ isLoggedIn, isAdmin }: MobileNavMenuProp
 						>
 							Contact
 						</Link>
+						<Link
+							href="https://donorchoice.ca/dia/"
+							onClick={() => setOpen(false)}
+							className="hover:text-emerald-700"
+						>
+							Donate Now
+						</Link>
+
 						{isAdmin ? (
 							<Link
 								href="/admin"

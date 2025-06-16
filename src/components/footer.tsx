@@ -70,7 +70,7 @@ export default function Footer() {
 			<footer className="bg-[#fafafa] py-12 border-t">
 
 				<div className="text-center text-sm  text-[#52525B] mb-4 ">
-					© {new Date().getFullYear()} Yeg Muslim Connect. All rights reserved.
+					© {new Date().getFullYear()} YEG Muslim Connect. All rights reserved.
 				</div>
 
 				<div className="flex flex-row justify-center space-x-4">

@@ -3,13 +3,14 @@ import Footer from "@/components/footer";
 import { GetApprovedListings, GetListings } from "../actions/listing";
 import HomeClient from "./home-client";
 import HeroSearch from "./home-search-client";
+import { Heart } from "lucide-react";
 
 export default async function Home() {
 	const listings = await GetApprovedListings();
 	return (
 		<div className=" flex-col bg-gradient-to-r from-emerald-50 to-teal-50  mx-auto !w-full">
 			<section className="py-16 md:py-24 overflow-hidden max-w-[1850px]  mx-auto flex flex-row justify-center items-center gap-10">
-				<div className="  z-10 px-4">
+				<div className="  z-10 px-6">
 					<section>
 						<div className=" relative z-10 ">
 							<div className="">
@@ -58,6 +59,17 @@ export default async function Home() {
 							</div>
 						</div>
 					</div>
+					      <div className="mt-8 flex justify-center">
+            <a
+              href="https://donorchoice.ca/dia/"
+              target="_blank"
+              rel=""
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-xl hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              <Heart className="w-5 h-5 mr-2 fill-current" />
+              Donate Now
+            </a>
+          </div>
 				</div>
 			</section>
 			<Footer />

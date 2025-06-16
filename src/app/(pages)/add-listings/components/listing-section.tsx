@@ -10,6 +10,7 @@ interface FormSectionProps {
 	children: ReactNode;
 	iconColor?: string;
 	optional?: string;
+	isWorkHours?: boolean;
 }
 
 export default function FormSection({
@@ -19,10 +20,12 @@ export default function FormSection({
 	children,
 	optional,
 	iconColor = "bg-emerald-600",
+	isWorkHours
+
 }: FormSectionProps) {
 	return (
-		<div className="p-4 bg-white shadow-sm max-h-">
-			<div className="flex items-start gap-4 mb-6">
+		<div className={` ${isWorkHours ? "p-0" : "p-4"} bg-white shadow-sm max-h`}>
+			< div className={`${isWorkHours ? "p-4": "p-0"} flex items-start gap-4 mb-6 `}  >
 				<div
 					className={`h-8 w-8 rounded-full ${iconColor} flex items-center justify-center flex-shrink-0`}
 				>
@@ -32,8 +35,8 @@ export default function FormSection({
 					<h3 className="text-lg font-semibold">{title} <span className="text-gray-500 text-sm">{optional}</span></h3>
 					<p className="text-gray-500 text-sm">{description}</p>
 				</div>
-			</div>
-			<div className="pl-8">{children}</div>
-		</div>
+			</div >
+			<div className={`${isWorkHours ? "sm:pl-0" : "pl-8"}`}>{children}</div>
+		</div >
 	);
 }

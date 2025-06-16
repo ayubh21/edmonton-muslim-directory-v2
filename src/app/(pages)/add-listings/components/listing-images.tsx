@@ -172,7 +172,7 @@ export default function ListingImages() {
 
 
 	return (
-		<div className="pl-4 space-y-4">
+		<div className=" space-y-4">
 			<div
 				className={`flex flex-col font-semibold gap-2 relative`}>
 				<label className="pl-4" htmlFor="logo">

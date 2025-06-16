@@ -45,7 +45,7 @@ export const SendListingApproved = ({ userFirstname, listingTitle, listingUrl }:
 						</Text>
 						<Text style={text}>
 							Barakallahu feeki,<br />
-							The Yeg Muslim Connect Team
+							The YEG Muslim Connect Team
 						</Text>
 					</Section>
 				</Container>

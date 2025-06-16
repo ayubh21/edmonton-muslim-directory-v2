@@ -87,7 +87,7 @@ export const SendListingRejected = ({
 
 						<Text style={signature}>
 							Barakallahu feeki,<br />
-							The Yeg Muslim Connect Team
+							The YEG Muslim Connect Team
 						</Text>
 					</Section>
 

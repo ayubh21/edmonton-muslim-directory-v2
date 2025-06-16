@@ -161,18 +161,19 @@ export default function WorkHours() {
 
 	useEffect(() => {
 		setValue("workHours", workDays);
+		console.log(workDays)
 	}, [workDays, setValue]);
 
 
 
 	return (
-		<div className="h-full">
+		<div className="h-full lg:px-6">
 			<input type="hidden" {...register("workHours")} />
 			<Tabs
 				defaultValue={day}
 				onValueChange={(tabName) => setDay(tabName as keyof WorkDays)}
 			>
-				<TabsList className="w-full flex justify-between border-b ">
+				<TabsList className="w-full flex justify-between border-b  ">
 					{Object.entries(workDays).map((dayOfWeek, index) => (
 						<TabsTrigger
 							key={index}
@@ -186,7 +187,7 @@ export default function WorkHours() {
 				</TabsList>
 				{Object.entries(workDays).map((dayOfWeek, index) => (
 					<TabsContent key={index} tabIndex={index} value={dayOfWeek[0]}>
-						<div className="  min-[500px]:grid min-[500px]:grid-cols-2  min-[1070px]:grid-cols-4  flex-col flex gap-2 pt-2 text-md lg:p-3 mb-4">
+						<div className="  min-[500px]:grid min-[500px]:grid-cols-2  min-[1070px]:grid-cols-4  flex-col flex gap-2 pt-2 text-md lg:p-3 mb-4 pl-4">
 							{checkBoxTypes.map((type, index) => (
 								<div key={index} className="  ">
 									<Checkbox

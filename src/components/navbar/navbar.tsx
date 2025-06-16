@@ -19,13 +19,13 @@ export async function Navbar() {
 					<span className="text-xl font-semibold text-emerald-700 ">
 						<Link
 							href="/">
-							<h2 className="  font-semibold text-emerald-600 text-2xl"> <span className="font-semibold text-black"> Yeg Muslim </span>Connect</h2>
+							<h2 className="  font-semibold text-emerald-600 text-2xl"> <span className="font-semibold text-black"> YEG Muslim </span>Connect</h2>
 						</Link>
 					</span>
 				</div>
 
 				{/* Desktop Nav */}
-				<nav className="hidden min-[820px]:flex  justify-center items-center  gap-6">
+				<nav className="hidden min-[1000px]:flex  justify-center items-center  gap-6">
 
 					<Link
 						href="/"
@@ -45,6 +45,12 @@ export async function Navbar() {
 					>
 						Contact
 					</Link>
+						<Link
+							href="https://donorchoice.ca/dia/"
+						className="font-medium hover:text-emerald-700 transition-colors"
+						>
+							Donate Now
+						</Link>
 					{session?.user.is_admin ?
 						(
 							<Link
@@ -58,7 +64,7 @@ export async function Navbar() {
 
 				{/* Desktop Auth Controls */}
 
-				<div className="hidden min-[820px]:flex items-center gap-4">
+				<div className="hidden min-[1000px]:flex items-center gap-4">
 					{!session ? (
 						<>
 							<button className="py-2.5 px-4 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700  hover:bg-gray-800  text-white">

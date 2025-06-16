@@ -17,10 +17,10 @@ interface AccountCreationProps {
 	companyName?: string;
 }
 
-export const SendAccountCreation = ({ 
-	userFirstname, 
-	loginUrl = "#", 
-	companyName = "Yeg Muslim Connect"
+export const SendAccountCreation = ({
+	userFirstname,
+	loginUrl = "#",
+	companyName = "YEG Muslim Connect"
 }: AccountCreationProps) => {
 	return (
 		<Html>
@@ -31,37 +31,37 @@ export const SendAccountCreation = ({
 					<Section style={logoSection}>
 						<Text style={logo}>{companyName}</Text>
 					</Section>
-                    <hr className="mt-4"/>	
+					<hr className="mt-4" />
 					<Section style={contentSection}>
 						<Text style={greeting}>
 							Dear {userFirstname || "Customer"},
 						</Text>
-						
+
 						<Text style={text}>
 							Welcome to {companyName}!
 						</Text>
-						
+
 						<Text style={text}>
 							Your account has been successfully created. You can now log in to access all our features and services.
 						</Text>
-						
+
 						<Section style={buttonContainer}>
 							<Button style={button} href={loginUrl}>
 								Log In to Your Account
 							</Button>
 						</Section>
-						
-						
+
+
 						<Text style={text}>
-							Please do not reply to this email. 
+							Please do not reply to this email.
 						</Text>
-						
+
 						<Text style={signature}>
 							Many thanks,<br />
 							{companyName} Team
 						</Text>
 					</Section>
-					
+
 					<Section style={footerSection}>
 						<Text style={footerText}>
 							<Link href="https://yegmuslimconnect.ca" style={footerLink}>
