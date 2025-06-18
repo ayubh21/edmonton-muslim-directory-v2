@@ -13,8 +13,7 @@ export default function ListingContact() {
 				</label>
 				<input
 					type="email"
-					placeholder="foo@bar.com"
-					className={`placeholder:text-sm py-3.5 focus:outline-none border-b  mb-2 ${errors.contact?.email ? "border-b-red-500 " : "focus:border-b-emerald-600"}`}
+					className={`py-3.5 focus:outline-none border-b  mb-2 ${errors.contact?.email ? "border-b-red-500 " : "focus:border-b-emerald-600"}`}
 					{...register("contact.email")}
 				/>
 			</div>
