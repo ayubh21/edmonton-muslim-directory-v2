@@ -57,7 +57,7 @@ export default function ListingLocation() {
 		version: "weekly",
 	});
 
-	if (!isLoaded) return <LoadingComponent isLoading={isLoading} setIsLoading={setIsLoading} />
+	if (!isLoaded) return null;
 
 	const handleOnPlacesChanged = async (index: number) => {
 		// call get places from the correct index of my map	

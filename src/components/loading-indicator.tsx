@@ -26,12 +26,7 @@ const LoadingComponent = ({ isLoading, setIsLoading }: { isLoading: boolean, set
 			<div className="flex flex-col items-center space-y-6">
 				{/* Mountain Logo */}
 				<div className="relative">
-					<img src={'/ymc_logo.png'} alt="logo" className="h-20 w-20 " />
-				</div>
-
-				{/* MBD Text */}
-				<div className="text-white text-xl font-bold tracking-wider animate-pulse">
-					YEG Muslim Connect
+					<img src={'/logo-transparent.png'} alt="logo" className="h-60 w-60 " />
 				</div>
 				{/* Loading dots */}
 			</div>
