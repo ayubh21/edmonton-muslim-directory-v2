@@ -3,7 +3,6 @@
 import {
 	CheckCircle,
 	ChevronLeft,
-	Clock,
 	Globe,
 	Mail,
 	MapPin,
@@ -11,7 +10,6 @@ import {
 	XCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { Button } from "../ui/button";
 import {
 	Card,
@@ -22,11 +20,7 @@ import {
 } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Image from "next/image";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { Textarea } from "../ui/textarea";
-import { Switch } from "../ui/switch";
 import { Listing } from "@/types/listing";
 import { Badge } from "../ui/badge";
 import moment from "moment";
@@ -39,11 +33,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import { UpdateListingStatus } from "@/app/services/services";
 import { geocode } from "@/lib/geocode";
-import WorkHours from "@/app/(pages)/add-listings/components/listing-work-hours";
-import SendListingApproved from "@/app/emails/approved-listing";
-import { authClient } from "@/lib/auth-client";
 import { SendListingApprovedEmailConfirmation, SendListingRejectedEmailConfirmation } from "@/app/actions/listing";
-import { useMediaQuery } from "@react-hook/media-query";
+import { toast } from "sonner";
 
 type Address = {
 	address: string;
@@ -82,10 +73,11 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 
 		if (props.listing.status == "approved") {
 			await SendListingApprovedEmailConfirmation(props.listing.email, props.name, props.listing.title)
+			toast("listing approved")
 		}
 		if (props.listing.status == "rejected") {
-
 			await SendListingRejectedEmailConfirmation(props.listing.email, props.name, props.listing.title)
+			toast("listing rejected")
 		}
 	}
 
@@ -131,7 +123,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 										{props.listing.title}
 									</CardTitle>
 									<CardDescription>
-										Submitted by  on {props.name}
+										Submitted by on {props.name}
 									</CardDescription>
 								</div>
 								<Badge className="bg-blue-500">New Listing</Badge>
@@ -154,7 +146,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 									</div>
 								</div>
 
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div className="mb-4">
 									<h3 className="font-medium mb-2">Contact Information</h3>
 									<div className="space-y-2">
 										<div className="flex items-start">
@@ -189,7 +181,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 									<div className="space-y-4">
 										<div>
 											<h3 className="font-medium mb-2">Cover Image</h3>
-											<div className="relative aspect-video rounded-lg overflow-hidden">
+											<div className="relative aspect-video rounded-lg overflow-hidden max-w-96">
 												<Image
 													src={
 														props.listing.images.coverImage ||
@@ -197,7 +189,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 													}
 													alt={`${props.listing.title} cover image`}
 													fill
-													className="object-cover"
+													className="object-cover "
 												/>
 											</div>
 										</div>
@@ -278,22 +270,22 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 								</TabsContent>
 
 								<TabsContent value="features">
-									{props.listing.tags.length > 0 && 
-									<div>
-										<h3 className="font-medium mb-2">Business Features</h3>
-										<div className="flex flex-wrap gap-2">
-											{props.listing.tags.map((tag, index) => (
-												<Badge
-													key={index}
-													variant="outline"
-													className="bg-gray-50"
-												>
-													{tag.tag}
-												</Badge>
-											))}
+									{props.listing.tags.length > 0 &&
+										<div>
+											<h3 className="font-medium mb-2">Business Features</h3>
+											<div className="flex flex-wrap gap-2">
+												{props.listing.tags.map((tag, index) => (
+													<Badge
+														key={index}
+														variant="outline"
+														className="bg-gray-50"
+													>
+														{tag.tag}
+													</Badge>
+												))}
+											</div>
 										</div>
-									</div>
-								    }
+									}
 								</TabsContent>
 							</Tabs>
 						</CardContent>
@@ -391,7 +383,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 									variant="outline"
 									className="w-full text-red-600 hover:text-red-700 hover:bg-red-50"
 								>
-									<XCircle className="h-4 w-4 mr-2" />
+
 									Reject Listing
 								</Button>
 							</div>

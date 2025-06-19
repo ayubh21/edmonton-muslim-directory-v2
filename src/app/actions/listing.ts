@@ -258,19 +258,16 @@ export async function GetUserByListing(listingId: number) {
 	const listing = await db.query.Listing.findFirst({
 		where: eq(Listing.id, listingId),
 	})
-
-
-	// only want approved listings to be found
-	if (listing?.status == "approved") {
-		const userObj = await db.query.user.findFirst({
-			where: eq(user.id, listing?.userId)
-		})
-		if (!userObj) {
-			return;
-		}
-		return userObj.name
+	if (!listing) {
+		return
 	}
-
+	const userObj = await db.query.user.findFirst({
+		where: eq(user.id, listing?.userId)
+	})
+	if (!userObj) {
+		return
+	}
+	return userObj.name
 }
 
 

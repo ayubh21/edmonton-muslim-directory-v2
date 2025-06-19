@@ -11,9 +11,12 @@ export default async function ReviewListingPage({
 	const listing = await GetListingById(listingId);
 	if (!listing) return null;
 	const name = await GetUserByListing(listing.id)
+	if (!listing || !name) {
+		return
+	}
 	return (
 		<div>
-			<ReviewListing listing={listing} addresses={listing.addresses} name={name!} />
+			<ReviewListing listing={listing} addresses={listing.addresses} name={name} />
 		</div>
 	);
 }
