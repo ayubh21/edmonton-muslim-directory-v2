@@ -37,6 +37,9 @@ export default async function ListingDetails({
 		listing.addresses[0].address
 	);
 
+	if (!coordinates) {
+		return null;
+	}
 
 	const incrementViewCounter = async () => {
 		await db.update(Listing).set({

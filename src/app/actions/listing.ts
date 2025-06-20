@@ -81,6 +81,9 @@ export async function AddListing(business: ListingForm) {
 
 		for (let i = 0; i < business.addresses.length; i++) {
 			const coordinates = await geocode.getCoordinates(business.addresses[i]);
+			if (!coordinates) {
+				return;
+			}
 			const res = await db.insert(ListingAddress).values({
 				listingId: listing[0].insertedId,
 				address: business.addresses[i],
