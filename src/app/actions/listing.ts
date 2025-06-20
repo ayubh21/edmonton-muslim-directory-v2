@@ -41,18 +41,14 @@ export async function AddListing(business: ListingForm) {
 			});
 		};
 
-		console.log("test2")
-
 		const slug = (title: string) => {
-			return title.replace(" ", "-")
+			return title.replaceAll(" ", "-")
 		}
 
 		let businessSlug = slug(business.title)
-		console.log("test3")
 		const l = await db.query.Listing.findMany({
 			where: (eq(Listing.slug, businessSlug))
 		})
-		console.log("test4")
 		if (l.length > 0) {
 			businessSlug = businessSlug + `-${l.length}`
 		}

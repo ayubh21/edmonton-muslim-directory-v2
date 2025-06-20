@@ -6,7 +6,6 @@ import ListingSection from "@/components/listing/section";
 import WorkHoursWrapper from "@/components/listing/work-hours-wrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { auth } from "@/lib/auth";
 import { db } from "@/lib/db/db";
 import { Listing } from "@/lib/db/schema";
 import { geocode } from "@/lib/geocode";
@@ -19,8 +18,6 @@ import {
 	Mail,
 	Link2,
 } from "lucide-react";
-import { headers } from "next/headers";
-import Image from "next/image";
 import Link from "next/link";
 import ListingBanner from "./shareable-link";
 export default async function ListingDetails({
@@ -29,9 +26,10 @@ export default async function ListingDetails({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const user = await auth.api.getSession({ headers: await headers() })
-	const listing = await GetListingBySlug(id);
+
 	const listings = await GetApprovedListings();
+
+	const listing = await GetListingBySlug(id);
 
 	if (!listing) return null;
 
@@ -39,7 +37,6 @@ export default async function ListingDetails({
 		listing.addresses[0].address
 	);
 
-	console.log(coordinates)
 
 	const incrementViewCounter = async () => {
 		await db.update(Listing).set({
@@ -55,8 +52,6 @@ export default async function ListingDetails({
 	incrementViewCounter();
 
 
-	console.log(listing.addresses[0].address)
-	console.log(coordinates.lat, coordinates.lng)
 
 	return (
 		<div className="bg-gray-100">
@@ -96,8 +91,6 @@ export default async function ListingDetails({
 								.slice(0, 2)
 								.map((galleryImage, index) => (
 									<img
-										// quality={100}
-										// unoptimized={true}
 										key={index}
 										className="rounded-lg object-cover  mt-2 "
 										src={galleryImage}
@@ -122,8 +115,6 @@ export default async function ListingDetails({
 
 						</div>
 						<div className="flex justify-between  items-center gap-10 mt-5">
-							{/* TODO redirect to google maps  */}
-							{/* <span>{address[0].address}</span> */}
 							<Link href={`http://maps.google.com/?ll=${coordinates.lat},${coordinates.lng}`}>
 								<Button className="cursor-pointer bg-faintGrey bg-[#f2f3f2] text-black  text-center  h-full my-2 shadow-none font-normal  rounded-none mt-4 hover: hover:bg-gray-200">
 									Get Directions
@@ -133,7 +124,7 @@ export default async function ListingDetails({
 						</div>
 					</div>
 				</section>
-				{!listing.tags.length &&
+				{listing.tags.length > 0 &&
 					<ListingSection title="Features and Amenities">
 						<div className="flex flex-row flex-wrap gap-2 mt-2">
 							{listing.tags.map((tag, index) => (
