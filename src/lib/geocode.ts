@@ -19,6 +19,10 @@ export class Geocode {
 			`${GOOGLE_GEOCODE_API}/json?address=${address}&key=${this.apiKey}`
 		);
 		const data = await result.json();
+		console.log(data)
+		if (!data) {
+			return
+		}
 		return data.results[0].geometry.location as LatLng;
 	}
 	async getAddress(coordinates: LatLng) {

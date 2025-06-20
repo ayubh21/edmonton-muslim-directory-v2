@@ -195,9 +195,7 @@ export default function Page() {
 							description="Where your business is"
 							icon={<Map size={18} />}
 						>
-							<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API!}>
-								<ListingLocation />
-							</APIProvider>
+							<ListingLocation />
 						</FormSection>
 						<FormSection
 							title="Details"

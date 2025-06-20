@@ -7,6 +7,7 @@ import { GetListings } from "../actions/listing";
 import { getListingCountByStatus } from "@/lib/utils";
 import "@/app/globals.css"
 import Link from "next/link";
+import { Toaster } from "sonner";
 export default async function AdminLayout({
 	children,
 }: {
@@ -51,6 +52,7 @@ export default async function AdminLayout({
 						/>
 						<main className="flex-1 overflow-auto p-4 md:p-6">
 							<Suspense>{children}</Suspense>
+							<Toaster />
 						</main>
 					</div>
 				</div>

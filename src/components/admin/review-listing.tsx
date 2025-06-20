@@ -70,7 +70,6 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 
 	const handleUpdateAndSendListingStatus = async (status: "approved" | "rejected") => {
 		await UpdateListingStatus(props.listing.id!, status)
-
 		if (props.listing.status == "approved") {
 			await SendListingApprovedEmailConfirmation(props.listing.email, props.name, props.listing.title)
 			toast("listing approved")

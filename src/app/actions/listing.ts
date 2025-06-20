@@ -49,11 +49,10 @@ export async function AddListing(business: ListingForm) {
 		const l = await db.query.Listing.findMany({
 			where: (eq(Listing.slug, businessSlug))
 		})
+		console.log(l)
 		if (l.length > 0) {
 			businessSlug = businessSlug + `-${l.length}`
 		}
-
-		console.log("test5")
 		const newListing: NewListing = {
 			title: business.title,
 			tag_line: business.tagLine,

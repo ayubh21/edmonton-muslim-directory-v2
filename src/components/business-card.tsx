@@ -62,9 +62,8 @@ export default function BusinessCard({
 							{address}
 						</div>
 					</div>
-					{/* <p className="text-gray-600 text-sm line-clamp-2">{tagLine}</p> */}
 				</div>
-				<div className="absolute bottom-36 left-4 mt-2">
+				<div className="absolute bottom-45 left-4 mt-2 min-[423px]:bottom-36">
 					<img src={logo ? logo : undefined} alt={title} className="h-14 w-14 rounded-full" />
 				</div>
 			</div>

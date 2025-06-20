@@ -67,11 +67,13 @@ export default function WorkHours({ workDays }: WorkHoursProps) {
 	//     </div>
 	//   );
 	// }
+	console.log(workDays)
 	return (
 		<div>
 			<div className="">
 				{orderedDays.map((day) => {
 					const workHours = workHoursArr.find((d) => d[0] === day);
+					console.log(workHours)
 					if (!workHours) return null;
 					return (
 						<div className="" key={day}>
@@ -81,6 +83,10 @@ export default function WorkHours({ workDays }: WorkHoursProps) {
 										<li className="flex justify-between">
 											<p className="font-semibold">{day}</p>
 											<div className="flex gap-2">
+												<p>
+
+													{workHours}
+												</p>
 												<p>{workHours[1].hours[0].FROM}</p>-
 												<p>{workHours[1].hours[0].TO}</p>
 											</div>
@@ -91,7 +97,9 @@ export default function WorkHours({ workDays }: WorkHoursProps) {
 									<div>
 										<div className="flex justify-between">
 											<p className="font-semibold">{day}</p>
-											<p>Closed</p>
+											{workHours[1].checkBoxType == "Appointment only" ?
+												<p>Appointment only</p> : <p>Closed</p>
+											}
 										</div>
 										<hr className="my-2" />
 									</div>
