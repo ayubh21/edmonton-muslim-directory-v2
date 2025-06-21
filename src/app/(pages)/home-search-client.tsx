@@ -51,7 +51,6 @@ export default function HeroSearch({ onFiltersChange }: HeroSearchProps) {
 		category: "",
 	});
 
-	// Notify parent component when filters change:w
 
 	useEffect(() => {
 		onFiltersChange?.(filters);
@@ -66,12 +65,18 @@ export default function HeroSearch({ onFiltersChange }: HeroSearchProps) {
 
 
 	const handleSearch = () => {
+		if (filters.category && !filters.searchText) {
+			router.push(`explore?category=${filters.category}`)
+		}
+		if (filters.searchText && !filters.category) {
+			router.push(`explore?search_keywords=${filters.searchText}`)
+		}
 		if (filters.category && filters.searchText) {
 			router.push(`explore?category=${filters.category}&search_keywords=${filters.searchText}`)
+		} else {
+			router.push('explore')
 		}
 	};
-
-
 
 	return (
 		<div className="w-full max-w-6xl mx-auto">
