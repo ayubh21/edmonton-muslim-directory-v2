@@ -53,13 +53,12 @@ export default async function Admin() {
 						<Link href="/admin/listings/pending">
 							<Clock className="mr-2 h-4 w-4" />
 							Pending Approvals
-							<Badge variant="destructive" className="ml-2">
+							<Badge variant="default" className="ml-2">
 								{pendingListingCount}
 							</Badge>
 						</Link>
 					</Button>
 				</div>
-
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-4">
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

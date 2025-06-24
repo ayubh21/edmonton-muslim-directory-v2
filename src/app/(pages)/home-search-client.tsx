@@ -93,8 +93,9 @@ export default function HeroSearch({ onFiltersChange }: HeroSearchProps) {
 								className="pl-12 h-14 rounded-xl border-none shadow-none text-xl placeholder:text-gray-600 placeholder:text-lg focus:outline-none focus:ring-offset-0"
 							/>
 						</div>
-						<div className="relative flex-1 lg:max-w-xs">
+						<div className="relative flex-1 lg:max-w-xs ">
 							<Select
+
 								value={filters.category}
 								onValueChange={(value) =>
 									setFilters(
@@ -105,11 +106,11 @@ export default function HeroSearch({ onFiltersChange }: HeroSearchProps) {
 								}
 							>
 								<div>
-									<SelectTrigger className="w-full border-none shadow-none cursor-pointer [&_svg]:hidden">
+									<SelectTrigger className="  w-full border-none shadow-none cursor-pointer [&_svg]:hidden">
 										<SelectValue placeholder="All Categories" />
 									</SelectTrigger>
 								</div>
-								<SelectContent side="bottom">
+								<SelectContent side="bottom" className=''>
 									<div>
 										{categoriesList.map((_, index) => (
 											<div key={index}>
@@ -125,10 +126,9 @@ export default function HeroSearch({ onFiltersChange }: HeroSearchProps) {
 
 						<Button
 							onClick={handleSearch}
-							className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-14  text-lg font-semibold px-none"
+							className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 h-14  text-lg font-semibold sm:w-full lg:w-20"
 						>
 							<Search className="h-6 w-6 mr-2" />
-							Search
 						</Button>
 					</div>
 				</CardContent>
