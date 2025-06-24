@@ -63,7 +63,7 @@ export default function FilterListing({ listings }: FilterListingProps) {
 
 
 
-	const  queryFilters = listings.filter(({ categories, title }) => {
+	const queryFilters = listings.filter(({ categories, title }) => {
 		if (searchParams.size != 0) {
 			if (searchParams.get("category")) {
 				return (
@@ -115,8 +115,8 @@ export default function FilterListing({ listings }: FilterListingProps) {
 	};
 
 	useEffect(() => {
-			console.log(filteredListings)
-	},[filteredListings])
+		console.log(filteredListings)
+	}, [filteredListings])
 
 	// loading component to hydrate client and server interactivity
 	useEffect(() => {

@@ -13,7 +13,7 @@ export default function MapView({ positions, filteredListings }: MapViewProps) {
 	return (
 		<div>
 			<div className="h-screen">
-				<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+				<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!} libraries={["places"]}>
 					<Map
 						defaultZoom={11}
 						streetViewControl={false}

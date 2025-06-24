@@ -5,6 +5,7 @@ import {
 	Map,
 	Pin,
 } from "@vis.gl/react-google-maps";
+import { useEffect } from "react";
 
 interface GoogleMapProps {
 	lat: number;
@@ -12,9 +13,12 @@ interface GoogleMapProps {
 }
 
 export default function GoogleMap({ lat, lng }: GoogleMapProps) {
+	useEffect(() => {
+		console.log(window.google)
+	}, [])
 	return (
 		<div className="h-60">
-			<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+			<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!} libraries={["places"]}>
 				<Map
 					defaultCenter={{ lat, lng }}
 					defaultZoom={10}

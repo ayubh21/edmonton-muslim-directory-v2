@@ -244,11 +244,7 @@ export default function ReviewListing({ ...props }: ReviewListingProps) {
 											<h3 className="font-medium mb-2">Map Location</h3>
 											<div className="relative h-[300px] bg-gray-100 rounded-lg">
 												<div className="absolute inset-0 flex items-center justify-center">
-													<APIProvider
-														apiKey={
-															process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!
-														}
-													>
+													<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!} libraries={["places"]}>
 														<Map
 															defaultCenter={{ lat: lat, lng: lng }}
 															defaultZoom={10}

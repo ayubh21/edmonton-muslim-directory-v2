@@ -30,7 +30,7 @@ export class Geocode {
 			`${GOOGLE_GEOCODE_API}/json?latlng=${coordinates.lat}, ${coordinates.lng}&key=${this.apiKey}`
 		);
 		const data = await result.json();
-		return data;
+		return data
 	}
 
 	async getFromPlaceId(placeId: string) {

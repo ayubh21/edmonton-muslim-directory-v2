@@ -1,9 +1,12 @@
+
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { Toaster } from "sonner";
 import { Navbar } from "@/components/navbar/navbar";
 import Login from "../(no-layout)/auth/login/page";
 import Footer from "@/components/footer";
+import Script from "next/script";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -14,6 +17,7 @@ const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
 });
+
 
 export default function RootLayout({
 	children,

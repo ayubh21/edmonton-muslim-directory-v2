@@ -43,7 +43,7 @@ export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
 
 	useEffect(() => {
 		console.log("test")
-	},[])
+	}, [])
 	async function handleLogout() {
 		await authClient.signOut();
 		revalidateAll();
@@ -70,7 +70,7 @@ export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
 								/>
 								{item.title}
 								{item.title === "Pending Approval" && (
-									<span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-red-100 text-xs font-medium text-red-600">
+									<span className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-black">
 										{numOfListings}
 									</span>
 								)}
@@ -83,7 +83,7 @@ export default function AdminSidebar({ numOfListings }: AdminSidebarProps) {
 			<div className="mt-auto p-4 bottom-0">
 				<Separator className="mb-4" />
 				<Button
-				onClick={handleLogout}
+					onClick={handleLogout}
 					variant="ghost"
 					className="w-full justify-start gap-3 text-red-600 hover:bg-red-50 hover:text-red-700"
 				>

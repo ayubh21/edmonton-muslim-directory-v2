@@ -8,6 +8,7 @@ import { getListingCountByStatus } from "@/lib/utils";
 import "@/app/globals.css"
 import Link from "next/link";
 import { Toaster } from "sonner";
+import Script from "next/script";
 export default async function AdminLayout({
 	children,
 }: {
@@ -57,7 +58,6 @@ export default async function AdminLayout({
 					</div>
 				</div>
 			</body>
-
 		</html>
 	);
 }
