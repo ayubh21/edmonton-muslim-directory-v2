@@ -8,11 +8,10 @@ import { produce } from 'immer';
 
 interface Props {
 	onPlaceSelect: (place: google.maps.places.Place | null) => void;
-	place: google.maps.places.Place | null;
 }
 
 
-export const AutocompleteCustom = ({ onPlaceSelect, place }: Props) => {
+export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 	const places = useMapsLibrary('places');
 
 	const [inputValue, setInputValue] = useState<string>('');
@@ -21,7 +20,6 @@ export const AutocompleteCustom = ({ onPlaceSelect, place }: Props) => {
 	const { setValue, getValues, register, formState: { errors }, setError, clearErrors } = useListingFormContext();
 
 	const handleInput = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-
 
 		setInputValue((event.target as HTMLInputElement).value)
 		setCurrentSuggestions([])
@@ -38,22 +36,20 @@ export const AutocompleteCustom = ({ onPlaceSelect, place }: Props) => {
 			if (!places) return;
 			if (!suggestion.placePrediction) return;
 
-			const currentPlace = suggestion.placePrediction.toPlace();
-
-			await currentPlace.fetchFields({
+			const place = suggestion.placePrediction.toPlace();
+			await place.fetchFields({
 				fields: [
 					'viewport',
 					'location',
 					'svgIconMaskURI',
 					'iconBackgroundColor',
-					'addressComponents'
 				],
 			});
 
-			if (currentPlace) {
+			if (place) {
 				const coordinates: Latlng = {
-					lat: currentPlace!.location!.lat(),
-					lng: currentPlace!.location!.lng()
+					lat: place!.location!.lat(),
+					lng: place!.location!.lng()
 				}
 				const data = await geocode.getAddress(coordinates)
 				setCurrentSuggestions(
@@ -63,11 +59,9 @@ export const AutocompleteCustom = ({ onPlaceSelect, place }: Props) => {
 				)
 			}
 
-
 			// calling fetchFields invalidates the session-token, so we now have to call
 			// resetSession() so a new one gets created for further search
 			resetSession();
-
 			onPlaceSelect(place);
 
 		},

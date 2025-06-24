@@ -2,8 +2,7 @@
 
 
 import dynamic from "next/dynamic";
-import { use, useEffect, useRef, useState } from "react"
-import { useAdvancedMarkerRef, ControlPosition, useMapsLibrary, useMap } from "@vis.gl/react-google-maps";
+import { use, useRef, useState } from "react"
 import AutocompleteResult from "@/components/autocomplete-result";
 import { AutocompleteCustom } from "@/components/autocomplete-custom";
 
@@ -34,7 +33,7 @@ export default function ListingLocation() {
 	return (
 		<div className="">
 			<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!} libraries={["places"]}>
-				<AutocompleteCustom onPlaceSelect={setSelected} place={selected} />
+				<AutocompleteCustom onPlaceSelect={setSelected} />
 				<AutocompleteResult place={selected} />
 				<div className="h-56 mt-20">
 					<Map
@@ -45,6 +44,13 @@ export default function ListingLocation() {
 						mapId={process.env.NEXT_PUBLIC_MAP_ID}
 						zoomControl={false}
 					>
+
+						<AdvancedMarker position={
+							{ lat: 53.5461, lng: -113.4937 }
+						}>
+							<Pin
+							/>
+						</AdvancedMarker>
 					</Map>
 				</div>
 			</APIProvider>
