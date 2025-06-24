@@ -22,6 +22,7 @@ import SendListingConfirmation from "../emails/listing-confirmation";
 import { Resend } from "resend";
 import SendListingApproved from "../emails/approved-listing";
 import { SendListingContactEmail } from "../emails/contact";
+import SendListingRejected from "../emails/rejected-listing";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 export async function AddListing(business: ListingForm) {
@@ -407,7 +408,7 @@ export async function SendListingRejectedEmailConfirmation(email: string, name: 
 			from: "noreply@yegmuslimconnect.ca",
 			to: [email],
 			subject: "Update on Your Listing Submission",
-			react: SendListingApproved({
+			react: SendListingRejected({
 				userFirstname: name,
 				listingTitle: title
 			}) as React.ReactElement,
