@@ -91,12 +91,6 @@ export default async function Admin() {
 							<div className="text-2xl font-bold">
 								{pendingListingCount}
 							</div>
-							<p className="text-xs text-gray-500">
-								<span className="text-amber-500 inline-flex items-center">
-									<ArrowUp className="mr-1 h-3 w-3" />4
-								</span>{" "}
-								new today
-							</p>
 						</CardContent>
 					</Card>
 					<Card>
