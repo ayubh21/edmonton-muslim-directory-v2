@@ -17,7 +17,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 	const [inputValue, setInputValue] = useState<string>('');
 	const [currentSuggestions, setCurrentSuggestions] = useState<string[]>([])
 	const { suggestions, resetSession } = useAutocompleteSuggestions(inputValue);
-	const { setValue, getValues, register, formState: { errors }, setError, clearErrors } = useListingFormContext();
+	const { setValue, getValues, register, formState: { errors }, clearErrors } = useListingFormContext();
 
 	const handleInput = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -26,7 +26,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 		if (inputValue != "") {
 			clearErrors("addresses")
 		}
-	}, []);
+	}, [inputValue, clearErrors]);
 
 
 
@@ -65,7 +65,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 			onPlaceSelect(place);
 
 		},
-		[places, onPlaceSelect]
+		[places, onPlaceSelect, resetSession]
 	);
 
 
@@ -80,6 +80,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 	return (
 		<div className="">
 			<input
+				{...register(`addresses`)}
 				value={currentSuggestions.length > 0 ? currentSuggestions[0] : inputValue}
 				onChange={handleInput}
 				placeholder="Enter Location"

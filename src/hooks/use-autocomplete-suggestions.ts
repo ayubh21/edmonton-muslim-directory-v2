@@ -88,7 +88,7 @@ export function useAutocompleteSuggestions(
 			setSuggestions(res.suggestions);
 			setIsLoading(false);
 		});
-	}, [placesLib, inputString]);
+	}, [placesLib, inputString, requestOptions, suggestions]);
 
 	return {
 		suggestions,
