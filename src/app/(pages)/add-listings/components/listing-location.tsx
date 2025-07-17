@@ -2,7 +2,7 @@
 
 
 import dynamic from "next/dynamic";
-import { use, useRef, useState } from "react"
+import { use, useEffect, useRef, useState } from "react"
 import AutocompleteResult from "@/components/autocomplete-result";
 import { AutocompleteCustom } from "@/components/autocomplete-custom";
 
@@ -33,7 +33,7 @@ export default function ListingLocation() {
 	return (
 		<div className="">
 			<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!} libraries={["places"]}>
-				<AutocompleteCustom onPlaceSelect={setSelected} />
+				<AutocompleteCustom  onPlaceSelect={setSelected} />
 				<AutocompleteResult place={selected} />
 				<div className="h-56 mt-20">
 					<Map

@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useEffect, useState } from 'react';
+import React, { FormEvent, use, useCallback, useEffect, useState } from 'react';
 import { useAutocompleteSuggestions } from '@/hooks/use-autocomplete-suggestions';
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { Latlng } from '@/types/listing';
@@ -11,25 +11,38 @@ interface Props {
 }
 
 
-export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
-	const places = useMapsLibrary('places');
+function useDebounce(input: string, delay: number) {
+	const [ debouncedValue, setDebouncedValue] = useState(input);
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			setDebouncedValue(input)
+		}, delay)
+		return () => {
+			clearTimeout(handler)
+		}
+	},[input, delay])
+	return debouncedValue;
+}
 
+export const AutocompleteCustom = ({onPlaceSelect}: Props) => {
+	const places = useMapsLibrary('places');
 	const [inputValue, setInputValue] = useState<string>('');
+	const debouncedValue = useDebounce(inputValue, 500)
 	const [currentSuggestions, setCurrentSuggestions] = useState<string[]>([])
-	const { suggestions, resetSession } = useAutocompleteSuggestions(inputValue);
 	const { setValue, getValues, register, formState: { errors }, clearErrors } = useListingFormContext();
 
-	const handleInput = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+	const { suggestions, resetSession } = useAutocompleteSuggestions(debouncedValue);
 
-		setInputValue((event.target as HTMLInputElement).value)
+	const handleInput = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const newValue = event.target.value;
+		if(newValue != inputValue) {
+			setInputValue(newValue)
+		}
 		setCurrentSuggestions([])
 		if (inputValue != "") {
 			clearErrors("addresses")
 		}
 	}, [inputValue, clearErrors]);
-
-
-
 
 	const handleSuggestionClick = useCallback(
 		async (suggestion: google.maps.places.AutocompleteSuggestion) => {
@@ -77,11 +90,12 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 	}, [currentSuggestions, setValue, clearErrors])
 
 
+
 	return (
 		<div className="">
 			<input
 				{...register(`addresses`)}
-				value={currentSuggestions.length > 0 ? currentSuggestions[0] : inputValue}
+				value={currentSuggestions.length > 0  ? currentSuggestions[0] : inputValue}
 				onChange={handleInput}
 				placeholder="Enter Location"
 				className={`w-full text-left py-3.5 placeholder-black outline-none top-0 ${errors.addresses ? "border-b border-red-500" : "border-b focus:border-b-emerald-600"}`} />
@@ -98,7 +112,6 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 									{suggestion.placePrediction?.text.text}
 								</li>
 								<hr className='h-3 ' />
-
 							</div>
 						);
 					})}

@@ -1,5 +1,6 @@
 import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useRef, useState } from 'react';
+import _ from "lodash"
 
 export type UseAutocompleteSuggestionsReturn = {
 	suggestions: google.maps.places.AutocompleteSuggestion[];
@@ -61,13 +62,21 @@ export function useAutocompleteSuggestions(
 	// once the PlacesLibrary is loaded and whenever the input changes, a query
 	// is sent to the Autocomplete Data API.
 	useEffect(() => {
+		// console.log(placesLib)
+		// console.log(suggestions)
+		// console.log(inputString)
+
 		if (!placesLib) return;
+		if (inputString === '') {
+			 setSuggestions([]);
+			return;
+		}
 
 		const { AutocompleteSessionToken, AutocompleteSuggestion } = placesLib;
 
-		// Create a new session if one doesn't already exist. This has to be reset
-		// after `fetchFields` for one of the returned places is called by calling
-		// the `resetSession` function returned from this hook.
+		// // Create a new session if one doesn't already exist. This has to be reset
+		// // after `fetchFields` for one of the returned places is called by calling
+		// // the `resetSession` function returned from this hook.
 		if (!sessionTokenRef.current) {
 			sessionTokenRef.current = new AutocompleteSessionToken();
 		}
@@ -78,17 +87,13 @@ export function useAutocompleteSuggestions(
 			sessionToken: sessionTokenRef.current!
 		};
 
-		if (inputString === '') {
-			if (suggestions.length > 0) setSuggestions([]);
-			return;
-		}
-
 		setIsLoading(true);
 		AutocompleteSuggestion.fetchAutocompleteSuggestions(request).then(res => {
-			setSuggestions(res.suggestions);
+			setSuggestions(res.suggestions)
 			setIsLoading(false);
 		});
-	}, [placesLib, inputString, requestOptions, suggestions]);
+		
+	}, [placesLib, inputString, setSuggestions]);
 
 	return {
 		suggestions,
