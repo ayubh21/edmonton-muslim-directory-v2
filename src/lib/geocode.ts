@@ -41,5 +41,5 @@ export class Geocode {
 }
 
 export const geocode = new Geocode(
-	process.env.GCLOUD_GEOCODE_API_KEY!
+	process.env.NEXT_PUBLIC_GCLOUD_GEOCODE_API_KEY!
 );
